@@ -52,11 +52,18 @@ namespace Assets.Scripts.GameLobby
             playersInfo.Add(steamId, new Player(clientId, steamId, steamName, color));
         }
 
+        public void AddPlayer(Player player)
+        {
+            if (playersInfo.ContainsKey(player.steamId))
+                return;
+            playersInfo.Add(player.steamId, player);
+        }
+
         public void SetPlayerColor(ulong steamId, Color newColor)
         {
             if (!playersInfo.ContainsKey(steamId))
                 return;
-            playersInfo[steamId].playerColor = newColor;
+            playersInfo[steamId].color = newColor;
         }
 
         public bool IsReadyForGame()
@@ -106,14 +113,24 @@ namespace Assets.Scripts.GameLobby
             public ulong localId;
             public string nickName;
             public bool ready;
-            public Color playerColor;
+            public Color color;
+
+            public Player()
+            {
+                localId = 0;
+                steamId = 0;
+                ready = false;
+                nickName = string.Empty;
+                color = Color.black;
+            }
+
             public Player(ulong localId, ulong steamId, string nickName, Color color)
             {
                 this.localId = localId;
-                this.nickName = nickName;
-                ready = false;
-                playerColor = color;
                 this.steamId = steamId;
+                ready = false;
+                this.nickName = nickName;
+                this.color = color;
             }
 
             public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
@@ -122,7 +139,7 @@ namespace Assets.Scripts.GameLobby
                 serializer.SerializeValue(ref localId);
                 serializer.SerializeValue(ref nickName);
                 serializer.SerializeValue(ref ready);
-                serializer.SerializeValue(ref playerColor);
+                serializer.SerializeValue(ref color);
             }
         }
     }

@@ -5,6 +5,7 @@ using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SocialPlatforms;
 
 namespace Assets.Scripts.GameLobby
 {
@@ -71,9 +72,9 @@ namespace Assets.Scripts.GameLobby
         [ServerRpc(RequireOwnership = false)]
         public void AddPlayerToDictionaryServerRPC(ulong steamId, string steamName, ulong clientId, Color color)
         {
-            UpdateClientsPlayerInfoClientRPC(steamId, steamName, clientId, color);
-            foreach (var data in party.playersInfo.Values)
-                UpdateClientsPlayerInfoClientRPC(data.steamId, data.nickName, data.localId, data.playerColor);
+            UpdateClientsPlayerInfoClientRPC(new Party.Player(clientId, steamId, steamName, color));
+            foreach (var player in party.playersInfo.Values)
+                UpdateClientsPlayerInfoClientRPC(player);
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -85,8 +86,8 @@ namespace Assets.Scripts.GameLobby
             =>party.RemovePlayer(steamId);
 
         [ClientRpc]
-        public void UpdateClientsPlayerInfoClientRPC(ulong steamId, string steamName, ulong clientId, Color playerColor)
-            => party.AddPlayer(steamId, steamName, clientId, playerColor);
+        public void UpdateClientsPlayerInfoClientRPC(Party.Player player)
+            => party.AddPlayer(player);
 
         public void DebugLobby()
         {
@@ -95,7 +96,7 @@ namespace Assets.Scripts.GameLobby
             {
                 ChatManager.Singleton.AddMessageToBox($"    {player.localId} {player.nickName}:");
                 ChatManager.Singleton.AddMessageToBox($"        ready - {player.ready} ");
-                ChatManager.Singleton.AddMessageToBox($"        color - {player.playerColor} ");
+                ChatManager.Singleton.AddMessageToBox($"        color - {player.color} ");
             }
         }
 

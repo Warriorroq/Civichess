@@ -11,14 +11,14 @@ namespace Assets.Scripts.GameLobby.GameRegimes
         {
             List<Team> teams = new List<Team>();
             foreach(var steamID in playersInfo.Keys)
-                teams.Add(new Team(playersInfo[steamID].playerColor, $"{playersInfo[steamID].nickName}'s team", steamID));
+                teams.Add(new Team(playersInfo[steamID].color, $"{playersInfo[steamID].nickName}'s team", steamID));
 
             return teams;
         }
 
         public virtual bool IsEverythingOkayWithColors(SerializedDictionary<ulong, Party.Player> playersInfo)
         {
-            var colors = playersInfo.Values.Select(x => x.playerColor).ToList();
+            var colors = playersInfo.Values.Select(x => x.color).ToList();
             Hashtable table = new();
             foreach (var color in colors)
             {
