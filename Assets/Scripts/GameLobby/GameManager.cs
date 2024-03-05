@@ -5,6 +5,7 @@ using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms;
 
 namespace Assets.Scripts.GameLobby
@@ -55,9 +56,9 @@ namespace Assets.Scripts.GameLobby
                 return;
 
             party.PrepareTeams();
-
             GameNetworkManager.Singleton.currentLobby?.SetJoinable(false);
             GameNetworkManager.Singleton.currentLobby?.SendChatString($"[Server] Starting game...");
+            NetworkManager.SceneManager.LoadScene("Game", LoadSceneMode.Single);
         }
 
         [ClientRpc]
