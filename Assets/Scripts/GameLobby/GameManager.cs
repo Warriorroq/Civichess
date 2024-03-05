@@ -1,14 +1,12 @@
-﻿using Assets.Scripts.GameLobby;
-using Assets.Scripts.Structures;
+﻿using Assets.Scripts.Structures;
 using Assets.Scripts.UI;
 using Steamworks;
-using System.Collections;
 using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.GameLobby
 {
     public class GameManager : MonoNetworkSingleton<GameManager>
     {
@@ -20,7 +18,7 @@ namespace Assets.Scripts
         public UnityEvent onConnectAsClient;
         public UnityEvent onDisconnect;
 
-        public Lobby lobby;
+        public Party party;
 
         public void HostCreated()
         {
@@ -40,7 +38,7 @@ namespace Assets.Scripts
             isHost = false;
             connected = false;
             myClientId = 0;
-            lobby.Clear();
+            party.Clear();
             onDisconnect.Invoke();
         }
 
@@ -51,28 +49,31 @@ namespace Assets.Scripts
         {
             if (!isHost)
                 return;
-            if(!lobby.IsEveryoneIsReady())
-            {
-                GameNetworkManager.Singleton.currentLobby?.SendChatString($"[Server] Start is not possible, not everyone is ready");
-                return;
-            }
 
-            if (!lobby.IsEachColorIsDifferent())
-            {
-                GameNetworkManager.Singleton.currentLobby?.SendChatString($"[Server] Start is not possible, player's colors are matching");
+            if (!party.IsReadyForGame())
                 return;
-            }
 
+            party.PrepareTeams();
+
+            GameNetworkManager.Singleton.currentLobby?.SetJoinable(false);
             GameNetworkManager.Singleton.currentLobby?.SendChatString($"[Server] Starting game...");
         }
 
+        [ClientRpc]
+        public void SyncTeamClientRpc(Color teamColor, string name, ulong[] players)
+        {
+            if (party.teams.ContainsKey(teamColor))
+                return;
+            
+            party.teams.Add(teamColor, new Team(teamColor, name, players));
+        }
 
         [ServerRpc(RequireOwnership = false)]
-        public void AddMeToDictionaryServerRPC(ulong steamId, string steamName, ulong clientId)
+        public void AddPlayerToDictionaryServerRPC(ulong steamId, string steamName, ulong clientId, Color color)
         {
-            UpdateClientsPlayerInfoClientRPC(steamId, steamName, clientId);
-            foreach (var data in lobby.playersInfo.ToList())
-                UpdateClientsPlayerInfoClientRPC(data.Key, data.Value.nickName, data.Value.localId);
+            UpdateClientsPlayerInfoClientRPC(steamId, steamName, clientId, color);
+            foreach (var data in party.playersInfo.Values)
+                UpdateClientsPlayerInfoClientRPC(data.steamId, data.nickName, data.localId, data.playerColor);
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -81,17 +82,21 @@ namespace Assets.Scripts
 
         [ClientRpc]
         public void RemoveClientFromDictionaryClientRPC(ulong steamId)
-            =>lobby.RemovePlayer(steamId);
+            =>party.RemovePlayer(steamId);
 
         [ClientRpc]
-        public void UpdateClientsPlayerInfoClientRPC(ulong steamId, string steamName, ulong clientId)
-            => lobby.AddPlayer(steamId, steamName, clientId);
+        public void UpdateClientsPlayerInfoClientRPC(ulong steamId, string steamName, ulong clientId, Color playerColor)
+            => party.AddPlayer(steamId, steamName, clientId, playerColor);
 
         public void DebugLobby()
         {
             ChatManager.Singleton.AddMessageToBox("[Server] Current players:");
-            foreach (var player in lobby.playersInfo.Values)
-                ChatManager.Singleton.AddMessageToBox($"    {player.localId} {player.nickName}  ready - {player.ready}");
+            foreach (var player in party.playersInfo.Values)
+            {
+                ChatManager.Singleton.AddMessageToBox($"    {player.localId} {player.nickName}:");
+                ChatManager.Singleton.AddMessageToBox($"        ready - {player.ready} ");
+                ChatManager.Singleton.AddMessageToBox($"        color - {player.playerColor} ");
+            }
         }
 
         public void ChangeLocalPlayersColor(Color color)
@@ -103,7 +108,7 @@ namespace Assets.Scripts
 
         [ClientRpc]
         public void SyncPlayersColorsClientRpc(ulong steamID, Color newColor)
-            => lobby.SetPlayerColor(steamID, newColor);
+            => party.SetPlayerColor(steamID, newColor);
 
         [ServerRpc(RequireOwnership = false)]
         public void AskToChangeMyReadyResultStateServerRpc(ulong steamID, bool readyState)
@@ -111,6 +116,6 @@ namespace Assets.Scripts
 
         [ClientRpc]
         public void SyncPlayersReadyStateClientRpc(ulong steamID, bool readyState)
-            =>lobby[steamID].ready = readyState;
+            =>party[steamID].ready = readyState;
     }
 }

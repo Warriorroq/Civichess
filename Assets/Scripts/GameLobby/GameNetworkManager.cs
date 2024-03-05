@@ -5,7 +5,7 @@ using Steamworks.Data;
 using Unity.Netcode;
 using UnityEngine;
 using TMPro;
-namespace Assets.Scripts
+namespace Assets.Scripts.GameLobby
 {
     [RequireComponent (typeof (FacepunchTransport))]
     public class GameNetworkManager : MonoSingleton<GameNetworkManager>
@@ -115,7 +115,7 @@ namespace Assets.Scripts
         private void OnLobbyGameCreated(Lobby lobby, uint ip, ushort port, SteamId steamId)
         {            
             currentLobby?.SendChatString($"[Server] Lobby was created id - {lobby.Id}");
-            GameManager.Singleton.AddMeToDictionaryServerRPC(SteamClient.SteamId, SteamClient.Name, NetworkManager.Singleton.LocalClientId);
+            GameManager.Singleton.AddPlayerToDictionaryServerRPC(SteamClient.SteamId, SteamClient.Name, NetworkManager.Singleton.LocalClientId, UnityEngine.Color.black);
         }
 
         private void OnLobbyInvite(Friend friend, Lobby lobby)
@@ -160,7 +160,7 @@ namespace Assets.Scripts
 
         private void OnClientConnectedCallback(ulong clientId)
         {
-            GameManager.Singleton.AddMeToDictionaryServerRPC(SteamClient.SteamId, SteamClient.Name, clientId);
+            GameManager.Singleton.AddPlayerToDictionaryServerRPC(SteamClient.SteamId, SteamClient.Name, clientId, UnityEngine.Color.black);
             GameManager.Singleton.myClientId = clientId;
         }
 

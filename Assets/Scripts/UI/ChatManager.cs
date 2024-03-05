@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 using Assets.Scripts.Structures;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Assets.Scripts.GameLobby;
 
 namespace Assets.Scripts.UI
 {
@@ -76,7 +77,7 @@ namespace Assets.Scripts.UI
         public void AskForSyncChatMessagesServerRPC(ulong steamClientId)
         {
             ClientRpcSendParams sendParams = new ClientRpcSendParams();
-            sendParams.TargetClientIds = new[] { GameManager.Singleton.lobby.playersInfo[steamClientId].localId };
+            sendParams.TargetClientIds = new[] { GameManager.Singleton.party[steamClientId].localId };
             var rpcParams = new ClientRpcParams() { Send = sendParams };
 
             foreach (var msg in _messageHistory)
