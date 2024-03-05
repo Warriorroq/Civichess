@@ -126,7 +126,7 @@ namespace Assets.Scripts
         private void OnLobbyMemberLeave(Lobby lobby, Friend friend)
         {
             currentLobby?.SendChatString($"[Server] Member leaved {friend.Name}");
-            GameManager.Singleton.RemoveMeFromDictionaryServerRPC(friend.Id);
+            GameManager.Singleton.RemovePlayerFromDictionaryServerRPC(friend.Id);
         }
 
         private void OnLobbyMemberJoined(Lobby lobby, Friend friend)

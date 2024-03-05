@@ -1,11 +1,9 @@
-﻿using Assets.Scripts.Structures;
+﻿using Assets.Scripts.GameLobby;
+using Assets.Scripts.Structures;
 using Assets.Scripts.UI;
-using AYellowpaper.SerializedCollections;
 using Steamworks;
-using System;
 using System.Linq;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -57,10 +55,8 @@ namespace Assets.Scripts
         }
 
         [ServerRpc(RequireOwnership = false)]
-        public void RemoveMeFromDictionaryServerRPC(ulong steamId)
-        {
-            RemoveClientFromDictionaryClientRPC(steamId);
-        }
+        public void RemovePlayerFromDictionaryServerRPC(ulong steamId)
+            =>RemoveClientFromDictionaryClientRPC(steamId);
 
         [ClientRpc]
         public void RemoveClientFromDictionaryClientRPC(ulong steamId)
@@ -77,62 +73,23 @@ namespace Assets.Scripts
                 ChatManager.Singleton.AddMessageToBox($"    {player.localId} {player.nickName}  ready - {player.ready}");
         }
 
+        public void ChangeLocalPlayersColor(Color color)
+            =>AskToChangeMyColorServerRpc(SteamClient.SteamId.Value, color);
+
         [ServerRpc(RequireOwnership = false)]
-        public void AskToChangeMyReadyResultStateServerRpc(ulong steamClientSyncId, bool readyState)
-        {
-            SyncPlayersReadyStateClientRpc(steamClientSyncId, readyState);
-        }
+        public void AskToChangeMyColorServerRpc(ulong steamID, Color color)
+            => SyncPlayersColorsClientRpc(steamID, color);
 
         [ClientRpc]
-        public void SyncPlayersReadyStateClientRpc(ulong steamClientSyncId, bool readyState)
-        {
-            lobby[steamClientSyncId].ready = readyState;
-        }
+        public void SyncPlayersColorsClientRpc(ulong steamID, Color newColor)
+            => lobby.SetPlayerColor(steamID, newColor);
 
-        [Serializable]
-        public class Lobby
-        {
-            [SerializedDictionary("steam Id", "Player Data")]
-            public SerializedDictionary<ulong, PlayerData> playersInfo;
+        [ServerRpc(RequireOwnership = false)]
+        public void AskToChangeMyReadyResultStateServerRpc(ulong steamID, bool readyState)
+            =>SyncPlayersReadyStateClientRpc(steamID, readyState);
 
-            public PlayerData this[ulong index]
-            {
-                get => playersInfo[index];
-                set => playersInfo[index] = value;
-            }
-
-            public void Clear()
-                => playersInfo.Clear();
-
-            public void RemovePlayer(ulong steamId)
-            {
-                if (!playersInfo.ContainsKey(steamId))
-                    return;
-                playersInfo.Remove(steamId);
-            }
-
-            public void AddPlayer(ulong steamId, string steamName, ulong clientId)
-            {
-                if (playersInfo.ContainsKey(steamId))
-                    return;
-                playersInfo.Add(steamId, new PlayerData(clientId, steamName));
-            }
-
-            [Serializable]
-            public class PlayerData
-            {
-                public ulong localId;
-                public string nickName;
-                public bool ready;
-                public Color playersColor;
-                public PlayerData(ulong localId, string nickName)
-                {
-                    this.localId = localId;
-                    this.nickName = nickName;
-                    ready = false;
-                    playersColor = Color.black;
-                }
-            }
-        }
+        [ClientRpc]
+        public void SyncPlayersReadyStateClientRpc(ulong steamID, bool readyState)
+            =>lobby[steamID].ready = readyState;
     }
 }
