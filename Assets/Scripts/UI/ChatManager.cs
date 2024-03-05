@@ -76,15 +76,15 @@ namespace Assets.Scripts.UI
         public void AskForSyncChatMessagesServerRPC(ulong steamClientId)
         {
             ClientRpcSendParams sendParams = new ClientRpcSendParams();
-            sendParams.TargetClientIds = new[] { GameManager.Singleton.playersInfo[steamClientId].localId };
+            sendParams.TargetClientIds = new[] { GameManager.Singleton.lobby.playersInfo[steamClientId].localId };
             var rpcParams = new ClientRpcParams() { Send = sendParams };
 
             foreach (var msg in _messageHistory)
-                SyncChatMessagesClientRPC(steamClientId, msg, rpcParams);
+                SyncChatMessageClientRPC(steamClientId, msg, rpcParams);
         }
 
         [ClientRpc]
-        public void SyncChatMessagesClientRPC(ulong steamClientSyncId, string message, ClientRpcParams rpcParams = default)
+        public void SyncChatMessageClientRPC(ulong steamClientSyncId, string message, ClientRpcParams rpcParams = default)
         {
             if (SteamClient.SteamId != steamClientSyncId)
                 return;

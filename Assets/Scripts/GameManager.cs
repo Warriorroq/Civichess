@@ -1,11 +1,13 @@
 ﻿using Assets.Scripts.Structures;
 using Assets.Scripts.UI;
+using AYellowpaper.SerializedCollections;
 using Steamworks;
-using Steamworks.ServerList;
-using System.Collections.Generic;
+using System;
 using System.Linq;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Assets.Scripts
 {
@@ -15,12 +17,11 @@ namespace Assets.Scripts
         public bool inGame;
         public bool isHost;
         public ulong myClientId;
-        public Dictionary<ulong, PlayerData> playersInfo;
 
-        private void Start()
-        {
-            playersInfo = new Dictionary<ulong, PlayerData>();
-        }
+        public UnityEvent onConnectAsClient;
+        public UnityEvent onDisconnect;
+
+        public Lobby lobby;
 
         public void HostCreated()
         {
@@ -32,6 +33,7 @@ namespace Assets.Scripts
         {
             isHost = NetworkManager.Singleton.IsHost;
             connected = true;
+            onConnectAsClient.Invoke();
         }
 
         public void Disconnect()
@@ -39,21 +41,8 @@ namespace Assets.Scripts
             isHost = false;
             connected = false;
             myClientId = 0;
-            playersInfo.Clear();
-            ChatManager.Singleton.ClearChatMessages();
-        }
-
-        public class PlayerData
-        {
-            public ulong localId;
-            public string nickName;
-            public bool ready;
-            public PlayerData(ulong localId, string nickName)
-            {
-                this.localId = localId;
-                this.nickName = nickName;
-                ready = false;
-            }
+            lobby.Clear();
+            onDisconnect.Invoke();
         }
 
         public void Quit()
@@ -63,9 +52,8 @@ namespace Assets.Scripts
         public void AddMeToDictionaryServerRPC(ulong steamId, string steamName, ulong clientId)
         {
             UpdateClientsPlayerInfoClientRPC(steamId, steamName, clientId);
-            foreach (var data in playersInfo.ToList())
+            foreach (var data in lobby.playersInfo.ToList())
                 UpdateClientsPlayerInfoClientRPC(data.Key, data.Value.nickName, data.Value.localId);
-            ChatManager.Singleton.AskForSyncChatMessagesServerRPC(steamId);
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -76,24 +64,16 @@ namespace Assets.Scripts
 
         [ClientRpc]
         public void RemoveClientFromDictionaryClientRPC(ulong steamId)
-        {
-            if (!playersInfo.ContainsKey(steamId))
-                return;
-            playersInfo.Remove(steamId);
-        }
+            =>lobby.RemovePlayer(steamId);
 
         [ClientRpc]
         public void UpdateClientsPlayerInfoClientRPC(ulong steamId, string steamName, ulong clientId)
-        {
-            if (playersInfo.ContainsKey(steamId))
-                return;
-            playersInfo.Add(steamId, new PlayerData(clientId, steamName));
-        }
+            => lobby.AddPlayer(steamId, steamName, clientId);
 
         public void DebugLobby()
         {
             ChatManager.Singleton.AddMessageToBox("[Server] Current players:");
-            foreach (var player in playersInfo.Values)
+            foreach (var player in lobby.playersInfo.Values)
                 ChatManager.Singleton.AddMessageToBox($"    {player.localId} {player.nickName}  ready - {player.ready}");
         }
 
@@ -106,8 +86,53 @@ namespace Assets.Scripts
         [ClientRpc]
         public void SyncPlayersReadyStateClientRpc(ulong steamClientSyncId, bool readyState)
         {
-            playersInfo[steamClientSyncId].ready = readyState;
+            lobby[steamClientSyncId].ready = readyState;
         }
 
+        [Serializable]
+        public class Lobby
+        {
+            [SerializedDictionary("steam Id", "Player Data")]
+            public SerializedDictionary<ulong, PlayerData> playersInfo;
+
+            public PlayerData this[ulong index]
+            {
+                get => playersInfo[index];
+                set => playersInfo[index] = value;
+            }
+
+            public void Clear()
+                => playersInfo.Clear();
+
+            public void RemovePlayer(ulong steamId)
+            {
+                if (!playersInfo.ContainsKey(steamId))
+                    return;
+                playersInfo.Remove(steamId);
+            }
+
+            public void AddPlayer(ulong steamId, string steamName, ulong clientId)
+            {
+                if (playersInfo.ContainsKey(steamId))
+                    return;
+                playersInfo.Add(steamId, new PlayerData(clientId, steamName));
+            }
+
+            [Serializable]
+            public class PlayerData
+            {
+                public ulong localId;
+                public string nickName;
+                public bool ready;
+                public Color playersColor;
+                public PlayerData(ulong localId, string nickName)
+                {
+                    this.localId = localId;
+                    this.nickName = nickName;
+                    ready = false;
+                    playersColor = Color.black;
+                }
+            }
+        }
     }
 }
