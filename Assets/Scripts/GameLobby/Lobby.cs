@@ -1,6 +1,8 @@
 ﻿using AYellowpaper.SerializedCollections;
 using Steamworks;
 using System;
+using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts.GameLobby
@@ -39,6 +41,31 @@ namespace Assets.Scripts.GameLobby
             if (!playersInfo.ContainsKey(steamId))
                 return;
             playersInfo[steamId].playerColor = newColor;
+        }
+
+        public bool IsEveryoneIsReady()
+        {
+            foreach (var playerData in playersInfo.Values)
+            {
+                if (!playerData.ready)
+                    return false;
+            }
+
+            return true;
+        }
+
+        public bool IsEachColorIsDifferent()
+        {
+            var colors = playersInfo.Values.Select(x => x.playerColor).ToList();
+            Hashtable table = new();
+            foreach (var color in colors)
+            {
+                if (table.ContainsKey(color))
+                    return false;
+
+                table.Add(color, color);
+            }
+            return true;
         }
 
         [Serializable]

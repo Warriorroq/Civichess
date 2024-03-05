@@ -1,10 +1,14 @@
 using Steamworks;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 namespace Assets.Scripts.UI
 {
     public class PlayerReadyButton : MonoBehaviour
     {
+
+        public UnityEvent onReady;
+        public UnityEvent onNotReady;
 
         [SerializeField] private bool _isReady = false;
 
@@ -20,7 +24,16 @@ namespace Assets.Scripts.UI
         public void SetButtonsState(bool state)
         {
             _isReady = state;
-            _image.color = _isReady ? _readyColor : _nonReadyColor;
+            if(_isReady)
+                SetColorAndRunEvent(_readyColor, onReady);
+            else
+                SetColorAndRunEvent(_nonReadyColor, onNotReady);
+        }
+
+        private void SetColorAndRunEvent(Color newColor, UnityEvent eventToRun)
+        {
+            _image.color = newColor;
+            eventToRun.Invoke();
         }
     }
 }

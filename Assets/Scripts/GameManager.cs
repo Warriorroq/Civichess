@@ -2,6 +2,7 @@
 using Assets.Scripts.Structures;
 using Assets.Scripts.UI;
 using Steamworks;
+using System.Collections;
 using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
@@ -45,6 +46,26 @@ namespace Assets.Scripts
 
         public void Quit()
             =>Application.Quit();
+
+        public void RunGame()
+        {
+            if (!isHost)
+                return;
+            if(!lobby.IsEveryoneIsReady())
+            {
+                GameNetworkManager.Singleton.currentLobby?.SendChatString($"[Server] Start is not possible, not everyone is ready");
+                return;
+            }
+
+            if (!lobby.IsEachColorIsDifferent())
+            {
+                GameNetworkManager.Singleton.currentLobby?.SendChatString($"[Server] Start is not possible, player's colors are matching");
+                return;
+            }
+
+            GameNetworkManager.Singleton.currentLobby?.SendChatString($"[Server] Starting game...");
+        }
+
 
         [ServerRpc(RequireOwnership = false)]
         public void AddMeToDictionaryServerRPC(ulong steamId, string steamName, ulong clientId)
