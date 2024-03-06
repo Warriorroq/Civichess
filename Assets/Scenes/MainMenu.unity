@@ -3749,6 +3749,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1432139478}
   m_CullTransparentMesh: 1
+--- !u!1 &1459899604
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1459899605}
+  - component: {fileID: 1459899606}
+  - component: {fileID: 1459899607}
+  m_Layer: 0
+  m_Name: MapManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1459899605
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459899604}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -7.729797, y: 12.986721, z: 38.756744}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1459899606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459899604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 900592507
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+--- !u!114 &1459899607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459899604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a27e15f9c2729e645b9099e56e61bc11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dontDestroyOnLoad: 1
+  mapBuilder:
+    size: {x: 32, y: 32}
+    startingKingsPositions: []
+    _mapSceneConstructor:
+      _mapMaterials:
+      - {fileID: 2100000, guid: 3ac50557aba068b4990d8af970b28f93, type: 2}
+      - {fileID: 2100000, guid: 005641b20af2d8d499d1c8faf0898989, type: 2}
+      _cellSize: {x: 1, y: 0.5, z: 1}
+      _cellPrefab: {fileID: 2178808022860471738, guid: b23c5b6f6c72b0a4da9ff0426ea1a979, type: 3}
 --- !u!1 &1511484358
 GameObject:
   m_ObjectHideFlags: 0
@@ -4557,6 +4632,30 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: fb35edfc-8519-46f5-ad00-e357acd7fdec
     m_ActionName: UI/Select[/Keyboard/enter]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b46ec53c-8277-4574-afd0-332122d72905
+    m_ActionName: Gameplay/Mouse Position[/Mouse/position]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1ee397bc-3439-489a-ba53-4112023d50d0
+    m_ActionName: Gameplay/Rotation left[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 40fa466f-8f9c-4d43-a351-f53f06540c97
+    m_ActionName: Gameplay/Rotation right[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e5fc1750-6cb1-4fa1-b31f-73f3a0e3083f
+    m_ActionName: Gameplay/[Mouse] Left click / Delta[/Mouse/press,/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d88f1dd8-aec4-4197-9b92-bea208d5eb30
+    m_ActionName: Gameplay/[Mouse] Right click / Delta[/Mouse/rightButton,/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1358c98f-cd82-49ff-a3eb-6fc9ff9342d1
+    m_ActionName: Gameplay/[Mouse] Keyboard block[/Mouse/leftButton,/Mouse/rightButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: UI
@@ -5334,3 +5433,4 @@ SceneRoots:
   - {fileID: 1216623891}
   - {fileID: 940551883}
   - {fileID: 1860473403}
+  - {fileID: 1459899605}

@@ -5,6 +5,7 @@ using Steamworks.Data;
 using Unity.Netcode;
 using UnityEngine;
 using TMPro;
+using Assets.Scripts.MapGenerating;
 namespace Assets.Scripts.GameLobby
 {
     [RequireComponent (typeof (FacepunchTransport))]
@@ -95,7 +96,9 @@ namespace Assets.Scripts.GameLobby
         private void RemoveCallbacksOnNetworkManager()
         {
             if (NetworkManager.Singleton.IsHost)
+            {
                 NetworkManager.Singleton.OnServerStarted -= OnServerStarted;
+            }
             else
             {
                 NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnectedCallback;

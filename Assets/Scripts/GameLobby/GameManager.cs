@@ -1,12 +1,11 @@
-﻿using Assets.Scripts.Structures;
+﻿using Assets.Scripts.MapGenerating;
+using Assets.Scripts.Structures;
 using Assets.Scripts.UI;
 using Steamworks;
-using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using UnityEngine.SocialPlatforms;
 
 namespace Assets.Scripts.GameLobby
 {
@@ -45,7 +44,10 @@ namespace Assets.Scripts.GameLobby
         }
 
         public void Quit()
-            =>Application.Quit();
+        {
+            GameNetworkManager.Singleton.Disconnect();
+            Application.Quit();
+        }
 
         public void RunGame()
         {
@@ -58,6 +60,8 @@ namespace Assets.Scripts.GameLobby
             party.PrepareTeams();
             GameNetworkManager.Singleton.currentLobby?.SetJoinable(false);
             GameNetworkManager.Singleton.currentLobby?.SendChatString($"[Server] Starting game...");
+            MapManager.Singleton.GenerateMapData();
+            MapManager.Singleton.SyncMapServerRpc();
             NetworkManager.SceneManager.LoadScene("Game", LoadSceneMode.Single);
         }
 
