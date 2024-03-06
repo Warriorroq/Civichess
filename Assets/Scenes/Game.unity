@@ -150,12 +150,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 27899157}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.55, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 412966221}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &27899159
 BoxCollider:
@@ -431,10 +431,9 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 10, y: 1, z: 10}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 27899158}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &624448139
@@ -561,6 +560,86 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: b46ec53c-8277-4574-afd0-332122d72905
     m_ActionName: Gameplay/Mouse[/Mouse/position]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 966805728}
+        m_TargetAssemblyTypeName: Assets.Scripts.Camera.CameraMovement, Assembly-CSharp
+        m_MethodName: OnLeftRotation
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1ee397bc-3439-489a-ba53-4112023d50d0
+    m_ActionName: Gameplay/Rotation left[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 966805728}
+        m_TargetAssemblyTypeName: Assets.Scripts.Camera.CameraMovement, Assembly-CSharp
+        m_MethodName: OnRightRotation
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 40fa466f-8f9c-4d43-a351-f53f06540c97
+    m_ActionName: Gameplay/Rotation right[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 966805729}
+        m_TargetAssemblyTypeName: Assets.Scripts.Camera.CameraDragMovement, Assembly-CSharp
+        m_MethodName: OnLeftButtonClick
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: e5fc1750-6cb1-4fa1-b31f-73f3a0e3083f
+    m_ActionName: Gameplay/New action
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 966805728}
+        m_TargetAssemblyTypeName: Assets.Scripts.Camera.CameraDirectMovement, Assembly-CSharp
+        m_MethodName: BlockMovement
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1358c98f-cd82-49ff-a3eb-6fc9ff9342d1
+    m_ActionName: Gameplay/New action
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 966805729}
+        m_TargetAssemblyTypeName: Assets.Scripts.Camera.CameraDragMovement, Assembly-CSharp
+        m_MethodName: OnRightButtonClick
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: d88f1dd8-aec4-4197-9b92-bea208d5eb30
+    m_ActionName: Gameplay/[Mouse] Right click / Delta[/Mouse/rightButton,/Mouse/delta]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
@@ -724,6 +803,7 @@ GameObject:
   - component: {fileID: 966805726}
   - component: {fileID: 966805725}
   - component: {fileID: 966805728}
+  - component: {fileID: 966805729}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -798,13 +878,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 966805724}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.37878525, y: 0.13153258, z: -0.054482576, w: 0.9144685}
-  m_LocalPosition: {x: -1.35, y: 5.84, z: -5.12}
+  m_LocalRotation: {x: 0.38268343, y: -0, z: -0, w: 0.92387956}
+  m_LocalPosition: {x: 0, y: 5, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 45, y: 16.37, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
 --- !u!114 &966805728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -817,8 +897,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63b4147f5079f07419d603d483161c09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _moveSpeed: 15
+  _rotationSpeed: 180
+  _rectSize: 0.95
+--- !u!114 &966805729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 966805724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 161b726f4859c63469b821b1f173982e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _moveSpeed: 5
-  _rectSize: 0.9
+  _rotationSpeed: 2
 --- !u!1 &1044590986
 GameObject:
   m_ObjectHideFlags: 0
@@ -1051,8 +1146,9 @@ CanvasRenderer:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 966805727}
   - {fileID: 1044590988}
   - {fileID: 338421062}
   - {fileID: 624448142}
   - {fileID: 412966221}
+  - {fileID: 966805727}
+  - {fileID: 27899158}

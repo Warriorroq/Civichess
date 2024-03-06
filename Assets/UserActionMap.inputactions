@@ -34,10 +34,55 @@
             "id": "a3a05e7e-132f-4fdd-872f-b0d63d203834",
             "actions": [
                 {
-                    "name": "Mouse",
+                    "name": "Mouse Position",
                     "type": "Value",
                     "id": "b46ec53c-8277-4574-afd0-332122d72905",
                     "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Rotation left",
+                    "type": "Button",
+                    "id": "1ee397bc-3439-489a-ba53-4112023d50d0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Rotation right",
+                    "type": "Button",
+                    "id": "40fa466f-8f9c-4d43-a351-f53f06540c97",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "[Mouse] Left click / Delta",
+                    "type": "Value",
+                    "id": "e5fc1750-6cb1-4fa1-b31f-73f3a0e3083f",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "[Mouse] Right click / Delta",
+                    "type": "Value",
+                    "id": "d88f1dd8-aec4-4197-9b92-bea208d5eb30",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "[Mouse] Keyboard block",
+                    "type": "Button",
+                    "id": "1358c98f-cd82-49ff-a3eb-6fc9ff9342d1",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -51,9 +96,119 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Mouse",
+                    "action": "Mouse Position",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "21703f47-5b15-49d4-85fc-00fccf3075c7",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotation left",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f9f8245a-743c-4fc2-a31b-a51a1076e4c5",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotation right",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Position [Mouse] on left click",
+                    "id": "7a5b846e-ccf2-408e-8a69-4eecee11b9b1",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "[Mouse] Left click / Delta",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "be05e252-14ef-4369-bc01-0985abb6140d",
+                    "path": "<Mouse>/press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "[Mouse] Left click / Delta",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "35772003-3457-400d-9053-ca0056e26f21",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "[Mouse] Left click / Delta",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "41cb92d9-fdc4-43e6-a781-0fabdb5f134c",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "[Mouse] Keyboard block",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b13a2f1f-e575-4f3b-9fea-f49951cc44a5",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "[Mouse] Keyboard block",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Position [Mouse] on right click",
+                    "id": "c3da0811-e585-42c0-8251-5dc6a9621a62",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "[Mouse] Right click / Delta",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "5031cc0a-e007-4a44-93dc-8a333b7dc4bf",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "[Mouse] Right click / Delta",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "1d20affa-b0b5-4110-8969-67c0b41bf987",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "[Mouse] Right click / Delta",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }
