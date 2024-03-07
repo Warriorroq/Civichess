@@ -11,7 +11,7 @@ namespace Assets.Scripts.MapGenerating
     {
         public MapGenerator.CellData[,] Map => mapBuilder.map;
         public MapGenerator mapBuilder;
-        public IMapPatternGeneration pattern = new PatternScripts.Plane();
+        public IMapPatternGeneration pattern = new PatternScripts.Plane(true, 5, .1f, 10_000f);
         public void GenerateMapData()
         {
             mapBuilder.GenerateMap(pattern);          

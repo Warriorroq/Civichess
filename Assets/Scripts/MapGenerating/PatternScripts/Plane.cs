@@ -5,6 +5,18 @@ namespace Assets.Scripts.MapGenerating.PatternScripts
 {
     public class Plane : IMapPatternGeneration
     {
+        private float _maxOffset;
+        private float _step;
+        private bool _isToUsePerlinNoise;
+        private int _maxHeight;
+        public Plane(bool usePerlinNoise, int maxHeight, float step, float maxOffSet) { 
+            _isToUsePerlinNoise = usePerlinNoise;
+            _maxHeight = maxHeight;
+            _maxOffset = maxOffSet;
+            _step = step;
+        }
+
+
         public List<MapGenerator.CellData> ChooseKingsPositions(int amount, Vector2Int size, MapGenerator.CellData[,] map)
         {
             float angle = 0;
@@ -38,13 +50,21 @@ namespace Assets.Scripts.MapGenerating.PatternScripts
 
         public virtual MapGenerator.CellData[,] GenerateMap(Vector2Int size)
         {
-            MapGenerator.CellData[,] map = new MapGenerator.CellData[size.x, size.y]; 
+            MapGenerator.CellData[,] map = new MapGenerator.CellData[size.x, size.y];
+            float offset = _maxOffset * Random.value;
             for (int i = 0; i < size.x; i++)
             {
                 for (int j = 0; j < size.y; j++)
-                    map[i, j] = new MapGenerator.CellData(new Vector2Int(i, j));
+                    map[i, j] = GenerateCell(new Vector2Int(i, j), offset);
             }
             return map;
+        }
+        private MapGenerator.CellData GenerateCell(Vector2Int position, float offset)
+        {
+            MapGenerator.CellData cell = new MapGenerator.CellData(position);
+            if (_isToUsePerlinNoise)
+                cell.height = (int)(Mathf.PerlinNoise(position.x * _step + offset, position.y * _step + offset) * _maxHeight);
+            return cell;
         }
     }
 }
