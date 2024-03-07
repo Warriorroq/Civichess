@@ -21,9 +21,6 @@ namespace Assets.Scripts.MapGenerating
         {
             if (scene.name != "Game")
                 return;
-
-            if (!GameManager.Singleton.isHost)
-                return;
             
             mapBuilder.GenerateCellsOnScene();
         }

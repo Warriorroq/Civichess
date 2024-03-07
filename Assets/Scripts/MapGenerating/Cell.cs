@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Assets.Scripts.MapGenerating
 {
     [Serializable]
-    public class Cell : NetworkBehaviour
+    public class Cell : MonoBehaviour
     {
         public MeshRenderer cellRenderer;
         public MapGenerator.CellData cellData;
@@ -23,10 +23,7 @@ namespace Assets.Scripts.MapGenerating
             cellRenderer.material = MapManager.Singleton.mapBuilder.GetMaterialByIndex(cellPositionOnMap.x + cellPositionOnMap.y);
         }
 
-        [ClientRpc]
-        public void SetCellPositionOnMapClientRpc(Vector2Int cellPositionOnMap)
-        {
-            this.cellPositionOnMap = cellPositionOnMap;
-        }
+        public void SetCellPosition(Vector2Int cellPosition)
+            => cellPositionOnMap = cellPosition;
     }
 }

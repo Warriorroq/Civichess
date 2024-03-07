@@ -20,9 +20,7 @@ namespace Assets.Scripts.MapGenerating
                 for (; position.y < size.y; position.y++)
                 {
                     var instance = GameObject.Instantiate(_cellPrefab, new Vector3(_cellSize.x * position.x, 0, _cellSize.z * position.y), Quaternion.identity);
-                    var instanceNetworkObject = instance.GetComponent<NetworkObject>();
-                    instanceNetworkObject.Spawn();
-                    instance.SetCellPositionOnMapClientRpc(position);
+                    instance.SetCellPosition(position);
                 }
 
                 position.y = 0;
