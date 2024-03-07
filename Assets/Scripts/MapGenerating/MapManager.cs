@@ -12,16 +12,13 @@ namespace Assets.Scripts.MapGenerating
         public MapGenerator.CellData[,] Map => mapBuilder.map;
         public MapGenerator mapBuilder;
         public IMapPatternGeneration pattern = new PatternScripts.Plane(true, 5, .1f, 10_000f);
-        public void GenerateMapData()
-        {
-            mapBuilder.GenerateMap(pattern);          
-        }
 
         public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             if (scene.name != "Game")
                 return;
-            
+
+            mapBuilder.GenerateMap(pattern);
             mapBuilder.GenerateCellsOnScene();
         }
 
@@ -39,8 +36,11 @@ namespace Assets.Scripts.MapGenerating
         public void SyncMapServerRpc()
         {
             SyncMapSizeWithPlayersClientRpc(mapBuilder.size);
-            foreach(var cell in mapBuilder.map)
-                SyncMapCellWithPlayersClientRpc(cell);
+            if (pattern is PatternScripts.Plane)
+            {
+                (pattern as PatternScripts.Plane).ApplyOffset();
+                SyncGeneratingPlanePatternClientRpc((PatternScripts.Plane)pattern);
+            }
         }
 
         [ClientRpc]
@@ -54,13 +54,12 @@ namespace Assets.Scripts.MapGenerating
         }
 
         [ClientRpc]
-        public void SyncMapCellWithPlayersClientRpc(MapGenerator.CellData cellData)
+        public void SyncGeneratingPlanePatternClientRpc(PatternScripts.Plane pattern)
         {
             if (GameManager.Singleton.isHost)
                 return;
 
-            mapBuilder.map[cellData.positionOnMap.x, cellData.positionOnMap.y] = cellData;
-            Debug.Log(cellData);
+            this.pattern = pattern;
         }
     }
 }

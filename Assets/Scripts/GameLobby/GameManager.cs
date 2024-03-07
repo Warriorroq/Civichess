@@ -60,7 +60,6 @@ namespace Assets.Scripts.GameLobby
             party.PrepareTeams();
             GameNetworkManager.Singleton.currentLobby?.SetJoinable(false);
             GameNetworkManager.Singleton.currentLobby?.SendChatString($"[Server] Starting game...");
-            MapManager.Singleton.GenerateMapData();
             MapManager.Singleton.SyncMapServerRpc();
             NetworkManager.SceneManager.LoadScene("Game", LoadSceneMode.Single);
         }

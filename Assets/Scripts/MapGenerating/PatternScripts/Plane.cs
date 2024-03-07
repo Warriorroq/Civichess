@@ -1,21 +1,32 @@
 ﻿using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Assets.Scripts.MapGenerating.PatternScripts
 {
     public class Plane : IMapPatternGeneration
     {
-        private float _maxOffset;
+        private float _offset;
         private float _step;
         private bool _isToUsePerlinNoise;
         private int _maxHeight;
+        public Plane()
+        {
+            _isToUsePerlinNoise = false;
+            _maxHeight = 0;
+            _offset = 0;
+            _step = 0;
+        }
+
         public Plane(bool usePerlinNoise, int maxHeight, float step, float maxOffSet) { 
             _isToUsePerlinNoise = usePerlinNoise;
             _maxHeight = maxHeight;
-            _maxOffset = maxOffSet;
+            _offset = maxOffSet;
             _step = step;
         }
 
+        public void ApplyOffset()
+            => _offset*= Random.value;
 
         public List<MapGenerator.CellData> ChooseKingsPositions(int amount, Vector2Int size, MapGenerator.CellData[,] map)
         {
@@ -51,20 +62,27 @@ namespace Assets.Scripts.MapGenerating.PatternScripts
         public virtual MapGenerator.CellData[,] GenerateMap(Vector2Int size)
         {
             MapGenerator.CellData[,] map = new MapGenerator.CellData[size.x, size.y];
-            float offset = _maxOffset * Random.value;
             for (int i = 0; i < size.x; i++)
             {
                 for (int j = 0; j < size.y; j++)
-                    map[i, j] = GenerateCell(new Vector2Int(i, j), offset);
+                    map[i, j] = GenerateCell(new Vector2Int(i, j));
             }
             return map;
         }
-        private MapGenerator.CellData GenerateCell(Vector2Int position, float offset)
+        private MapGenerator.CellData GenerateCell(Vector2Int position)
         {
             MapGenerator.CellData cell = new MapGenerator.CellData(position);
             if (_isToUsePerlinNoise)
-                cell.height = (int)(Mathf.PerlinNoise(position.x * _step + offset, position.y * _step + offset) * _maxHeight);
+                cell.height = (int)(Mathf.PerlinNoise(position.x * _step + _offset, position.y * _step + _offset) * _maxHeight);
             return cell;
+        }
+
+        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+        {
+            serializer.SerializeValue(ref _offset);
+            serializer.SerializeValue(ref _step);
+            serializer.SerializeValue(ref _isToUsePerlinNoise);
+            serializer.SerializeValue(ref _maxHeight);
         }
     }
 }
