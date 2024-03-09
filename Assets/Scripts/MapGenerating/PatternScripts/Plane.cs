@@ -6,29 +6,9 @@ namespace Assets.Scripts.MapGenerating.PatternScripts
 {
     public class Plane : IMapPatternGeneration
     {
-        private float _offset;
-        private float _step;
-        private bool _isToUsePerlinNoise;
-        private int _maxHeight;
-        public Plane()
-        {
-            _isToUsePerlinNoise = false;
-            _maxHeight = 0;
-            _offset = 0;
-            _step = 0;
-        }
+        public Plane(){}
 
-        public Plane(bool usePerlinNoise, int maxHeight, float step, float maxOffSet) { 
-            _isToUsePerlinNoise = usePerlinNoise;
-            _maxHeight = maxHeight;
-            _offset = maxOffSet;
-            _step = step;
-        }
-
-        public void ApplyOffset()
-            => _offset*= Random.value;
-
-        public List<MapGenerator.CellData> ChooseKingsPositions(int amount, Vector2Int size, MapGenerator.CellData[,] map)
+        public virtual List<MapGenerator.CellData> ChooseKingsPositions(int amount, Vector2Int size, MapGenerator.CellData[,] map)
         {
             float angle = 0;
             float worldPartAngleSize = 360f / amount;
@@ -49,7 +29,7 @@ namespace Assets.Scripts.MapGenerating.PatternScripts
             return cells;
         }
 
-        private MapGenerator.CellData ChoosePosition(float angle, float delta, Vector2Int size, MapGenerator.CellData[,] map)
+        protected virtual MapGenerator.CellData ChoosePosition(float angle, float delta, Vector2Int size, MapGenerator.CellData[,] map)
         {
             Vector2Int half = size / 2;
             float radians = Random.Range(angle - delta, angle + delta) * Mathf.Deg2Rad;
@@ -67,22 +47,12 @@ namespace Assets.Scripts.MapGenerating.PatternScripts
                 for (int j = 0; j < size.y; j++)
                     map[i, j] = GenerateCell(new Vector2Int(i, j));
             }
+
             return map;
         }
-        private MapGenerator.CellData GenerateCell(Vector2Int position)
-        {
-            MapGenerator.CellData cell = new MapGenerator.CellData(position);
-            if (_isToUsePerlinNoise)
-                cell.height = (int)(Mathf.PerlinNoise(position.x * _step + _offset, position.y * _step + _offset) * _maxHeight);
-            return cell;
-        }
+        protected virtual MapGenerator.CellData GenerateCell(Vector2Int position)
+            => new MapGenerator.CellData(position);
 
-        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
-        {
-            serializer.SerializeValue(ref _offset);
-            serializer.SerializeValue(ref _step);
-            serializer.SerializeValue(ref _isToUsePerlinNoise);
-            serializer.SerializeValue(ref _maxHeight);
-        }
+        public virtual void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter {}
     }
 }

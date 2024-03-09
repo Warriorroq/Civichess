@@ -23,7 +23,7 @@ namespace Assets.Scripts.MapGenerating
         {
             int teamsCount = GameManager.Singleton.party.teams.Count;
             map = pattern.GenerateMap(size);
-            startingKingsPositions = pattern.ChooseKingsPositions(teamsCount, size, map).Select(x => x.positionOnMap).ToList();
+            //startingKingsPositions = pattern.ChooseKingsPositions(teamsCount, size, map).Select(x => x.positionOnMap).ToList();
         }
         
         public void GenerateCellsOnScene()

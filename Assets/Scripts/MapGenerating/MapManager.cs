@@ -1,6 +1,8 @@
 ﻿using Assets.Scripts.GameLobby;
 using Assets.Scripts.MapGenerating.PatternScripts;
 using Assets.Scripts.Structures;
+using Assets.Scripts.Structures.MinMax;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,9 +13,13 @@ namespace Assets.Scripts.MapGenerating
     {
         public MapGenerator.CellData[,] Map => mapBuilder.map;
         public MapGenerator mapBuilder;
-        public IMapPatternGeneration pattern = new PatternScripts.Plane(true, 5, .1f, 10_000f);
+        public IMapPatternGeneration pattern = new PatternScripts.Terrain(new List<PatternScripts.Terrain.TerrainLayer>()
+            {
+                new PatternScripts.Terrain.TerrainLayer(10_000f, .1f, new IntMinMax(1, 7), new IntMinMax()),
+                new PatternScripts.Terrain.TerrainLayer(10_001f, .1f, new IntMinMax(4, 9), new IntMinMax(4, 7))
+            });
 
-        public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             if (scene.name != "Game")
                 return;
@@ -27,6 +33,12 @@ namespace Assets.Scripts.MapGenerating
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            pattern = null;
+        }
+
         private void OnDisable()
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -36,15 +48,31 @@ namespace Assets.Scripts.MapGenerating
         public void SyncMapServerRpc()
         {
             SyncMapSizeWithPlayersClientRpc(mapBuilder.size);
-            if (pattern is PatternScripts.Plane)
+            SyncPattern();
+        }
+
+        private void SyncPattern()
+        {
+            switch (pattern)
             {
-                (pattern as PatternScripts.Plane).ApplyOffset();
-                SyncGeneratingPlanePatternClientRpc((PatternScripts.Plane)pattern);
+                case PatternScripts.Terrain terrain:
+                    terrain.ApplyRandomizedOffset();
+                    SyncGeneratingTerrainPatternClientRpc(terrain);
+                    break;
+
+                case Hills hills:
+                    hills.ApplyRandomizedOffset();
+                    SyncGeneratingHillsPatternClientRpc(hills);
+                    break;
+
+                case PatternScripts.Plane:
+                    SyncGeneratingPlanePatternClientRpc(pattern as PatternScripts.Plane);
+                    break;
             }
         }
 
         [ClientRpc]
-        public void SyncMapSizeWithPlayersClientRpc(Vector2Int size)
+        private void SyncMapSizeWithPlayersClientRpc(Vector2Int size)
         {
             if (GameManager.Singleton.isHost)
                 return;
@@ -54,7 +82,25 @@ namespace Assets.Scripts.MapGenerating
         }
 
         [ClientRpc]
-        public void SyncGeneratingPlanePatternClientRpc(PatternScripts.Plane pattern)
+        private void SyncGeneratingTerrainPatternClientRpc(PatternScripts.Terrain pattern)
+        {
+            //if (GameManager.Singleton.isHost)
+            //    return;
+
+            this.pattern = pattern;
+        }
+
+        [ClientRpc]
+        private void SyncGeneratingPlanePatternClientRpc(PatternScripts.Plane pattern)
+        {
+            if (GameManager.Singleton.isHost)
+                return;
+
+            this.pattern = pattern;
+        }
+
+        [ClientRpc]
+        private void SyncGeneratingHillsPatternClientRpc(Hills pattern)
         {
             if (GameManager.Singleton.isHost)
                 return;
