@@ -8,7 +8,7 @@ namespace Assets.Scripts.MapGenerating.PatternScripts
 {
     public class Terrain : Plane
     {
-        private List<TerrainLayer> _terrainLayers;
+        protected List<TerrainLayer> _terrainLayers;
         public Terrain(){}
         public Terrain(List<TerrainLayer> layers)
         {
@@ -20,7 +20,7 @@ namespace Assets.Scripts.MapGenerating.PatternScripts
             foreach (var layer in _terrainLayers)
                 layer.maxOffset *= Random.value;
         }
-        protected override MapGenerator.CellData GenerateCell(Vector2Int position)
+        protected override CellData GenerateCell(Vector2Int position)
         {
             var cell = base.GenerateCell(position);
             foreach (var terrain in _terrainLayers)
@@ -76,7 +76,7 @@ namespace Assets.Scripts.MapGenerating.PatternScripts
                 this.mask = mask;
             }
 
-            public void ApplyGenerationToCell(MapGenerator.CellData cell)
+            public void ApplyGenerationToCell(CellData cell)
             {
                 if (mask is null)
                     return;

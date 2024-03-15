@@ -5,7 +5,7 @@ namespace Assets.Scripts.MapGenerating.PatternScripts
 {
     public interface IMapPatternGeneration : INetworkSerializable
     {
-        public abstract MapGenerator.CellData[,] GenerateMap(Vector2Int size);
-        public abstract List<MapGenerator.CellData> ChooseKingsPositions(int amount, Vector2Int size, MapGenerator.CellData[,] map);       
+        public abstract CellData[,] GenerateMap(Vector2Int size);
+        public abstract List<CellData> ChooseKingsPositions(int amount, Vector2Int size, CellData[,] map);       
     }
 }

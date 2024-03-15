@@ -8,15 +8,15 @@ namespace Assets.Scripts.MapGenerating.PatternScripts
     {
         public Plane(){}
 
-        public virtual List<MapGenerator.CellData> ChooseKingsPositions(int amount, Vector2Int size, MapGenerator.CellData[,] map)
+        public virtual List<CellData> ChooseKingsPositions(int amount, Vector2Int size, CellData[,] map)
         {
             float angle = 0;
             float worldPartAngleSize = 360f / amount;
             float delta = 360f / (amount * 1.5f);
-            List<MapGenerator.CellData> cells = new List<MapGenerator.CellData>();
+            List<CellData> cells = new List<CellData>();
             while(amount > 0)
             {
-                MapGenerator.CellData cell = null;
+                CellData cell = null;
 
                 while(cell is null)
                     cell = ChoosePosition(angle, delta/2f, size, map);
@@ -29,7 +29,7 @@ namespace Assets.Scripts.MapGenerating.PatternScripts
             return cells;
         }
 
-        protected virtual MapGenerator.CellData ChoosePosition(float angle, float delta, Vector2Int size, MapGenerator.CellData[,] map)
+        protected virtual CellData ChoosePosition(float angle, float delta, Vector2Int size, CellData[,] map)
         {
             Vector2Int half = size / 2;
             float radians = Random.Range(angle - delta, angle + delta) * Mathf.Deg2Rad;
@@ -39,9 +39,9 @@ namespace Assets.Scripts.MapGenerating.PatternScripts
             return map[cellPosition.x, cellPosition.y];
         }
 
-        public virtual MapGenerator.CellData[,] GenerateMap(Vector2Int size)
+        public virtual CellData[,] GenerateMap(Vector2Int size)
         {
-            MapGenerator.CellData[,] map = new MapGenerator.CellData[size.x, size.y];
+            CellData[,] map = new CellData[size.x, size.y];
             for (int i = 0; i < size.x; i++)
             {
                 for (int j = 0; j < size.y; j++)
@@ -50,8 +50,8 @@ namespace Assets.Scripts.MapGenerating.PatternScripts
 
             return map;
         }
-        protected virtual MapGenerator.CellData GenerateCell(Vector2Int position)
-            => new MapGenerator.CellData(position);
+        protected virtual CellData GenerateCell(Vector2Int position)
+            => new CellData(position);
 
         public virtual void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter {}
     }

@@ -1,7 +1,4 @@
-﻿using Assets.Scripts.GameLobby;
-using System;
-using System.Reflection;
-using Unity.Netcode;
+﻿using System;
 using UnityEngine;
 
 namespace Assets.Scripts.MapGenerating
@@ -10,7 +7,7 @@ namespace Assets.Scripts.MapGenerating
     public class Cell : MonoBehaviour
     {
         public MeshRenderer cellRenderer;
-        public MapGenerator.CellData cellData;
+        public CellData cellData;
         public Vector2Int cellPositionOnMap;
 
         private void Start()

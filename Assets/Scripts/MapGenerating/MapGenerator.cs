@@ -2,8 +2,6 @@
 using Assets.Scripts.MapGenerating.PatternScripts;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.Netcode;
 using UnityEngine;
 
 namespace Assets.Scripts.MapGenerating
@@ -12,7 +10,7 @@ namespace Assets.Scripts.MapGenerating
     public class MapGenerator
     {
         public Vector2Int size;
-        public MapGenerator.CellData[,] map;
+        public CellData[,] map;
         public List<Vector2Int> startingKingsPositions;
 
         [SerializeField] private MapSceneConstructor _mapSceneConstructor;
@@ -29,35 +27,6 @@ namespace Assets.Scripts.MapGenerating
         public void GenerateCellsOnScene()
         {
             _mapSceneConstructor.GenerateCellsOnScene(size, map);
-        }
-
-        [Serializable]
-        public class CellData : INetworkSerializable
-        {
-            public Transform cellRepresentation;
-            public Vector2Int positionOnMap;
-            public int height;
-
-            public CellData()
-            {
-                this.positionOnMap = new Vector2Int();
-                height = 0;
-            }
-
-            public CellData(Vector2Int positionOnMap)
-            {
-                this.positionOnMap = positionOnMap;
-                height = 0;
-            }
-
-            public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
-            {
-                serializer.SerializeValue(ref positionOnMap);
-                serializer.SerializeValue(ref height);
-            }
-
-            public override string ToString()
-                => $"{positionOnMap} {height}";
         }
     }
 }

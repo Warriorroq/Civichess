@@ -11,8 +11,9 @@ namespace Assets.Scripts.MapGenerating
         [SerializeField] private Vector3 _cellSize;
         [SerializeField] private Cell _cellPrefab;
 
-        public void GenerateCellsOnScene(Vector2Int size, MapGenerator.CellData[,] map)
+        public void GenerateCellsOnScene(Vector2Int size, CellData[,] map)
         {
+            Transform parentTransform = new GameObject("Map").transform;
             Vector2Int position = new Vector2Int();
             for (; position.x < size.x; position.x++)
             {
@@ -20,6 +21,7 @@ namespace Assets.Scripts.MapGenerating
                 {
                     var instance = GameObject.Instantiate(_cellPrefab, new Vector3(_cellSize.x * position.x, 0, _cellSize.z * position.y), Quaternion.identity);
                     instance.SetCellPosition(position);
+                    instance.transform.parent = parentTransform;
                 }
 
                 position.y = 0;

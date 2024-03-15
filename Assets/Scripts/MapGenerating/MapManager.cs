@@ -11,13 +11,14 @@ namespace Assets.Scripts.MapGenerating
 {
     public class MapManager : MonoNetworkSingleton<MapManager>
     {
-        public MapGenerator.CellData[,] Map => mapBuilder.map;
+        public CellData[,] Map => mapBuilder.map;
         public MapGenerator mapBuilder;
-        public IMapPatternGeneration pattern = new PatternScripts.Terrain(new List<PatternScripts.Terrain.TerrainLayer>()
+        public IMapPatternGeneration pattern = new Hills();
+            /*= new PatternScripts.Terrain(new List<PatternScripts.Terrain.TerrainLayer>()
             {
                 new PatternScripts.Terrain.TerrainLayer(10_000f, .1f, new IntMinMax(1, 7), new IntMinMax()),
                 new PatternScripts.Terrain.TerrainLayer(10_001f, .1f, new IntMinMax(4, 9), new IntMinMax(4, 7))
-            });
+            });*/
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
@@ -60,13 +61,8 @@ namespace Assets.Scripts.MapGenerating
                     SyncGeneratingTerrainPatternClientRpc(terrain);
                     break;
 
-                case Hills hills:
-                    hills.ApplyRandomizedOffset();
-                    SyncGeneratingHillsPatternClientRpc(hills);
-                    break;
-
-                case PatternScripts.Plane:
-                    SyncGeneratingPlanePatternClientRpc(pattern as PatternScripts.Plane);
+                case PatternScripts.Plane plane:
+                    SyncGeneratingPlanePatternClientRpc(plane);
                     break;
             }
         }
@@ -78,7 +74,7 @@ namespace Assets.Scripts.MapGenerating
                 return;
 
             mapBuilder.size = size;
-            mapBuilder.map = new MapGenerator.CellData[size.x, size.y];
+            mapBuilder.map = new CellData[size.x, size.y];
         }
 
         [ClientRpc]
@@ -92,15 +88,6 @@ namespace Assets.Scripts.MapGenerating
 
         [ClientRpc]
         private void SyncGeneratingPlanePatternClientRpc(PatternScripts.Plane pattern)
-        {
-            if (GameManager.Singleton.isHost)
-                return;
-
-            this.pattern = pattern;
-        }
-
-        [ClientRpc]
-        private void SyncGeneratingHillsPatternClientRpc(Hills pattern)
         {
             if (GameManager.Singleton.isHost)
                 return;
