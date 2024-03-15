@@ -9,7 +9,7 @@ namespace Assets.Scripts.MapGenerating
         public MeshRenderer cellRenderer;
         public CellData cellData = null;
         public Vector2Int cellPositionOnMap;
-
+        public Transform topTransform;
         private void Start()
         {
             cellData = MapManager.Singleton.Map[cellPositionOnMap.x, cellPositionOnMap.y];

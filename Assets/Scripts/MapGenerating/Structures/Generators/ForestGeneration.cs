@@ -34,6 +34,7 @@ namespace Assets.Scripts.MapGenerating.Structures.Generators
                 return;
 
             float noise = Mathf.PerlinNoise(cell.positionOnMap.x * step + offset, cell.positionOnMap.y * step + offset);
+            noise *= noise;
             if (noise <= minNoise)
                 return;
 
