@@ -1,4 +1,6 @@
-﻿using Assets.Scripts.Structures.MinMax;
+﻿using Assets.Scripts.Extensions;
+using Assets.Scripts.MapGenerating.Structures.Generators;
+using Assets.Scripts.Structures.MinMax;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
@@ -8,17 +10,22 @@ namespace Assets.Scripts.MapGenerating.PatternScripts
 {
     public class Terrain : Plane
     {
+        protected List<(IStructureGenerator.Type, IStructureGenerator)> _structureGenerations;
         protected List<TerrainLayer> _terrainLayers;
         public Terrain(){}
-        public Terrain(List<TerrainLayer> layers)
+        public Terrain(List<TerrainLayer> layers, List<(IStructureGenerator.Type, IStructureGenerator)> structureGenerators)
         {
             _terrainLayers = layers;
+            _structureGenerations = structureGenerators;
         }
 
         public void ApplyRandomizedOffset()
         {
             foreach (var layer in _terrainLayers)
                 layer.maxOffset *= Random.value;
+
+            foreach(var layer in _structureGenerations)
+                layer.Item2.ApplyRandomization();
         }
         protected override CellData GenerateCell(Vector2Int position)
         {
@@ -26,37 +33,59 @@ namespace Assets.Scripts.MapGenerating.PatternScripts
             foreach (var terrain in _terrainLayers)
                 terrain.ApplyGenerationToCell(cell);
 
+            foreach (var generator in _structureGenerations)
+                generator.Item2.ApplyGenerationToCell(cell);
+
             return cell;
         }
 
         public override void NetworkSerialize<T>(BufferSerializer<T> serializer)
         {
-            int length = 0;
-            TerrainLayer[] readList = null;
-
-            if (serializer.IsWriter)
-            {
-                length = _terrainLayers.Count;
-                readList = _terrainLayers.ToArray();
-            }
-
-            serializer.SerializeValue(ref length);
-
-            if(readList is null)
-            {
-                readList = new TerrainLayer[length];
-                for (int i = 0; i < length; i++)
-                    readList[i] = new TerrainLayer();
-            }
-
-            for (int n = 0; n < length; n++)
-                serializer.SerializeValue(ref readList[n]);
-
-            if (serializer.IsReader)
-                _terrainLayers = new List<TerrainLayer>(readList);
+            SyncTerrainLayers(serializer);
+            SyncStructureLayers(serializer);
         }
 
-        public class TerrainLayer : INetworkSerializable
+        private void SyncTerrainLayers<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+        {
+            var newList = serializer.SerializeList(_terrainLayers);
+            if (newList is not null)
+                _terrainLayers = newList;
+        }
+
+        private void SyncStructureLayers<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+        {
+            if (serializer.IsWriter)
+                serializer.SerializeList(_structureGenerations.Select(x => (int)x.Item1).ToList());
+
+            if (serializer.IsWriter)
+                serializer.SerializeList(_structureGenerations.Select(x => x.Item2).ToList());
+
+            if (serializer.IsWriter)
+                return;
+
+            List<IStructureGenerator.Type> structureGenerationTypes = serializer
+                .SerializeList(new List<int>())
+                .Select(x => (IStructureGenerator.Type)x)
+                .ToList();
+
+
+            List<(IStructureGenerator.Type, IStructureGenerator)> structureGenerations = new();
+            if (serializer.IsReader)
+            {
+                int length = 0;
+                serializer.SerializeValue(ref length);
+                for (int i = 0; i < length; i++)
+                {
+                    IStructureGenerator structureGenerator = IStructureGenerator.dictionaryOfTemporaryGeneratorsAndTypes[structureGenerationTypes[i]];
+                    serializer.SerializeValue(ref structureGenerator);
+                    structureGenerations.Add((structureGenerationTypes[i], structureGenerator.Clone() as IStructureGenerator));
+                }
+            }
+
+            _structureGenerations = structureGenerations;
+        }
+
+        public sealed class TerrainLayer : INetworkSerializable
         {
             public float maxOffset;
             public float step;

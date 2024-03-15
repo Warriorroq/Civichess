@@ -1,7 +1,7 @@
 ﻿using Assets.Scripts.MapGenerating.Structures;
 using System;
 using System.Collections.Generic;
-using Unity.Netcode;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts.MapGenerating
@@ -22,11 +22,12 @@ namespace Assets.Scripts.MapGenerating
 
         public CellData(Vector2Int positionOnMap)
         {
+            structures = new List<IStructure>();
             this.positionOnMap = positionOnMap;
             height = 0;
         }
 
         public override string ToString()
-            => $"{positionOnMap} {height}";
+            => $"{positionOnMap} {height} \n {string.Join('\n', structures)}";
     }
 }

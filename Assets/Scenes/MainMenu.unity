@@ -3816,7 +3816,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
   mapBuilder:
-    size: {x: 8, y: 8}
+    size: {x: 12, y: 12}
     startingKingsPositions: []
     _mapSceneConstructor:
       _mapMaterials:

@@ -6,19 +6,23 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using Assets.Scripts.MapGenerating.Structures.Generators;
 namespace Assets.Scripts.MapGenerating
 {
     public class MapManager : MonoNetworkSingleton<MapManager>
     {
         public CellData[,] Map => mapBuilder.map;
         public MapGenerator mapBuilder;
-        public IMapPatternGeneration pattern = new Hills();
-            /*= new PatternScripts.Terrain(new List<PatternScripts.Terrain.TerrainLayer>()
+        public IMapPatternGeneration pattern = new PatternScripts.Terrain(
+            new List<PatternScripts.Terrain.TerrainLayer>()
             {
                 new PatternScripts.Terrain.TerrainLayer(10_000f, .1f, new IntMinMax(1, 7), new IntMinMax()),
                 new PatternScripts.Terrain.TerrainLayer(10_001f, .1f, new IntMinMax(4, 9), new IntMinMax(4, 7))
-            });*/
+            }, 
+            new List<(IStructureGenerator.Type, IStructureGenerator)>()
+            {
+                (IStructureGenerator.Type.Forest, new ForestGeneration(.4f, .6f, 10_000f, .1f, new IntMinMax(1, 4))),
+            });
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
@@ -80,8 +84,8 @@ namespace Assets.Scripts.MapGenerating
         [ClientRpc]
         private void SyncGeneratingTerrainPatternClientRpc(PatternScripts.Terrain pattern)
         {
-            //if (GameManager.Singleton.isHost)
-            //    return;
+            if (GameManager.Singleton.isHost)
+                return;
 
             this.pattern = pattern;
         }
