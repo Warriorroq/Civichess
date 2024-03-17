@@ -2083,7 +2083,7 @@ MonoBehaviour:
     m_InternalValue: 0
   _currentTime:
     m_InternalValue: 86400
-  _startRoundTimer: 12
+  _startRoundTimer: 45
   _additionalTimePerRound: 0.5
 --- !u!1 &705507993
 GameObject:
@@ -3875,15 +3875,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
-  mapBuilder:
-    size: {x: 36, y: 36}
-    startingKingsPositions: []
-    _mapSceneConstructor:
-      _mapMaterials:
-      - {fileID: 2100000, guid: 3ac50557aba068b4990d8af970b28f93, type: 2}
-      - {fileID: 2100000, guid: 005641b20af2d8d499d1c8faf0898989, type: 2}
-      _cellSize: {x: 1, y: 0.5, z: 1}
-      _cellPrefab: {fileID: 2178808022860471738, guid: b23c5b6f6c72b0a4da9ff0426ea1a979, type: 3}
+  _size: {x: 12, y: 12}
+  _mapSceneConstructor:
+    _mapMaterials:
+    - {fileID: 2100000, guid: 3ac50557aba068b4990d8af970b28f93, type: 2}
+    - {fileID: 2100000, guid: 005641b20af2d8d499d1c8faf0898989, type: 2}
+    _cellSize: {x: 1, y: 0.5, z: 1}
+    _cellPrefab: {fileID: 2178808022860471738, guid: b23c5b6f6c72b0a4da9ff0426ea1a979, type: 3}
 --- !u!1 &1511484358
 GameObject:
   m_ObjectHideFlags: 0

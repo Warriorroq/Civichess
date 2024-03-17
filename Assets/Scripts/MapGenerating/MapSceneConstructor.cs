@@ -22,6 +22,7 @@ namespace Assets.Scripts.MapGenerating
                     var instance = GameObject.Instantiate(_cellPrefab, new Vector3(_cellSize.x * position.x, 0, _cellSize.z * position.y), Quaternion.identity);
                     instance.SetCellPosition(position);
                     instance.transform.parent = parentTransform;
+                    instance.cellRenderer.material = GetMaterialByIndex(position.x + position.y);
                 }
 
                 position.y = 0;

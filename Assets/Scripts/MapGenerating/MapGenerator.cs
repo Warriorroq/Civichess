@@ -15,6 +15,14 @@ namespace Assets.Scripts.MapGenerating
 
         [SerializeField] private MapSceneConstructor _mapSceneConstructor;
 
+        public MapGenerator(Vector2Int size, MapSceneConstructor mapSceneConstructor)
+        {
+            this.size = size;
+            this.map = new CellData[size.x, size.y];
+            this.startingKingsPositions = new List<Vector2Int>();
+            _mapSceneConstructor = mapSceneConstructor;
+        }
+
         public Material GetMaterialByIndex(int index)
             => _mapSceneConstructor.GetMaterialByIndex(index);
         public void GenerateMap(IMapPatternGeneration pattern)
@@ -28,5 +36,8 @@ namespace Assets.Scripts.MapGenerating
         {
             _mapSceneConstructor.GenerateCellsOnScene(size, map);
         }
+
+        public CellMap GetMap()
+            => new CellMap(size, map);
     }
 }

@@ -11,8 +11,8 @@ namespace Assets.Scripts.MapGenerating
 {
     public class MapManager : MonoNetworkSingleton<MapManager>
     {
-        public CellData[,] Map => mapBuilder.map;
-        public MapGenerator mapBuilder;
+        public CellMap map;
+
         public IMapPatternGeneration pattern = new PatternScripts.Terrain(
             new List<PatternScripts.Terrain.TerrainLayer>()
             {
@@ -24,13 +24,17 @@ namespace Assets.Scripts.MapGenerating
                 (IStructureGenerator.Type.Forest, new ForestGeneration(.4f, .6f, 10_000f, .1f, new IntMinMax(1, 4))),
             });
 
+        [SerializeField] private MapSceneConstructor _mapSceneConstructor;
+
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             if (scene.name != "Game")
                 return;
 
+            var mapBuilder = new MapGenerator(map.size, _mapSceneConstructor);
             mapBuilder.GenerateMap(pattern);
             mapBuilder.GenerateCellsOnScene();
+            map = mapBuilder.GetMap();
         }
 
         private void OnEnable()
@@ -52,7 +56,7 @@ namespace Assets.Scripts.MapGenerating
         [ServerRpc(RequireOwnership = false)]
         public void SyncMapServerRpc()
         {
-            SyncMapSizeWithPlayersClientRpc(mapBuilder.size);
+            SyncMapSizeWithPlayersClientRpc(map.size);
             SyncPattern();
         }
 
@@ -77,8 +81,7 @@ namespace Assets.Scripts.MapGenerating
             if (GameLobbyManager.Singleton.isHost)
                 return;
 
-            mapBuilder.size = size;
-            mapBuilder.map = new CellData[size.x, size.y];
+            map.size = size;
         }
 
         [ClientRpc]

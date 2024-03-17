@@ -12,7 +12,7 @@ namespace Assets.Scripts.MapGenerating
         public Transform topTransform;
         private void Start()
         {
-            cellData = MapManager.Singleton.Map[cellPositionOnMap.x, cellPositionOnMap.y];
+            cellData = MapManager.Singleton.map[cellPositionOnMap.x, cellPositionOnMap.y];
             cellData.cellRepresentation = transform;
 
             if (cellData is not null)
@@ -27,8 +27,6 @@ namespace Assets.Scripts.MapGenerating
             Vector3 additionalScale = transform.localScale.y * Vector3.up * cellData.height;
             transform.localScale = transform.localScale + additionalScale;
             transform.localPosition += additionalScale / 2;
-
-            cellRenderer.material = MapManager.Singleton.mapBuilder.GetMaterialByIndex(cellPositionOnMap.x + cellPositionOnMap.y);
 
             foreach (var structure in cellData.structures)
                 structure.CenerateStructureOnCell(this);
