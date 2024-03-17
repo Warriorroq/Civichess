@@ -19,7 +19,7 @@ namespace Assets.Scripts.MapGenerating
             => _mapSceneConstructor.GetMaterialByIndex(index);
         public void GenerateMap(IMapPatternGeneration pattern)
         {
-            int teamsCount = GameManager.Singleton.party.teams.Count;
+            int teamsCount = GameLobbyManager.Singleton.party.teams.Count;
             map = pattern.GenerateMap(size);
             //startingKingsPositions = pattern.ChooseKingsPositions(teamsCount, size, map).Select(x => x.positionOnMap).ToList();
         }

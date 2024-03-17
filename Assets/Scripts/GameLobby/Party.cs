@@ -97,7 +97,7 @@ namespace Assets.Scripts.GameLobby
         public void SyncTeams()
         {
             foreach (var teamData in teams.Values)
-                GameManager.Singleton.SyncTeamClientRpc(teamData.teamColor, teamData.name, teamData.playersSteamIds.ToArray());
+                GameLobbyManager.Singleton.SyncTeamClientRpc(teamData.teamColor, teamData.name, teamData.playersSteamIds.ToArray());
         }
 
         public void PrepareTeams()

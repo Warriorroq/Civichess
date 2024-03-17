@@ -5,6 +5,6 @@ namespace Assets.Scripts.UI
     public class ExitButton : MonoBehaviour
     {
         public void Quit()
-            => GameManager.Singleton.Quit();
+            => GameLobbyManager.Singleton.Quit();
     }
 }

@@ -48,7 +48,7 @@ namespace Assets.Scripts.GameLobby
         {
             NetworkManager.Singleton.OnServerStarted += OnServerStarted;
             NetworkManager.Singleton.StartHost();
-            GameManager.Singleton.myClientId = NetworkManager.Singleton.LocalClientId;
+            GameLobbyManager.Singleton.myClientId = NetworkManager.Singleton.LocalClientId;
             currentLobby = await SteamMatchmaking.CreateLobbyAsync(maxMembers);
         }
 
@@ -57,7 +57,7 @@ namespace Assets.Scripts.GameLobby
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
             NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnectCallback;
             _transport.targetSteamId = sId;
-            GameManager.Singleton.myClientId = NetworkManager.Singleton.LocalClientId;
+            GameLobbyManager.Singleton.myClientId = NetworkManager.Singleton.LocalClientId;
             if (NetworkManager.Singleton.StartClient())
                 Debug.Log("Client started");
         }
@@ -69,7 +69,7 @@ namespace Assets.Scripts.GameLobby
                 return;
             RemoveCallbacksOnNetworkManager();
             NetworkManager.Singleton.Shutdown(true);
-            GameManager.Singleton.Disconnect();
+            GameLobbyManager.Singleton.Disconnect();
         }
 
         public async void JoinLobbyWithID(TMP_InputField lobbyIDInputField)
@@ -112,13 +112,13 @@ namespace Assets.Scripts.GameLobby
             if (joinedRoom != RoomEnter.Success)
                 return;
             currentLobby = lobby;
-            GameManager.Singleton.ConnectedAsClient();
+            GameLobbyManager.Singleton.ConnectedAsClient();
         }
 
         private void OnLobbyGameCreated(Lobby lobby, uint ip, ushort port, SteamId steamId)
         {            
             currentLobby?.SendChatString($"[Server] Lobby was created id - {lobby.Id}");
-            GameManager.Singleton.AddPlayerToDictionaryServerRPC(SteamClient.SteamId, SteamClient.Name, NetworkManager.Singleton.LocalClientId, UnityEngine.Color.black);
+            GameLobbyManager.Singleton.AddPlayerToDictionaryServerRPC(SteamClient.SteamId, SteamClient.Name, NetworkManager.Singleton.LocalClientId, UnityEngine.Color.black);
         }
 
         private void OnLobbyInvite(Friend friend, Lobby lobby)
@@ -129,7 +129,7 @@ namespace Assets.Scripts.GameLobby
         private void OnLobbyMemberLeave(Lobby lobby, Friend friend)
         {
             currentLobby?.SendChatString($"[Server] Member leaved {friend.Name}");
-            GameManager.Singleton.RemovePlayerFromDictionaryServerRPC(friend.Id);
+            GameLobbyManager.Singleton.RemovePlayerFromDictionaryServerRPC(friend.Id);
         }
 
         private void OnLobbyMemberJoined(Lobby lobby, Friend friend)
@@ -163,13 +163,13 @@ namespace Assets.Scripts.GameLobby
 
         private void OnClientConnectedCallback(ulong clientId)
         {
-            GameManager.Singleton.AddPlayerToDictionaryServerRPC(SteamClient.SteamId, SteamClient.Name, clientId, UnityEngine.Color.black);
-            GameManager.Singleton.myClientId = clientId;
+            GameLobbyManager.Singleton.AddPlayerToDictionaryServerRPC(SteamClient.SteamId, SteamClient.Name, clientId, UnityEngine.Color.black);
+            GameLobbyManager.Singleton.myClientId = clientId;
         }
 
         private void OnServerStarted()
         {
-            GameManager.Singleton.HostCreated();
+            GameLobbyManager.Singleton.HostCreated();
         }
 
     }

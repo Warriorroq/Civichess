@@ -74,7 +74,7 @@ namespace Assets.Scripts.MapGenerating
         [ClientRpc]
         private void SyncMapSizeWithPlayersClientRpc(Vector2Int size)
         {
-            if (GameManager.Singleton.isHost)
+            if (GameLobbyManager.Singleton.isHost)
                 return;
 
             mapBuilder.size = size;
@@ -84,7 +84,7 @@ namespace Assets.Scripts.MapGenerating
         [ClientRpc]
         private void SyncGeneratingTerrainPatternClientRpc(PatternScripts.Terrain pattern)
         {
-            if (GameManager.Singleton.isHost)
+            if (GameLobbyManager.Singleton.isHost)
                 return;
 
             this.pattern = pattern;
@@ -93,7 +93,7 @@ namespace Assets.Scripts.MapGenerating
         [ClientRpc]
         private void SyncGeneratingPlanePatternClientRpc(PatternScripts.Plane pattern)
         {
-            if (GameManager.Singleton.isHost)
+            if (GameLobbyManager.Singleton.isHost)
                 return;
 
             this.pattern = pattern;

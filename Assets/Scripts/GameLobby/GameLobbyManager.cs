@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.GameLobby
 {
-    public class GameManager : MonoNetworkSingleton<GameManager>
+    public class GameLobbyManager : MonoNetworkSingleton<GameLobbyManager>
     {
         public bool connected;
         public bool inGame;
@@ -61,8 +61,10 @@ namespace Assets.Scripts.GameLobby
             GameNetworkManager.Singleton.currentLobby?.SetJoinable(false);
             GameNetworkManager.Singleton.currentLobby?.SendChatString($"[Server] Starting game...");
             MapManager.Singleton.SyncMapServerRpc();
+            ResetReadyResultStateServerRpc();
             NetworkManager.SceneManager.LoadScene("Game", LoadSceneMode.Single);
-        }
+            inGame = true;
+        }        
 
         [ClientRpc]
         public void SyncTeamClientRpc(Color teamColor, string name, ulong[] players)
@@ -75,7 +77,7 @@ namespace Assets.Scripts.GameLobby
 
         [ServerRpc(RequireOwnership = false)]
         public void AddPlayerToDictionaryServerRPC(ulong steamId, string steamName, ulong clientId, Color color)
-        {
+        {            
             UpdateClientsPlayerInfoClientRPC(new Party.Player(clientId, steamId, steamName, color));
             foreach (var player in party.playersInfo.Values)
                 UpdateClientsPlayerInfoClientRPC(player);
@@ -83,7 +85,9 @@ namespace Assets.Scripts.GameLobby
 
         [ServerRpc(RequireOwnership = false)]
         public void RemovePlayerFromDictionaryServerRPC(ulong steamId)
-            =>RemoveClientFromDictionaryClientRPC(steamId);
+        {
+            RemoveClientFromDictionaryClientRPC(steamId);
+        }            
 
         [ClientRpc]
         public void RemoveClientFromDictionaryClientRPC(ulong steamId)
@@ -122,5 +126,12 @@ namespace Assets.Scripts.GameLobby
         [ClientRpc]
         public void SyncPlayersReadyStateClientRpc(ulong steamID, bool readyState)
             =>party[steamID].ready = readyState;
+
+        [ServerRpc]
+        public void ResetReadyResultStateServerRpc()
+        {
+            foreach(var key in party.playersInfo.Keys)
+                SyncPlayersReadyStateClientRpc(key, false);
+        }
     }
 }

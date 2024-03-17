@@ -19,7 +19,7 @@ namespace Assets.Scripts.UI
         public void ChangePlayersState()
         {
             SetButtonsState(!_isReady);
-            GameManager.Singleton.AskToChangeMyReadyResultStateServerRpc(SteamClient.SteamId, _isReady);
+            GameLobbyManager.Singleton.AskToChangeMyReadyResultStateServerRpc(SteamClient.SteamId, _isReady);
         }
 
         public void SetButtonsState(bool state)
