@@ -4,7 +4,7 @@ namespace Assets.Scripts.MapGenerating.Structures
 {
     public class Forest : IStructure
     {
-        public static GameObject objPrefab = Resources.Load("TreePrefab") as GameObject;
+        public static GameObject objPrefab = Resources.Load("Prefabs/TreePrefab") as GameObject;
         public ForestDencity forestDencity;
         public void CenerateStructureOnCell(Cell cell)
         {

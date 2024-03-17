@@ -27,5 +27,8 @@ namespace Assets.Scripts.MapGenerating
             set => map[position.x, position.y] = value;
             get => map[position.x, position.y];
         }
+
+        public bool IsPositionIsInBox(Vector2Int position)
+            => position.x >= 0 && position.y >= 0 && position.x < size.x && position.y < size.y;
     }
 }

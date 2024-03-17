@@ -35,6 +35,10 @@ namespace Assets.Scripts.MapGenerating
             mapBuilder.GenerateMap(pattern);
             mapBuilder.GenerateCellsOnScene();
             map = mapBuilder.GetMap();
+            if (!GameLobbyManager.Singleton.isHost)
+                return;
+
+            mapBuilder.GenerateKingsOnScene();
         }
 
         private void OnEnable()

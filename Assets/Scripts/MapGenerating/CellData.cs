@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.MapGenerating.Structures;
+using Assets.Scripts.Units;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,7 @@ namespace Assets.Scripts.MapGenerating
         public int height;
         public List<IStructure> structures;
         public bool isWalkable;
+        public Piece currentPiece;
 
         public CellData(Vector2Int positionOnMap = new Vector2Int())
         {
@@ -20,6 +22,13 @@ namespace Assets.Scripts.MapGenerating
             this.positionOnMap = positionOnMap;
             height = 0;
             isWalkable = true;
+            currentPiece = null;
+            cellRepresentation = null;
+        }
+
+        public int GetMovementPenalty()
+        {
+            return 1;
         }
 
         public override string ToString()

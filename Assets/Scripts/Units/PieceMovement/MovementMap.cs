@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 namespace Assets.Scripts.Units.PieceMovement
 {
-    [Serializable]
     public class MovementMap
     {
         private List<MovementDirection> _movementDirections;
