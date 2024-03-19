@@ -22,7 +22,7 @@ namespace Assets.Scripts.Game.Player
                     return;
                 }
 
-                _cells = _piece.movementMap.GetPossibleSquares(Piece.currentPositionOnMap);
+                _cells = value.movementMap.GetPossibleSquares(value.currentPositionOnMap);
                 ToggleCurrentCells(true);
                 _piece = value;
             }

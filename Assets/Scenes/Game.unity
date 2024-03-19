@@ -398,18 +398,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 966805731}
-        m_TargetAssemblyTypeName: Assets.Scripts.Game.Player.PieceSelector, Assembly-CSharp
-        m_MethodName: OnLeftButtonClick
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
     m_ActionId: e5fc1750-6cb1-4fa1-b31f-73f3a0e3083f
     m_ActionName: Gameplay/New action
   - m_PersistentCalls:
@@ -442,6 +430,26 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+    m_ActionId: d88f1dd8-aec4-4197-9b92-bea208d5eb30
+    m_ActionName: Gameplay/[Mouse] Right click / Delta[/Mouse/rightButton,/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 966805731}
+        m_TargetAssemblyTypeName: Assets.Scripts.Game.Player.PieceSelector, Assembly-CSharp
+        m_MethodName: OnLeftButtonClick
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: dcc83c38-b997-424d-ae1a-2c98e24e1472
+    m_ActionName: Gameplay/[Mouse] Left click[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls:
       - m_Target: {fileID: 966805731}
         m_TargetAssemblyTypeName: Assets.Scripts.Game.Player.PieceSelector, Assembly-CSharp
         m_MethodName: OnRightButtonClick
@@ -454,8 +462,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: d88f1dd8-aec4-4197-9b92-bea208d5eb30
-    m_ActionName: Gameplay/[Mouse] Right click / Delta[/Mouse/rightButton,/Mouse/delta]
+    m_ActionId: cae9f0a8-77d8-42f1-9e58-85c9fb90a4c6
+    m_ActionName: Gameplay/[Mouse] Right click[/Mouse/rightButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
