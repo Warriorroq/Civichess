@@ -15,6 +15,15 @@ namespace Assets.Scripts.MapGenerating
         public List<IStructure> structures;
         public bool isWalkable;
         public Piece currentPiece;
+        public bool IsWalkable
+        {
+            get
+            {
+                if (currentPiece is not null)
+                    return currentPiece.IsTakeable;
+                return isWalkable;
+            }
+        }
 
         public CellData(Vector2Int positionOnMap = new Vector2Int())
         {
@@ -33,5 +42,8 @@ namespace Assets.Scripts.MapGenerating
 
         public override string ToString()
             => $"{positionOnMap} {height} {isWalkable}\n {string.Join('\n', structures)} \n {currentPiece}";
+
+        public int HeightDifferenceWithCell(CellData cellData)
+            => Mathf.Abs(height - cellData.height);
     }
 }

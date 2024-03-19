@@ -7,15 +7,14 @@ namespace Assets.Scripts.Units.PieceMovement
     public class MovementDirection
     {
         protected int _maxHeigthDifference;
-
         protected bool _isAttackable;
+        protected CellMap Map => MapManager.Singleton.map;
+
         public MovementDirection(int maxHeigthDifference, bool isAttackable)
         {
             _maxHeigthDifference = maxHeigthDifference;
             _isAttackable = isAttackable;   
         }
-
-        protected CellMap Map => MapManager.Singleton.map;
 
         public virtual List<Vector2Int> GetPossibleSquares(Vector2Int positionOnMap)
             => new List<Vector2Int>();

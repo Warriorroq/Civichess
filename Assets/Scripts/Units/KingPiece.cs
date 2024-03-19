@@ -22,7 +22,8 @@ namespace Assets.Scripts.Units
         {
             List<MovementDirection> movementDirections = new List<MovementDirection>
             {
-                new MovementDirectionDiagonal(1, 1, true)
+                new MovementDirectionDiagonal(1, 1, true),
+                new MovementDirectionFile(1, 1, true),
             };
 
             _movementMap = new MovementMap(movementDirections);

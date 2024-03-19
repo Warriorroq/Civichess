@@ -25,7 +25,7 @@ namespace Assets.Scripts.Units.PieceMovement
             return possibleSquares;
         }
 
-        private List<Vector2Int> GetPossibleSquaresInDirection(Vector2Int positionOnMap, Vector2Int direction)
+        protected List<Vector2Int> GetPossibleSquaresInDirection(Vector2Int positionOnMap, Vector2Int direction)
         {
             List<Vector2Int> possibleSquares = new List<Vector2Int>();
             int possibleSteps = _distance;
@@ -37,10 +37,10 @@ namespace Assets.Scripts.Units.PieceMovement
                     break;
 
                 CellData cell = Map[newSquare];
-                if (!cell.isWalkable)
+                if (!cell.IsWalkable)
                     break;
 
-                if (Mathf.Abs(cell.height - Map[lastSquare].height) > _maxHeigthDifference)
+                if (cell.HeightDifferenceWithCell(Map[lastSquare]) > _maxHeigthDifference)
                     break;
 
                 if (cell.currentPiece is not null && !_isAttackable)
@@ -49,6 +49,8 @@ namespace Assets.Scripts.Units.PieceMovement
                 possibleSteps -= cell.GetMovementPenalty();
                 lastSquare = newSquare;
                 possibleSquares.Add(lastSquare);
+                if (cell.currentPiece is not null)
+                    break;
             }
 
             return possibleSquares;
@@ -59,17 +61,17 @@ namespace Assets.Scripts.Units.PieceMovement
             int possibleSteps = _distance;
             Vector2Int lastSquare = currentCellPosition;
             Vector2Int direction = (targetCellPosition - currentCellPosition).ToOneVector();
-            while(lastSquare != targetCellPosition && possibleSteps > 0)
+            while(possibleSteps > 0)
             {
                 Vector2Int newSquare = direction + lastSquare;
                 if (!Map.IsPositionIsInBox(newSquare))
                     return false;
 
                 CellData cell = Map[newSquare];
-                if (!cell.isWalkable)
+                if (!cell.IsWalkable)
                     return false;
 
-                if (Mathf.Abs(cell.height - Map[lastSquare].height) > _maxHeigthDifference)
+                if (cell.HeightDifferenceWithCell(Map[lastSquare]) > _maxHeigthDifference)
                     return false;
 
                 if (cell.currentPiece is not null && !_isAttackable)
@@ -77,6 +79,9 @@ namespace Assets.Scripts.Units.PieceMovement
 
                 possibleSteps -= cell.GetMovementPenalty();
                 lastSquare = newSquare;
+
+                if(lastSquare == targetCellPosition && cell.IsWalkable)
+                    return true;
             }
 
             return true;

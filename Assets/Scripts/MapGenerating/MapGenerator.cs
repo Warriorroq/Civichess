@@ -19,8 +19,8 @@ namespace Assets.Scripts.MapGenerating
         public MapGenerator(Vector2Int size, MapSceneConstructor mapSceneConstructor)
         {
             this.size = size;
-            this.map = new CellData[size.x, size.y];
-            this.startingKingsPositions = new List<Vector2Int>();
+            map = new CellData[size.x, size.y];
+            startingKingsPositions = new List<Vector2Int>();
             _mapSceneConstructor = mapSceneConstructor;
         }
 

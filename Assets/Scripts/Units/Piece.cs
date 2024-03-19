@@ -10,6 +10,7 @@ namespace Assets.Scripts.Units
         public Color teamColor;
         public Vector2Int currentPositionOnMap;
         protected MovementMap _movementMap;
+        public virtual bool IsTakeable => true;
 
         protected virtual void Start()
         {
