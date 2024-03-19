@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Units.PieceMovement
+namespace Assets.Scripts.Game.Units.PieceMovement
 {
     public class MovementDirection
     {

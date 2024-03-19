@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.Structures;
-using Assets.Scripts.Units;
+using Assets.Scripts.Game.Units;
 using Unity.Netcode;
 using UnityEngine;
 

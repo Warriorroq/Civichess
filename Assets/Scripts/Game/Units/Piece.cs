@@ -1,15 +1,15 @@
 ﻿using Assets.Scripts.GameLobby;
-using Assets.Scripts.Units.PieceMovement;
+using Assets.Scripts.Game.Units.PieceMovement;
 using UnityEngine;
 
-namespace Assets.Scripts.Units
+namespace Assets.Scripts.Game.Units
 {
     public class Piece : MonoBehaviour
     {
         public bool isAbleToMove = true;
         public Color teamColor;
         public Vector2Int currentPositionOnMap;
-        protected MovementMap _movementMap;
+        public MovementMap movementMap;
         public virtual bool IsTakeable => true;
 
         protected virtual void Start()

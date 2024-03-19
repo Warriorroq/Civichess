@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEngine.GridBrushBase;
 
-namespace Assets.Scripts.Camera
+namespace Assets.Scripts.Game.Player.Camera
 {
     public class CameraDragMovement : MonoBehaviour
     {

@@ -398,6 +398,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 966805731}
+        m_TargetAssemblyTypeName: Assets.Scripts.Game.Player.PieceSelector, Assembly-CSharp
+        m_MethodName: OnLeftButtonClick
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: e5fc1750-6cb1-4fa1-b31f-73f3a0e3083f
     m_ActionName: Gameplay/New action
   - m_PersistentCalls:
@@ -420,6 +432,18 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 966805729}
         m_TargetAssemblyTypeName: Assets.Scripts.Camera.CameraDragMovement, Assembly-CSharp
+        m_MethodName: OnRightButtonClick
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 966805731}
+        m_TargetAssemblyTypeName: Assets.Scripts.Game.Player.PieceSelector, Assembly-CSharp
         m_MethodName: OnRightButtonClick
         m_Mode: 0
         m_Arguments:
@@ -731,6 +755,7 @@ GameObject:
   - component: {fileID: 966805728}
   - component: {fileID: 966805729}
   - component: {fileID: 966805730}
+  - component: {fileID: 966805731}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -857,6 +882,23 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   _cellText: {fileID: 1563986552}
+--- !u!114 &966805731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 966805724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d473da709e600747968dc86fe486739, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cells: []
+  _piece: {fileID: 0}
+  _mask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &1044590986
 GameObject:
   m_ObjectHideFlags: 0

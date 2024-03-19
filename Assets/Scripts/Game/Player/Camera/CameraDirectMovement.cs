@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Assets.Scripts.Camera
+namespace Assets.Scripts.Game.Player.Camera
 {
     public class CameraDirectMovement : MonoBehaviour
     {

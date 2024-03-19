@@ -20,7 +20,7 @@ namespace Assets.Scripts.GameLobby
         public UnityEvent onDisconnect;
 
         public Party party;
-
+        public Party.Player player => party.LocalPlayerData;
         public void HostCreated()
         {
             isHost = NetworkManager.Singleton.IsHost;

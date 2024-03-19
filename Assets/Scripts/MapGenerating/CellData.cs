@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.MapGenerating.Structures;
-using Assets.Scripts.Units;
+using Assets.Scripts.Game.Units;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +9,7 @@ namespace Assets.Scripts.MapGenerating
     [Serializable]
     public class CellData
     {
-        public Transform cellRepresentation;
+        public Cell cellRepresentation;
         public Vector2Int positionOnMap;
         public int height;
         public List<IStructure> structures;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.GameLobby;
+using System;
 using UnityEngine;
 
 namespace Assets.Scripts.MapGenerating
@@ -10,10 +11,12 @@ namespace Assets.Scripts.MapGenerating
         public CellData cellData = null;
         public Vector2Int cellPositionOnMap;
         public Transform topTransform;
+        [SerializeField] private MeshRenderer _cellHighlight;
         private void Start()
         {
+            _cellHighlight.material.color = GameLobbyManager.Singleton.player.color;
             cellData = MapManager.Singleton.map[cellPositionOnMap.x, cellPositionOnMap.y];
-            cellData.cellRepresentation = transform;
+            cellData.cellRepresentation = this;
 
             if (cellData is not null)
                 ApplyCellDataOnCell();
@@ -31,6 +34,9 @@ namespace Assets.Scripts.MapGenerating
             foreach (var structure in cellData.structures)
                 structure.CenerateStructureOnCell(this);
         }
+
+        public void ToggleCellHighLight(bool state)
+            =>_cellHighlight.gameObject.SetActive(state);
 
         public override string ToString()
             => $"{cellData}";

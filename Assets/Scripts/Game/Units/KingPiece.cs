@@ -1,9 +1,9 @@
 ﻿using Assets.Scripts.MapGenerating;
-using Assets.Scripts.Units.PieceMovement;
+using Assets.Scripts.Game.Units.PieceMovement;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Units
+namespace Assets.Scripts.Game.Units
 {
     public class KingPiece : Piece
     {
@@ -26,7 +26,7 @@ namespace Assets.Scripts.Units
                 new MovementDirectionFile(1, 1, true),
             };
 
-            _movementMap = new MovementMap(movementDirections);
+            movementMap = new MovementMap(movementDirections);
         }
     }
 }
