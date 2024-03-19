@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Assets.Scripts.Game.Units
 {
-    public class Pawn : Piece
+    public class PawnPiece : Piece
     {
         protected override void SetUpMovementMap()
         {

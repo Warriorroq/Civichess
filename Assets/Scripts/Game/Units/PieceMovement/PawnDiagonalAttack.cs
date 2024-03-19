@@ -41,14 +41,15 @@ namespace Assets.Scripts.Game.Units.PieceMovement
                     return false;
 
                 CellData cell = Map[newSquare];
-                if (!cell.CouldBeOccupiedByPiece(_owner))
-                    return false;
 
                 if (cell.HeightDifferenceWithCell(Map[lastSquare]) > _maxHeigthDifference)
                     return false;
 
-                if (_isAttackable && cell.currentPiece is not null)
-                    return newSquare == targetCellPosition;
+                if (!cell.CouldBeOccupiedByPiece(_owner))
+                    return false;
+
+                if(cell.currentPiece is null)
+                    return false;
 
                 possibleSteps -= cell.GetMovementPenalty();
                 lastSquare = newSquare;
@@ -57,7 +58,7 @@ namespace Assets.Scripts.Game.Units.PieceMovement
                     return true;
             }
 
-            return true;
+            return false;
         }
     }
 }

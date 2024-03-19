@@ -3888,7 +3888,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
   map:
-    size: {x: 36, y: 36}
+    size: {x: 9, y: 9}
   _mapSceneConstructor:
     _mapMaterials:
     - {fileID: 2100000, guid: 3ac50557aba068b4990d8af970b28f93, type: 2}

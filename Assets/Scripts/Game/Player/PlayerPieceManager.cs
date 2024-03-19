@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 namespace Assets.Scripts.Game.Player
 {
-    public class PieceSelector : MonoBehaviour
+    public class PlayerPieceManager : MonoBehaviour
     {
         public Piece Piece
         {
@@ -31,7 +31,7 @@ namespace Assets.Scripts.Game.Player
         [SerializeField] private List<Vector2Int> _cells = new List<Vector2Int>();
         [SerializeField] private Piece _piece;
         [SerializeField] protected LayerMask _mask;
-        public void OnLeftButtonClick(InputAction.CallbackContext context)
+        public void SelectPiece(InputAction.CallbackContext context)
         {
             Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -49,10 +49,10 @@ namespace Assets.Scripts.Game.Player
                 Piece = piece;
         }
 
-        public void OnRightButtonClick(InputAction.CallbackContext context)
+        public void MovePiece(InputAction.CallbackContext context)
         {
             //Movement
-            Piece = null;
+            //Piece = null;
         }
 
         private void ToggleCurrentCells(bool state)

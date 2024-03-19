@@ -32,6 +32,6 @@ namespace Assets.Scripts.MapGenerating.Structures
             => $"Forest: {forestDencity}";
 
         public virtual int GetPenalty()
-            => forestDencity == ForestDencity.low ? 1 : 10;
+            => forestDencity == ForestDencity.low ? 1 : 7;
     }
 }

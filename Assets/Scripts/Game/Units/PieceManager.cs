@@ -9,13 +9,13 @@ namespace Assets.Scripts.Game.Units
     {
         private static ulong _lastID = 0;
         private KingPiece _kingPrefab;
-        private Pawn _pawnPrefab;
+        private PawnPiece _pawnPrefab;
 
         [ServerRpc]
         public void AskForKingsSpawnServerRpc(Vector2Int position, Color color)
         {
             SpawnKingOnMapClientRpc(position, color, _lastID++);
-            SpawnPawnOnMapClientRpc(position + Vector2Int.one, color, _lastID++);
+            SpawnPawnOnMapClientRpc(position + Vector2Int.right, color, _lastID++);
         }
 
         [ClientRpc]
@@ -33,7 +33,7 @@ namespace Assets.Scripts.Game.Units
         public void SpawnPawnOnMapClientRpc(Vector2Int position, Color color, ulong pieceID)
         {
             if (_pawnPrefab is null)
-                _pawnPrefab = (Resources.Load("Prefabs/Pawn") as GameObject).GetComponent<Pawn>();
+                _pawnPrefab = (Resources.Load("Prefabs/Pawn") as GameObject).GetComponent<PawnPiece>();
 
             var instance = GameObject.Instantiate(_pawnPrefab);
             instance.Init(position, color, pieceID);

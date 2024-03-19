@@ -34,7 +34,7 @@ namespace Assets.Scripts.MapGenerating.PatternScripts
             Vector2Int half = size / 2;
             float radians = Random.Range(angle - delta, angle + delta) * Mathf.Deg2Rad;
             Vector2 direction = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians)).normalized;
-            direction *= Random.Range(0.3f, 1f);
+            direction *= Random.Range(.2f, .9f);
             Vector2Int cellPosition = new Vector2Int((int)(direction.x * half.x) + half.x, (int)(direction.y * half.y) + half.y);
             return map[cellPosition.x, cellPosition.y];
         }

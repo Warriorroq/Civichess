@@ -46,7 +46,7 @@ namespace Assets.Scripts.Game.Units.PieceMovement
 
                 if (_isAttackable && cell.currentPiece is not null)
                 {
-                    possibleSquares.Add(lastSquare);
+                    possibleSquares.Add(newSquare);
                     break;
                 }
 
