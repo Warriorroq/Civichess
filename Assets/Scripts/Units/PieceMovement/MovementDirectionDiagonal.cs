@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Extensions;
+using Assets.Scripts.MapGenerating;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ namespace Assets.Scripts.Units.PieceMovement
     {
         protected int _distance;
 
-        public MovementDirectionDiagonal(int distance, int maxHeightDifference)  : base(maxHeightDifference)
+        public MovementDirectionDiagonal(int distance, int maxHeightDifference, bool isAttackable)  : base(maxHeightDifference, isAttackable)
         {
             _distance = distance;
         }
@@ -35,14 +36,19 @@ namespace Assets.Scripts.Units.PieceMovement
                 if (!Map.IsPositionIsInBox(newSquare))
                     break;
 
-                if (!Map[newSquare].isWalkable)
+                CellData cell = Map[newSquare];
+                if (!cell.isWalkable)
                     break;
 
-                if (Mathf.Abs(Map[newSquare].height - Map[lastSquare].height) > _maxHeigthDifference)
+                if (Mathf.Abs(cell.height - Map[lastSquare].height) > _maxHeigthDifference)
                     break;
 
-                possibleSteps -= Map[newSquare].GetMovementPenalty();
+                if (cell.currentPiece is not null && !_isAttackable)
+                    break;
+
+                possibleSteps -= cell.GetMovementPenalty();
                 lastSquare = newSquare;
+                possibleSquares.Add(lastSquare);
             }
 
             return possibleSquares;
@@ -59,13 +65,17 @@ namespace Assets.Scripts.Units.PieceMovement
                 if (!Map.IsPositionIsInBox(newSquare))
                     return false;
 
-                if (!Map[newSquare].isWalkable)
+                CellData cell = Map[newSquare];
+                if (!cell.isWalkable)
                     return false;
 
-                if (Mathf.Abs(Map[newSquare].height - Map[lastSquare].height) > _maxHeigthDifference)
+                if (Mathf.Abs(cell.height - Map[lastSquare].height) > _maxHeigthDifference)
                     return false;
 
-                possibleSteps -= Map[newSquare].GetMovementPenalty();
+                if (cell.currentPiece is not null && !_isAttackable)
+                    return false;
+
+                possibleSteps -= cell.GetMovementPenalty();
                 lastSquare = newSquare;
             }
 

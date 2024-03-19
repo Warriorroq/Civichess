@@ -1,10 +1,8 @@
 ﻿using Assets.Scripts.GameLobby;
 using Assets.Scripts.MapGenerating.PatternScripts;
-using Assets.Scripts.Units;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Netcode;
 using UnityEngine;
 
 namespace Assets.Scripts.MapGenerating
@@ -40,18 +38,10 @@ namespace Assets.Scripts.MapGenerating
 
         public void GenerateKingsOnScene()
         {
-            KingPiece kingPrefab = (Resources.Load("Prefabs/King") as GameObject).GetComponent<KingPiece>();
             Queue<Color> teamsColors = new Queue<Color>(GameLobbyManager.Singleton.party.teams.Values.Select(x => x.teamColor).ToList());
 
             foreach (var position in startingKingsPositions)
-            {
-                var instance = GameObject.Instantiate(kingPrefab);
-                var instanceNetworkObject = instance.GetComponent<NetworkObject>();
-                instanceNetworkObject.Spawn();
-
-                instance.SetCellServerRpc(position);
-                instance.teamColor.Value = teamsColors.Dequeue();
-            }
+                PieceManager.Singleton.AskForKingsSpawnServerRpc(position, teamsColors.Dequeue());
         }
 
         public CellMap GetMap()

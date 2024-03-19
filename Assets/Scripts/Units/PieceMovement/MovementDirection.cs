@@ -8,9 +8,11 @@ namespace Assets.Scripts.Units.PieceMovement
     {
         protected int _maxHeigthDifference;
 
-        public MovementDirection(int maxHeigthDifference)
+        protected bool _isAttackable;
+        public MovementDirection(int maxHeigthDifference, bool isAttackable)
         {
             _maxHeigthDifference = maxHeigthDifference;
+            _isAttackable = isAttackable;   
         }
 
         protected CellMap Map => MapManager.Singleton.map;

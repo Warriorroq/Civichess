@@ -7,6 +7,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Assets.Scripts.MapGenerating.Structures.Generators;
+using System.Collections;
 namespace Assets.Scripts.MapGenerating
 {
     public class MapManager : MonoNetworkSingleton<MapManager>
@@ -38,7 +39,13 @@ namespace Assets.Scripts.MapGenerating
             if (!GameLobbyManager.Singleton.isHost)
                 return;
 
-            mapBuilder.GenerateKingsOnScene();
+            StartCoroutine(SpawnKings(mapBuilder));
+        }
+
+        private IEnumerator SpawnKings(MapGenerator builder)
+        {
+            yield return new WaitForSeconds(1.0f);
+            builder.GenerateKingsOnScene();
         }
 
         private void OnEnable()

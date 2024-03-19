@@ -32,6 +32,6 @@ namespace Assets.Scripts.MapGenerating
         }
 
         public override string ToString()
-            => $"{positionOnMap} {height} \n {string.Join('\n', structures)}";
+            => $"{positionOnMap} {height} {isWalkable}\n {string.Join('\n', structures)} \n {currentPiece}";
     }
 }
