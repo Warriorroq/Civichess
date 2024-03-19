@@ -1053,8 +1053,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 940551886}
-        m_TargetAssemblyTypeName: Assets.Scripts.GameManager, Assembly-CSharp
+      - m_Target: {fileID: 940551885}
+        m_TargetAssemblyTypeName: Assets.Scripts.GameLobby.GameManager, Assembly-CSharp
         m_MethodName: Quit
         m_Mode: 1
         m_Arguments:
@@ -1633,8 +1633,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 940551886}
-        m_TargetAssemblyTypeName: Assets.Scripts.GameManager, Assembly-CSharp
+      - m_Target: {fileID: 940551885}
+        m_TargetAssemblyTypeName: Assets.Scripts.GameLobby.GameManager, Assembly-CSharp
         m_MethodName: RunGame
         m_Mode: 1
         m_Arguments:
@@ -2241,9 +2241,9 @@ GameObject:
   m_Component:
   - component: {fileID: 940551883}
   - component: {fileID: 940551884}
-  - component: {fileID: 940551886}
+  - component: {fileID: 940551885}
   m_Layer: 0
-  m_Name: LobbyManager
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2284,7 +2284,7 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &940551886
+--- !u!114 &940551885
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2293,7 +2293,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 940551882}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 013d6f1ab98ec7849b6d5ccdae9a1c4b, type: 3}
+  m_Script: {fileID: 11500000, guid: a3ab617d6b4d4ab478c38a4f23b7cc7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
@@ -2303,46 +2303,10 @@ MonoBehaviour:
   myClientId: 0
   onConnectAsClient:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 233401244}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1732498441}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
   onDisconnect:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1148212401}
-        m_TargetAssemblyTypeName: Assets.Scripts.UI.PlayerReadyButton, Assembly-CSharp
-        m_MethodName: SetButtonsState
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   party:
     playersInfo:
       _serializedList: []
@@ -2841,8 +2805,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 940551886}
-        m_TargetAssemblyTypeName: Assets.Scripts.GameManager, Assembly-CSharp
+      - m_Target: {fileID: 940551885}
+        m_TargetAssemblyTypeName: Assets.Scripts.GameLobby.GameManager, Assembly-CSharp
         m_MethodName: DebugLobby
         m_Mode: 1
         m_Arguments:
@@ -3759,8 +3723,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 940551886}
-        m_TargetAssemblyTypeName: Assets.Scripts.GameManager, Assembly-CSharp
+      - m_Target: {fileID: 940551885}
+        m_TargetAssemblyTypeName: Assets.Scripts.GameLobby.GameManager, Assembly-CSharp
         m_MethodName: Quit
         m_Mode: 1
         m_Arguments:
@@ -3876,7 +3840,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
   map:
-    size: {x: 12, y: 12}
+    size: {x: 36, y: 36}
   _mapSceneConstructor:
     _mapMaterials:
     - {fileID: 2100000, guid: 3ac50557aba068b4990d8af970b28f93, type: 2}
@@ -4288,7 +4252,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1830243043
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5213,8 +5177,8 @@ MonoBehaviour:
   OnColorChange:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 940551886}
-        m_TargetAssemblyTypeName: Assets.Scripts.GameManager, Assembly-CSharp
+      - m_Target: {fileID: 940551885}
+        m_TargetAssemblyTypeName: Assets.Scripts.GameLobby.GameManager, Assembly-CSharp
         m_MethodName: ChangeLocalPlayersColor
         m_Mode: 0
         m_Arguments:

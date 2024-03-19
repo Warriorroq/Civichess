@@ -14,7 +14,7 @@ namespace Assets.Scripts.MapGenerating
         [SerializeField] private MeshRenderer _cellHighlight;
         private void Start()
         {
-            _cellHighlight.material.color = GameLobbyManager.Singleton.player.color;
+            _cellHighlight.material.color = GameManager.CurrentPlayer.color;
             cellData = MapManager.Singleton.map[cellPositionOnMap.x, cellPositionOnMap.y];
             cellData.cellRepresentation = this;
 

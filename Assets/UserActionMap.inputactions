@@ -86,24 +86,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
-                },
-                {
-                    "name": "[Mouse] Left click",
-                    "type": "Button",
-                    "id": "dcc83c38-b997-424d-ae1a-2c98e24e1472",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "[Mouse] Right click",
-                    "type": "Button",
-                    "id": "cae9f0a8-77d8-42f1-9e58-85c9fb90a4c6",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -227,28 +209,6 @@
                     "action": "[Mouse] Right click / Delta",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "f1d19d7b-2d30-4d69-bfe3-209b6bf31e11",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "[Mouse] Left click",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8fe3f5c3-c2f8-4e08-a75a-022cd050b609",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "[Mouse] Right click",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         }

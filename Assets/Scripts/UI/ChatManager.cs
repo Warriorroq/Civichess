@@ -77,7 +77,7 @@ namespace Assets.Scripts.UI
         public void AskForSyncChatMessagesServerRPC(ulong steamClientId)
         {
             ClientRpcSendParams sendParams = new ClientRpcSendParams();
-            sendParams.TargetClientIds = new[] { GameLobbyManager.Singleton.party[steamClientId].localId };
+            sendParams.TargetClientIds = new[] { GameManager.Singleton.party[steamClientId].localId };
             var rpcParams = new ClientRpcParams() { Send = sendParams };
 
             foreach (var msg in _messageHistory)

@@ -13,10 +13,10 @@ public class RoundManager : MonoNetworkSingleton<RoundManager>
 
     private void Update()
     {
-        if (!GameLobbyManager.Singleton.isHost)
+        if (!GameManager.Singleton.isHost)
             return;
 
-        if (!GameLobbyManager.Singleton.inGame)
+        if (!GameManager.Singleton.inGame)
             return;
 
         if (_currentTime.Value < 0 || IsEveryOneIsReady())
@@ -26,7 +26,7 @@ public class RoundManager : MonoNetworkSingleton<RoundManager>
     }
     private bool IsEveryOneIsReady()
     {
-        Party party = GameLobbyManager.Singleton.party;
+        Party party = GameManager.Singleton.party;
         foreach(var player in party.playersInfo.Values)
         {
             if (!player.ready)
@@ -37,7 +37,7 @@ public class RoundManager : MonoNetworkSingleton<RoundManager>
     }
     private void ChangeRound()
     {
-        GameLobbyManager.Singleton.ResetReadyResultStateServerRpc();
+        GameManager.Singleton.ResetReadyResultStateServerRpc();
         round.Value++;
         _currentTime.Value = round.Value * _additionalTimePerRound + _startRoundTimer;
     }

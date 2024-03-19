@@ -6,6 +6,7 @@ namespace Assets.Scripts.Game.Units
 {
     public class Piece : MonoBehaviour
     {
+        public ulong Id;
         public bool isAbleToMove = true;
         public Color teamColor;
         public Vector2Int currentPositionOnMap;
@@ -14,21 +15,24 @@ namespace Assets.Scripts.Game.Units
 
         protected virtual void Start()
         {
-            if(GameLobbyManager.Singleton.isHost)
+            if (GameManager.Singleton.isHost)
                 RoundManager.Singleton.round.OnValueChanged += ResetPiece;
 
             SetUpMovementMap();
         }
 
         private void ResetPiece(int previousValue, int newValue)
-            =>isAbleToMove = true;
+            => isAbleToMove = true;
 
         public virtual void OnDestroy()
         {
-            if (GameLobbyManager.Singleton.isHost)
+            if (GameManager.Singleton.isHost)
                 RoundManager.Singleton.round.OnValueChanged -= ResetPiece;
         }
 
-        protected virtual void SetUpMovementMap(){}
+        protected virtual void SetUpMovementMap() { }
+
+        public override string ToString()
+            => $"{GetType().Name} {Id}";
     }
 }

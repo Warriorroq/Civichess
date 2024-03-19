@@ -12,6 +12,8 @@ namespace Assets.Scripts.GameLobby
     {
         [SerializedDictionary("steam Id", "Player Data")]
         public SerializedDictionary<ulong, Player> playersInfo;
+
+        [SerializedDictionary("Team Color", "Team Data")]
         public SerializedDictionary<Color, Team> teams;
         public Player LocalPlayerData => this[SteamClient.SteamId.Value];
 
@@ -20,6 +22,17 @@ namespace Assets.Scripts.GameLobby
         {
             get => playersInfo[index];
             set => playersInfo[index] = value;
+        }
+
+        public Team GetTeamByPlayerId(ulong id)
+        { 
+            foreach(var team in teams.Values)
+            {
+                if(team.ContainsPlayer(id))
+                    return team;
+            }    
+
+            return null;
         }
 
         public void ApplyRegime()
@@ -38,7 +51,16 @@ namespace Assets.Scripts.GameLobby
         {
             if (!playersInfo.ContainsKey(steamId))
                 return;
+            TryToRemoveTeam(steamId);
             playersInfo.Remove(steamId);
+        }
+
+        private void TryToRemoveTeam(ulong steamId)
+        {
+            Team team = GetTeamByPlayerId(steamId);
+            team?.playersSteamIds.Remove(steamId);
+            if (team.playersSteamIds.Count == 0)
+                teams.Remove(team.teamColor);
         }
 
         public void AddPlayer(ulong steamId, string steamName, ulong clientId, Color color)
@@ -93,7 +115,7 @@ namespace Assets.Scripts.GameLobby
         public void SyncTeams()
         {
             foreach (var teamData in teams.Values)
-                GameLobbyManager.Singleton.SyncTeamClientRpc(teamData.teamColor, teamData.name, teamData.playersSteamIds.ToArray());
+                GameManager.Singleton.SyncTeamClientRpc(teamData.teamColor, teamData.name, teamData.playersSteamIds.ToArray());
         }
 
         public void PrepareTeams()

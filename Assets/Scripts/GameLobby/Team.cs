@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Assets.Scripts.Game.Units;
+using AYellowpaper.SerializedCollections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +13,7 @@ namespace Assets.Scripts.GameLobby
         public string name;
         public Color teamColor;
         public List<ulong> playersSteamIds;
+        public SerializedDictionary<ulong, Piece> pieces;
 
         public Team(Color teamColor, string name, params ulong[] players)
         {

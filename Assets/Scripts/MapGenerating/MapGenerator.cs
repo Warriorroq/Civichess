@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.GameLobby;
+﻿using Assets.Scripts.Game.Units;
+using Assets.Scripts.GameLobby;
 using Assets.Scripts.MapGenerating.PatternScripts;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace Assets.Scripts.MapGenerating
             => _mapSceneConstructor.GetMaterialByIndex(index);
         public void GenerateMap(IMapPatternGeneration pattern)
         {
-            int teamsCount = GameLobbyManager.Singleton.party.teams.Count;
+            int teamsCount = GameManager.Singleton.party.teams.Count;
             map = pattern.GenerateMap(size);
             startingKingsPositions = pattern.ChooseKingsPositions(teamsCount, size, map).Select(x => x.positionOnMap).ToList();
         }
@@ -38,7 +39,7 @@ namespace Assets.Scripts.MapGenerating
 
         public void GenerateKingsOnScene()
         {
-            Queue<Color> teamsColors = new Queue<Color>(GameLobbyManager.Singleton.party.teams.Values.Select(x => x.teamColor).ToList());
+            Queue<Color> teamsColors = new Queue<Color>(GameManager.Singleton.party.teams.Values.Select(x => x.teamColor).ToList());
 
             foreach (var position in startingKingsPositions)
                 PieceManager.Singleton.AskForKingsSpawnServerRpc(position, teamsColors.Dequeue());

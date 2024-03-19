@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.GameLobby
 {
-    public class GameLobbyManager : MonoNetworkSingleton<GameLobbyManager>
+    public class GameManager : MonoNetworkSingleton<GameManager>
     {
         public bool connected;
         public bool inGame;
@@ -20,7 +20,10 @@ namespace Assets.Scripts.GameLobby
         public UnityEvent onDisconnect;
 
         public Party party;
-        public Party.Player player => party.LocalPlayerData;
+
+        public static Party.Player CurrentPlayer => Singleton.party.LocalPlayerData;
+        public static Team CurrentTeam => Singleton.party.GetTeamByPlayerId(SteamClient.SteamId);
+
         public void HostCreated()
         {
             isHost = NetworkManager.Singleton.IsHost;

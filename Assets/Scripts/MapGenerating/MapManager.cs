@@ -36,7 +36,7 @@ namespace Assets.Scripts.MapGenerating
             mapBuilder.GenerateMap(pattern);
             mapBuilder.GenerateCellsOnScene();
             map = mapBuilder.GetMap();
-            if (!GameLobbyManager.Singleton.isHost)
+            if (!GameManager.Singleton.isHost)
                 return;
 
             StartCoroutine(SpawnKings(mapBuilder));
@@ -89,7 +89,7 @@ namespace Assets.Scripts.MapGenerating
         [ClientRpc]
         private void SyncMapSizeWithPlayersClientRpc(Vector2Int size)
         {
-            if (GameLobbyManager.Singleton.isHost)
+            if (GameManager.Singleton.isHost)
                 return;
 
             map.size = size;
@@ -98,7 +98,7 @@ namespace Assets.Scripts.MapGenerating
         [ClientRpc]
         private void SyncGeneratingTerrainPatternClientRpc(PatternScripts.Terrain pattern)
         {
-            if (GameLobbyManager.Singleton.isHost)
+            if (GameManager.Singleton.isHost)
                 return;
 
             this.pattern = pattern;
@@ -107,7 +107,7 @@ namespace Assets.Scripts.MapGenerating
         [ClientRpc]
         private void SyncGeneratingPlanePatternClientRpc(PatternScripts.Plane pattern)
         {
-            if (GameLobbyManager.Singleton.isHost)
+            if (GameManager.Singleton.isHost)
                 return;
 
             this.pattern = pattern;

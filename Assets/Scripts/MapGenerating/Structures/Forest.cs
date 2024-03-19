@@ -30,5 +30,8 @@ namespace Assets.Scripts.MapGenerating.Structures
 
         public override string ToString()
             => $"Forest: {forestDencity}";
+
+        public virtual int GetPenalty()
+            => forestDencity == ForestDencity.low ? 1 : 10;
     }
 }

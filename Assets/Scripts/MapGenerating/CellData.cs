@@ -37,7 +37,10 @@ namespace Assets.Scripts.MapGenerating
 
         public int GetMovementPenalty()
         {
-            return 1;
+            int penalty = 1;
+            foreach (IStructure structure in structures)
+                penalty += structure.GetPenalty();
+            return penalty;
         }
 
         public override string ToString()

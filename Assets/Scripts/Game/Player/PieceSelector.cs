@@ -43,12 +43,9 @@ namespace Assets.Scripts.Game.Player
 
             Piece piece = cell.cellData.currentPiece;
             if (piece is null)
-            {
-                Piece = null;
                 return;
-            }
 
-            if(piece.teamColor == GameLobbyManager.Singleton.player.color)
+            if(piece.teamColor == GameManager.CurrentPlayer.color)
                 Piece = piece;
         }
 
