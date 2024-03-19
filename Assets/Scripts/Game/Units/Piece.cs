@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.GameLobby;
 using Assets.Scripts.Game.Units.PieceMovement;
 using UnityEngine;
+using Assets.Scripts.MapGenerating;
 
 namespace Assets.Scripts.Game.Units
 {
@@ -19,6 +20,23 @@ namespace Assets.Scripts.Game.Units
                 RoundManager.Singleton.round.OnValueChanged += ResetPiece;
 
             SetUpMovementMap();
+            PlacePieceOnTheMap();
+        }
+
+        public void Init(Vector2Int position, Color color, ulong pieceID)
+        {
+            Id = pieceID;
+            currentPositionOnMap = position;
+            teamColor = color;
+        }
+
+        private void PlacePieceOnTheMap()
+        {
+            CellData cellData = MapManager.Singleton.map[currentPositionOnMap];
+            transform.position = cellData.cellRepresentation.topTransform.position;
+            var meshRenderer = GetComponentInChildren<MeshRenderer>();
+            meshRenderer.material = new Material(meshRenderer.material) {color = teamColor};
+            cellData.currentPiece = this;
         }
 
         private void ResetPiece(int previousValue, int newValue)

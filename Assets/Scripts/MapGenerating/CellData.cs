@@ -3,6 +3,7 @@ using Assets.Scripts.Game.Units;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 namespace Assets.Scripts.MapGenerating
 {
@@ -33,6 +34,17 @@ namespace Assets.Scripts.MapGenerating
             isWalkable = true;
             currentPiece = null;
             cellRepresentation = null;
+        }
+
+        public bool CouldBeOccupiedByPiece(Piece piece)
+        {
+            if (currentPiece is not null && currentPiece.teamColor == piece.teamColor)
+                return false;
+
+            if (!IsWalkable)
+                return false;
+
+            return true;
         }
 
         public int GetMovementPenalty()

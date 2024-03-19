@@ -5,31 +5,31 @@ using UnityEngine;
 
 namespace Assets.Scripts.Game.Units.PieceMovement
 {
-    public class MovementDirectionDiagonal : MovementDirection
+    public class DirectionDiagonal : Movement
     {
         protected int _distance;
 
-        public MovementDirectionDiagonal(int distance, int maxHeightDifference, bool isAttackable)  : base(maxHeightDifference, isAttackable)
+        public DirectionDiagonal(int distance, int maxHeightDifference, bool isAttackable, Piece owner)  : base(maxHeightDifference, isAttackable, owner)
         {
             _distance = distance;
         }
 
-        public override List<Vector2Int> GetPossibleSquares(Vector2Int positionOnMap)
+        public override List<Vector2Int> GetPossibleSquares()
         {
             List<Vector2Int> possibleSquares = new List<Vector2Int>();
-            possibleSquares.AddRange(GetPossibleSquaresInDirection(positionOnMap, Vector2Int.one));
-            possibleSquares.AddRange(GetPossibleSquaresInDirection(positionOnMap, -Vector2Int.one));
-            possibleSquares.AddRange(GetPossibleSquaresInDirection(positionOnMap, new Vector2Int(1, -1)));
-            possibleSquares.AddRange(GetPossibleSquaresInDirection(positionOnMap, new Vector2Int(-1, 1)));
+            possibleSquares.AddRange(GetPossibleSquaresInDirection(Vector2Int.one));
+            possibleSquares.AddRange(GetPossibleSquaresInDirection( -Vector2Int.one));
+            possibleSquares.AddRange(GetPossibleSquaresInDirection(new Vector2Int(1, -1)));
+            possibleSquares.AddRange(GetPossibleSquaresInDirection(new Vector2Int(-1, 1)));
 
             return possibleSquares;
         }
 
-        protected List<Vector2Int> GetPossibleSquaresInDirection(Vector2Int positionOnMap, Vector2Int direction)
+        protected List<Vector2Int> GetPossibleSquaresInDirection(Vector2Int direction)
         {
             List<Vector2Int> possibleSquares = new List<Vector2Int>();
             int possibleSteps = _distance;
-            Vector2Int lastSquare = positionOnMap;
+            Vector2Int lastSquare = _owner.currentPositionOnMap;
             while (possibleSteps > 0)
             {
                 Vector2Int newSquare = direction + lastSquare;
@@ -37,30 +37,32 @@ namespace Assets.Scripts.Game.Units.PieceMovement
                     break;
 
                 CellData cell = Map[newSquare];
-                if (!cell.IsWalkable)
+
+                if (!cell.CouldBeOccupiedByPiece(_owner))
                     break;
 
                 if (cell.HeightDifferenceWithCell(Map[lastSquare]) > _maxHeigthDifference)
                     break;
 
-                if (cell.currentPiece is not null && !_isAttackable)
+                if (_isAttackable && cell.currentPiece is not null)
+                {
+                    possibleSquares.Add(lastSquare);
                     break;
+                }
 
                 possibleSteps -= cell.GetMovementPenalty();
                 lastSquare = newSquare;
                 possibleSquares.Add(lastSquare);
-                if (cell.currentPiece is not null)
-                    break;
             }
 
             return possibleSquares;
         }
 
-        public override bool IsPossibleToMove(Vector2Int currentCellPosition, Vector2Int targetCellPosition)
+        public override bool IsPossibleToMove(Vector2Int targetCellPosition)
         {
             int possibleSteps = _distance;
-            Vector2Int lastSquare = currentCellPosition;
-            Vector2Int direction = (targetCellPosition - currentCellPosition).ToOneVector();
+            Vector2Int lastSquare = _owner.currentPositionOnMap;
+            Vector2Int direction = (targetCellPosition - lastSquare).ToOneVector();
             while(possibleSteps > 0)
             {
                 Vector2Int newSquare = direction + lastSquare;
@@ -68,19 +70,19 @@ namespace Assets.Scripts.Game.Units.PieceMovement
                     return false;
 
                 CellData cell = Map[newSquare];
-                if (!cell.IsWalkable)
+                if (!cell.CouldBeOccupiedByPiece(_owner))
                     return false;
 
                 if (cell.HeightDifferenceWithCell(Map[lastSquare]) > _maxHeigthDifference)
                     return false;
 
-                if (cell.currentPiece is not null && !_isAttackable)
-                    return false;
+                if (_isAttackable && cell.currentPiece is not null)
+                    return newSquare == targetCellPosition;
 
                 possibleSteps -= cell.GetMovementPenalty();
                 lastSquare = newSquare;
 
-                if(lastSquare == targetCellPosition && cell.IsWalkable)
+                if(lastSquare == targetCellPosition)
                     return true;
             }
 

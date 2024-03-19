@@ -22,7 +22,7 @@ namespace Assets.Scripts.Game.Player
                     return;
                 }
 
-                _cells = value.movementMap.GetPossibleSquares(value.currentPositionOnMap);
+                _cells = value.movementMap.GetPossibleSquares();
                 ToggleCurrentCells(true);
                 _piece = value;
             }
@@ -51,7 +51,8 @@ namespace Assets.Scripts.Game.Player
 
         public void OnRightButtonClick(InputAction.CallbackContext context)
         {
-            //Movement;
+            //Movement
+            Piece = null;
         }
 
         private void ToggleCurrentCells(bool state)
