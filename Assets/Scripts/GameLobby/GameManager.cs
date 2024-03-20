@@ -22,7 +22,7 @@ namespace Assets.Scripts.GameLobby
         public Party party;
 
         public static Party.Player CurrentPlayer => Singleton.party.LocalPlayerData;
-        public static Team CurrentTeam => Singleton.party.GetTeamByPlayerId(SteamClient.SteamId);
+        public static Team CurrentTeam => Singleton.party.GetTeamByPlayerId(CurrentPlayer.steamId);
 
         public void HostCreated()
         {

@@ -60,5 +60,18 @@ namespace Assets.Scripts.MapGenerating
 
         public int HeightDifferenceWithCell(CellData cellData)
             => Mathf.Abs(height - cellData.height);
+
+        public void Occupy(Piece piece)
+        {
+            if(currentPiece is not null)
+                GameObject.Destroy(currentPiece.gameObject);
+            currentPiece = piece;
+            piece.transform.position = cellRepresentation.topTransform.position;
+        }
+
+        public void DeOccupy()
+        {
+            currentPiece = null;
+        }
     }
 }

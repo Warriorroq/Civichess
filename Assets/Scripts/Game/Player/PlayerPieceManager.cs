@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Game.Units;
+using Assets.Scripts.Game.Units.PieceCommand;
 using Assets.Scripts.GameLobby;
 using Assets.Scripts.MapGenerating;
 using System.Collections.Generic;
@@ -33,12 +34,7 @@ namespace Assets.Scripts.Game.Player
         [SerializeField] protected LayerMask _mask;
         public void SelectPiece(InputAction.CallbackContext context)
         {
-            Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (!Physics.Raycast(ray, out hit, 100, _mask))
-                return;
-
-            if (!hit.collider.gameObject.TryGetComponent(out Cell cell))
+            if (!FindCellByRayCastFromCamera(out Cell cell))
                 return;
 
             Piece piece = cell.cellData.currentPiece;
@@ -51,14 +47,38 @@ namespace Assets.Scripts.Game.Player
 
         public void MovePiece(InputAction.CallbackContext context)
         {
-            //Movement
-            //Piece = null;
+            if (Piece is null)
+                return;
+
+            if (!FindCellByRayCastFromCamera(out Cell cell))
+                return;
+
+            Vector2Int targetPosition = cell.cellPositionOnMap;
+            if (!Piece.movementMap.IsPossibleMoveToSquare(targetPosition))
+                return;
+
+            CommandManager.Singleton.AskForApprovingCommandServerRpc(new MovementCommand(targetPosition, Piece.teamColor, Piece.Id));
+            Piece = null;
         }
 
         private void ToggleCurrentCells(bool state)
         {
             foreach (var cellPos in _cells)
                 MapManager.Singleton.map[cellPos].cellRepresentation.ToggleCellHighLight(state);
+        }
+
+        private bool FindCellByRayCastFromCamera(out Cell cell)
+        {
+            cell = null;
+            Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (!Physics.Raycast(ray, out hit, 100, _mask))
+                return false;
+
+            if (hit.collider.gameObject.TryGetComponent(out cell))
+                return true;
+
+            return false;
         }
     }
 }

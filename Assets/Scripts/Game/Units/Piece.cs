@@ -21,6 +21,7 @@ namespace Assets.Scripts.Game.Units
 
             SetUpMovementMap();
             PlacePieceOnTheMap();
+            ApplyMaterial();
         }
 
         public void Init(Vector2Int position, Color color, ulong pieceID)
@@ -31,12 +32,12 @@ namespace Assets.Scripts.Game.Units
         }
 
         private void PlacePieceOnTheMap()
+            =>MapManager.Singleton.map[currentPositionOnMap].Occupy(this);
+
+        private void ApplyMaterial()
         {
-            CellData cellData = MapManager.Singleton.map[currentPositionOnMap];
-            transform.position = cellData.cellRepresentation.topTransform.position;
             var meshRenderer = GetComponentInChildren<MeshRenderer>();
-            meshRenderer.material = new Material(meshRenderer.material) {color = teamColor};
-            cellData.currentPiece = this;
+            meshRenderer.material = new Material(meshRenderer.material) { color = teamColor };
         }
 
         private void ResetPiece(int previousValue, int newValue)
@@ -46,6 +47,9 @@ namespace Assets.Scripts.Game.Units
         {
             if (GameManager.Singleton.isHost)
                 RoundManager.Singleton.round.OnValueChanged -= ResetPiece;
+
+            Team team = GameManager.Singleton.party.teams[teamColor];
+            team.pieces.Remove(Id);
         }
 
         protected virtual void SetUpMovementMap() { }

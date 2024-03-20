@@ -25,7 +25,7 @@ namespace Assets.Scripts.Structures
             Destroy(this);
         }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             if (dontDestroyOnLoad)
                 DontDestroyOnLoad(Singleton.gameObject);
