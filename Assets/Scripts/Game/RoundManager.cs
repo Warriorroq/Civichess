@@ -2,14 +2,16 @@ using Assets.Scripts.GameLobby;
 using Assets.Scripts.Structures;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class RoundManager : MonoNetworkSingleton<RoundManager>
 {
     public NetworkVariable<int> round = new NetworkVariable<int>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> _currentTime = new NetworkVariable<float>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<float> currentTime = new NetworkVariable<float>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
-    public float _startRoundTimer;
-    public float _additionalTimePerRound;
+    public UnityEvent onRoundChange;
+    public float startRoundTimer;
+    public float additionalTimePerRound;
 
     private void Update()
     {
@@ -19,10 +21,10 @@ public class RoundManager : MonoNetworkSingleton<RoundManager>
         if (!GameManager.Singleton.inGame)
             return;
 
-        if (_currentTime.Value < 0 || IsEveryOneIsReady())
+        if (currentTime.Value < 0 || IsEveryOneIsReady())
             ChangeRound();
 
-        _currentTime.Value -= Time.deltaTime;
+        currentTime.Value -= Time.deltaTime;
     }
     private bool IsEveryOneIsReady()
     {
@@ -39,6 +41,7 @@ public class RoundManager : MonoNetworkSingleton<RoundManager>
     {
         GameManager.Singleton.ResetReadyResultStateServerRpc();
         round.Value++;
-        _currentTime.Value = round.Value * _additionalTimePerRound + _startRoundTimer;
+        currentTime.Value = round.Value * additionalTimePerRound + startRoundTimer;
+        onRoundChange.Invoke();
     }
 }

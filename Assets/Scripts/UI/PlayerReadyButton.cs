@@ -16,10 +16,14 @@ namespace Assets.Scripts.UI
         [SerializeField] private Color _nonReadyColor;
         [SerializeField] private Color _readyColor;
         [SerializeField] private Image _image;
-        public void ChangePlayersState()
+
+        public void TogglePlayersState()
+            =>SetPlayersState(!_isReady);
+        
+        public void SetPlayersState(bool state)
         {
-            SetButtonsState(!_isReady);
-            GameManager.Singleton.AskToChangeMyReadyResultStateServerRpc(SteamClient.SteamId, _isReady);
+            SetButtonsState(state);
+            GameManager.Singleton.AskToChangeMyReadyResultStateServerRpc(SteamClient.SteamId, state);
         }
 
         public void SetButtonsState(bool state)

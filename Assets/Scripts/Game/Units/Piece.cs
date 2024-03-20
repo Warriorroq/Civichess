@@ -17,7 +17,7 @@ namespace Assets.Scripts.Game.Units
         protected virtual void Start()
         {
             if (GameManager.Singleton.isHost)
-                RoundManager.Singleton.round.OnValueChanged += ResetPiece;
+                RoundManager.Singleton.onRoundChange.AddListener(ResetPiece);
 
             SetUpMovementMap();
             PlacePieceOnTheMap();
@@ -40,13 +40,13 @@ namespace Assets.Scripts.Game.Units
             meshRenderer.material = new Material(meshRenderer.material) { color = teamColor };
         }
 
-        private void ResetPiece(int previousValue, int newValue)
+        private void ResetPiece()
             => isAbleToMove = true;
 
         public virtual void OnDestroy()
         {
             if (GameManager.Singleton.isHost)
-                RoundManager.Singleton.round.OnValueChanged -= ResetPiece;
+                RoundManager.Singleton.onRoundChange.RemoveListener(ResetPiece);
 
             Team team = GameManager.Singleton.party.teams[teamColor];
             team.pieces.Remove(Id);

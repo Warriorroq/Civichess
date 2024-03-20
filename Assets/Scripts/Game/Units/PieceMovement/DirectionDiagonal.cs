@@ -8,19 +8,18 @@ namespace Assets.Scripts.Game.Units.PieceMovement
     public class DirectionDiagonal : Movement
     {
         protected int _distance;
-
+        protected List<Vector2Int> _directions;
         public DirectionDiagonal(int distance, int maxHeightDifference, bool isAttackable, Piece owner)  : base(maxHeightDifference, isAttackable, owner)
         {
             _distance = distance;
+            _directions = new List<Vector2Int>() { Vector2Int.one, -Vector2Int.one, new Vector2Int(1, -1), new Vector2Int(-1, 1) };
         }
 
         public override List<Vector2Int> GetPossibleSquares()
         {
             List<Vector2Int> possibleSquares = new List<Vector2Int>();
-            possibleSquares.AddRange(GetPossibleSquaresInDirection(Vector2Int.one));
-            possibleSquares.AddRange(GetPossibleSquaresInDirection( -Vector2Int.one));
-            possibleSquares.AddRange(GetPossibleSquaresInDirection(new Vector2Int(1, -1)));
-            possibleSquares.AddRange(GetPossibleSquaresInDirection(new Vector2Int(-1, 1)));
+            foreach (var direction in _directions)
+                possibleSquares.AddRange(GetPossibleSquaresInDirection(direction));
 
             return possibleSquares;
         }
@@ -50,6 +49,9 @@ namespace Assets.Scripts.Game.Units.PieceMovement
                     break;
                 }
 
+                if (!_isAttackable && cell.currentPiece is not null)
+                    break;
+
                 possibleSteps -= cell.GetMovementPenalty();
                 lastSquare = newSquare;
                 possibleSquares.Add(lastSquare);
@@ -60,33 +62,14 @@ namespace Assets.Scripts.Game.Units.PieceMovement
 
         public override bool IsPossibleToMove(Vector2Int targetCellPosition)
         {
-            int possibleSteps = _distance;
-            Vector2Int lastSquare = _owner.currentPositionOnMap;
-            Vector2Int direction = (targetCellPosition - lastSquare).ToOneVector();
-            while(possibleSteps > 0)
-            {
-                Vector2Int newSquare = direction + lastSquare;
-                if (!Map.IsPositionIsInBox(newSquare))
-                    return false;
+            Vector2Int direction = (targetCellPosition - _owner.currentPositionOnMap).ToOneVector();
+            if(!_directions.Contains(direction))
+                return false;
 
-                CellData cell = Map[newSquare];
-                if (!cell.CouldBeOccupiedByPiece(_owner))
-                    return false;
+            if (GetPossibleSquaresInDirection(direction).Contains(targetCellPosition))
+                return true;
 
-                if (cell.HeightDifferenceWithCell(Map[lastSquare]) > _maxHeigthDifference)
-                    return false;
-
-                if (_isAttackable && cell.currentPiece is not null)
-                    return newSquare == targetCellPosition;
-
-                possibleSteps -= cell.GetMovementPenalty();
-                lastSquare = newSquare;
-
-                if(lastSquare == targetCellPosition)
-                    return true;
-            }
-
-            return true;
+            return false;
         }
     }
 }
