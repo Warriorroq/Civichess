@@ -2,17 +2,29 @@
 using Assets.Scripts.Game.Units.PieceMovement;
 using UnityEngine;
 using Assets.Scripts.MapGenerating;
+using UnityEngine.Events;
 
 namespace Assets.Scripts.Game.Units
 {
     public class Piece : MonoBehaviour
     {
         public ulong Id;
-        public bool isAbleToMove = true;
+        public bool HasBeenUsed
+        {
+            get => _hasBeenUsed;
+            set
+            {
+                _hasBeenUsed = value;
+                onUsedStateChange.Invoke(_hasBeenUsed);
+            }
+        }
         public Color teamColor;
         public Vector2Int currentPositionOnMap;
         public MovementMap movementMap;
         public virtual bool IsTakeable => true;
+
+        public UnityEvent<bool> onUsedStateChange;
+        protected bool _hasBeenUsed;
 
         protected virtual void Start()
         {
@@ -21,7 +33,7 @@ namespace Assets.Scripts.Game.Units
 
             SetUpMovementMap();
             PlacePieceOnTheMap();
-            ApplyMaterial();
+            HasBeenUsed = true;
         }
 
         public void Init(Vector2Int position, Color color, ulong pieceID)
@@ -34,14 +46,8 @@ namespace Assets.Scripts.Game.Units
         private void PlacePieceOnTheMap()
             =>MapManager.Singleton.map[currentPositionOnMap].Occupy(this);
 
-        private void ApplyMaterial()
-        {
-            var meshRenderer = GetComponentInChildren<MeshRenderer>();
-            meshRenderer.material = new Material(meshRenderer.material) { color = teamColor };
-        }
-
         private void ResetPiece()
-            => isAbleToMove = true;
+            => HasBeenUsed = true;
 
         public virtual void OnDestroy()
         {

@@ -25,7 +25,7 @@ namespace Assets.Scripts.Game.Units.PieceCommand
             MapManager.Singleton.map[piece.currentPositionOnMap].DeOccupy();
             piece.currentPositionOnMap = targetPosition;
             MapManager.Singleton.map[targetPosition].Occupy(piece);
-            piece.isAbleToMove = false;
+            piece.HasBeenUsed = false;
         }
 
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
@@ -39,7 +39,7 @@ namespace Assets.Scripts.Game.Units.PieceCommand
         {
             Team team = GameManager.Singleton.party.teams[pieceTeam];
             Piece piece = team.pieces[pieceID];
-            if (!piece.isAbleToMove)
+            if (!piece.HasBeenUsed)
                 return false;
 
             return piece.movementMap.IsPossibleMoveToSquare(targetPosition);

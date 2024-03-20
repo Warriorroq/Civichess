@@ -278,7 +278,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  startRoundTimer: 10
+  startRoundTimer: 30
   additionalTimePerRound: 1
 --- !u!114 &576831184
 MonoBehaviour:
