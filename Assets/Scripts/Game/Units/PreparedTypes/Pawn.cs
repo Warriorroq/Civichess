@@ -1,9 +1,9 @@
 ﻿using Assets.Scripts.Game.Units.PieceMovement;
 using System.Collections.Generic;
 
-namespace Assets.Scripts.Game.Units
+namespace Assets.Scripts.Game.Units.PreparedTypes
 {
-    public class PawnPiece : Piece
+    public class Pawn : Piece
     {
         protected override void SetUpMovementMap()
         {

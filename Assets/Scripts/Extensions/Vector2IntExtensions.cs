@@ -19,5 +19,8 @@ namespace Assets.Scripts.Extensions
 
             return vector;
         }
+
+        public static Vector2Int Rotate90(this Vector2Int vector)
+            => new Vector2Int(-vector.y, vector.x);
     }
 }
