@@ -9,7 +9,7 @@ namespace Assets.Scripts.Game.Units.PreparedTypes
         {
             List<Movement> movementDirections = new List<Movement>
             {
-                new DirectionFile(10, 1, false, this)
+                new DirectionFile(10, 1, true, this)
             };
 
             movementMap = new MovementMap(movementDirections);

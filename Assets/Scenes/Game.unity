@@ -551,6 +551,23 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 6ad6d120-42ca-4e2d-8613-1d8a8b7eff60
     m_ActionName: Gameplay/Move[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 966805729}
+        m_TargetAssemblyTypeName: Assets.Scripts.Game.Player.Camera.CameraDragMovement,
+          Assembly-CSharp
+        m_MethodName: CenterOnKing
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c1c231c2-699d-4307-a04d-54855cad0271
+    m_ActionName: Gameplay/CenterOnKing[/Keyboard/c]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay

@@ -8,10 +8,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Assets.Scripts.MapGenerating.Structures.Generators;
 using System.Collections;
+using TMPro;
 namespace Assets.Scripts.MapGenerating
 {
     public class MapManager : MonoNetworkSingleton<MapManager>
     {
+        public TMP_InputField size;
         public CellMap map;
 
         public IMapPatternGeneration pattern = new PatternScripts.Terrain(
@@ -67,6 +69,14 @@ namespace Assets.Scripts.MapGenerating
         [ServerRpc(RequireOwnership = false)]
         public void SyncMapServerRpc()
         {
+            try
+            {
+                var text = size.text.Split('x');
+                int x = int.Parse(text[0]);
+                int y = int.Parse(text[1]);
+                map.size = new Vector2Int(x, y);
+            }
+            catch{}
             SyncMapSizeWithPlayersClientRpc(map.size);
             SyncPattern();
         }

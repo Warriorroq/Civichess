@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Game.Units.PreparedTypes;
+using Assets.Scripts.Game.Units;
+using Assets.Scripts.GameLobby;
+using Steamworks;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Assets.Scripts.Game.Player.Camera
@@ -46,6 +50,20 @@ namespace Assets.Scripts.Game.Player.Camera
             }
 
             _rotationInertia += _rotationSpeed * mouseNewDelta.x;
+        }
+
+        public void CenterOnKing(InputAction.CallbackContext context)
+        {
+            Team team = GameManager.Singleton.party.GetTeamByPlayerId(SteamClient.SteamId);
+            var direction = transform.forward * (transform.position.y * 1.41f);
+            foreach (Piece piece in team.pieces.Values)
+            {
+                if (piece is not King)
+                    continue;
+                var position = piece.transform.position;
+                position.y = 0;
+                transform.position = position - direction;
+            }
         }
 
         private void FixedUpdate()
