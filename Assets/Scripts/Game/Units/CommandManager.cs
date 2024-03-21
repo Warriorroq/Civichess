@@ -7,12 +7,12 @@ namespace Assets.Scripts.Game.Units
 {
     public class CommandManager : MonoNetworkSingleton<CommandManager>
     {
-        private List<IPieceCommand> _historyOFCommands;
+        private List<ICommand> _historyOFCommands;
 
         protected override void Awake()
         {
             base.Awake();
-            _historyOFCommands = new List<IPieceCommand>();
+            _historyOFCommands = new List<ICommand>();
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -29,6 +29,22 @@ namespace Assets.Scripts.Game.Units
         {
             _historyOFCommands.Add(movementCommand);
             movementCommand.Execute();
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void AskForApprovingCommandServerRpc(RoundChangeCommand roundChange)
+        {
+            if (!roundChange.IsApproved())
+                return;
+
+            DoCommandClientRpc(roundChange);
+        }
+
+        [ClientRpc]
+        public void DoCommandClientRpc(RoundChangeCommand roundChange)
+        {
+            _historyOFCommands.Add(roundChange);
+            roundChange.Execute();
         }
     }
 }

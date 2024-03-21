@@ -9,13 +9,13 @@ namespace Assets.Scripts.Game.Units
     public class Piece : MonoBehaviour
     {
         public ulong Id;
-        public bool HasBeenUsed
+        public bool CouldBeenUsed
         {
-            get => _hasBeenUsed;
+            get => _couldBeenUsed;
             set
             {
-                _hasBeenUsed = value;
-                onUsedStateChange.Invoke(_hasBeenUsed);
+                onUsedStateChange.Invoke(value);
+                _couldBeenUsed = value;
             }
         }
         public Color teamColor;
@@ -24,16 +24,14 @@ namespace Assets.Scripts.Game.Units
         public virtual bool IsTakeable => true;
 
         public UnityEvent<bool> onUsedStateChange;
-        protected bool _hasBeenUsed;
+        [SerializeField] protected bool _couldBeenUsed;
 
         protected virtual void Start()
         {
-            if (GameManager.Singleton.isHost)
-                RoundManager.Singleton.onRoundChange.AddListener(ResetPiece);
-
+            RoundManager.Singleton.onRoundChange.AddListener(ResetPiece);
             SetUpMovementMap();
             PlacePieceOnTheMap();
-            HasBeenUsed = true;
+            CouldBeenUsed = true;
         }
 
         public void Init(Vector2Int position, Color color, ulong pieceID)
@@ -47,13 +45,14 @@ namespace Assets.Scripts.Game.Units
             =>MapManager.Singleton.map[currentPositionOnMap].Occupy(this);
 
         private void ResetPiece()
-            => HasBeenUsed = true;
+        {
+            Debug.Log("Event");
+            CouldBeenUsed = true;
+        }
 
         public virtual void OnDestroy()
         {
-            if (GameManager.Singleton.isHost)
-                RoundManager.Singleton.onRoundChange.RemoveListener(ResetPiece);
-
+            RoundManager.Singleton.onRoundChange.RemoveListener(ResetPiece);
             Team team = GameManager.Singleton.party.teams[teamColor];
             team.pieces.Remove(Id);
         }

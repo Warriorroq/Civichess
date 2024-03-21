@@ -1,13 +1,14 @@
+using Assets.Scripts.Game.Units;
+using Assets.Scripts.Game.Units.PieceCommand;
 using Assets.Scripts.GameLobby;
 using Assets.Scripts.Structures;
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class RoundManager : MonoNetworkSingleton<RoundManager>
+public class RoundManager : MonoSingleton<RoundManager>
 {
-    public NetworkVariable<int> round = new NetworkVariable<int>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> currentTime = new NetworkVariable<float>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public int round;
+    public float currentTime;
 
     public UnityEvent onRoundChange;
     public float startRoundTimer;
@@ -15,18 +16,18 @@ public class RoundManager : MonoNetworkSingleton<RoundManager>
 
     private void Update()
     {
-        if (!GameManager.Singleton.isHost)
-            return;
-
         if (!GameManager.Singleton.inGame)
             return;
 
-        if (currentTime.Value < 0 || IsEveryOneIsReady())
-            ChangeRound();
-
-        currentTime.Value -= Time.deltaTime;
+        currentTime -= Time.deltaTime;
+        if (!GameManager.Singleton.isHost)
+            return;
+        
+        if (currentTime < 0 || IsEveryOneIsReady())
+            CommandManager.Singleton.AskForApprovingCommandServerRpc(new RoundChangeCommand(round+1, round * additionalTimePerRound + startRoundTimer));
     }
-    private bool IsEveryOneIsReady()
+
+    public bool IsEveryOneIsReady()
     {
         Party party = GameManager.Singleton.party;
         foreach(var player in party.playersInfo.Values)
@@ -37,11 +38,11 @@ public class RoundManager : MonoNetworkSingleton<RoundManager>
 
         return true;
     }
-    private void ChangeRound()
+
+    public void ChangeRound(int round, float time)
     {
-        GameManager.Singleton.ResetReadyResultStateServerRpc();
-        round.Value++;
-        currentTime.Value = round.Value * additionalTimePerRound + startRoundTimer;
+        this.round = round;
+        currentTime = time;
         onRoundChange.Invoke();
     }
 }

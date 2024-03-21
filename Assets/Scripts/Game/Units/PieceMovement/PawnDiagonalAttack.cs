@@ -2,17 +2,21 @@
 using Assets.Scripts.Extensions;
 using Assets.Scripts.MapGenerating;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Assets.Scripts.Game.Units.PieceMovement
 {
     public class PawnDiagonalAttack : Movement
     {
+        private static List<Vector2Int> _attackDirections = new List<Vector2Int>() {
+            Vector2Int.one, -Vector2Int.one, new Vector2Int(1, -1), new Vector2Int(-1, 1)
+        };
+
         public PawnDiagonalAttack(int maxHeigthDifference, Piece owner) : base(maxHeigthDifference, true, owner)
         {
-
+            
         }
+
         public override List<Vector2Int> GetPossibleSquares()
         {
             List<Vector2Int> possibleSquares = new List<Vector2Int>();
@@ -34,6 +38,9 @@ namespace Assets.Scripts.Game.Units.PieceMovement
             int possibleSteps = 1;
             Vector2Int lastSquare = _owner.currentPositionOnMap;
             Vector2Int direction = (targetCellPosition - lastSquare).ToOneVector();
+            if(!_attackDirections.Contains(direction))
+                return false;
+
             while (possibleSteps > 0)
             {
                 Vector2Int newSquare = direction + lastSquare;

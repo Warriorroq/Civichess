@@ -66,10 +66,10 @@ namespace Assets.Scripts.Game.Units.PieceMovement
             if(!_directions.Contains(direction))
                 return false;
 
-            if (GetPossibleSquaresInDirection(direction).Contains(targetCellPosition))
-                return true;
+            if (!GetPossibleSquaresInDirection(direction).Contains(targetCellPosition))
+                return false;
 
-            return false;
+            return true;
         }
     }
 }

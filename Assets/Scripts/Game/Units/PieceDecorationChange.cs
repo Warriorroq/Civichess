@@ -8,10 +8,16 @@ namespace Assets.Scripts.Game.Units
         [SerializeField] protected MeshRenderer _teamDisplay;
         [SerializeField] protected MeshRenderer _pieceDisplay;
 
-        private void Start ()
+        private void Start()
         {
             _teamDisplay.material = new Material(_teamDisplay.material) { color = GetComponent<Piece>().teamColor };
             _pieceDisplay.material = new Material(_pieceDisplay.material);
+            GetComponent<Piece>().onUsedStateChange.AddListener(OnUsedStateChanged);
+        }
+
+        private void OnDestroy()
+        {
+            GetComponent<Piece>().onUsedStateChange.RemoveListener(OnUsedStateChanged);
         }
 
         public void OnUsedStateChanged(bool state)
