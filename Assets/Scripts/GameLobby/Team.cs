@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Game.Units;
+using Assets.Scripts.Game.Units.PreparedTypes;
 using AYellowpaper.SerializedCollections;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace Assets.Scripts.GameLobby
         public Color teamColor;
         public List<ulong> playersSteamIds;
         public SerializedDictionary<ulong, Piece> pieces;
-
+        public King king;
         public Team(Color teamColor, string name, params ulong[] players)
         {
             score = 0;

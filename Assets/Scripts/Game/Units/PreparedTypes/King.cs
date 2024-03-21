@@ -1,10 +1,17 @@
 ﻿using Assets.Scripts.Game.Units.PieceMovement;
+using Assets.Scripts.GameLobby;
 using System.Collections.Generic;
 
 namespace Assets.Scripts.Game.Units.PreparedTypes
 {
     public class King : Piece
     {
+        protected override void Start()
+        {
+            base.Start();
+            Party party = GameManager.Singleton.party;
+            party.teams[teamColor].king = this;
+        }
         protected override void SetUpMovementMap()
         {
             List<Movement> movementDirections = new List<Movement>
@@ -14,6 +21,16 @@ namespace Assets.Scripts.Game.Units.PreparedTypes
             };
 
             movementMap = new MovementMap(movementDirections);
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            Party party = GameManager.Singleton.party;
+            party.teams[teamColor].king = null;
+            foreach(var piece in party.teams[teamColor].pieces)
+                piece.Value.CouldBeenUsed = false;
+            party.teams[teamColor].pieces.Clear();
         }
     }
 }

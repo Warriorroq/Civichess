@@ -32,6 +32,9 @@ public class RoundManager : MonoSingleton<RoundManager>
         Party party = GameManager.Singleton.party;
         foreach(var player in party.playersInfo.Values)
         {
+            if (party.GetTeamByPlayerId(player.steamId).king is null)
+                continue;
+
             if (!player.ready)
                 return false;
         }

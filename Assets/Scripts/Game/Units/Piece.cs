@@ -46,11 +46,11 @@ namespace Assets.Scripts.Game.Units
 
         private void ResetPiece()
         {
-            Debug.Log("Event");
-            CouldBeenUsed = true;
+            Party party = GameManager.Singleton.party;
+            CouldBeenUsed = party.teams[teamColor].king is not null;
         }
 
-        public virtual void OnDestroy()
+        protected virtual void OnDestroy()
         {
             RoundManager.Singleton.onRoundChange.RemoveListener(ResetPiece);
             Team team = GameManager.Singleton.party.teams[teamColor];

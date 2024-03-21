@@ -39,7 +39,7 @@ namespace Assets.Scripts.Game.Units.PieceCommand
         {
             Team team = GameManager.Singleton.party.teams[pieceTeam];
             Piece piece = team.pieces[pieceID];
-            if (!piece.CouldBeenUsed)
+            if (!piece.CouldBeenUsed && team.king is not null)
                 return false;
 
             return piece.movementMap.IsPossibleMoveToSquare(targetPosition);
