@@ -2,7 +2,6 @@
 using Assets.Scripts.Game.Units.PieceMovement;
 using UnityEngine;
 using Assets.Scripts.MapGenerating;
-using UnityEngine.Events;
 using Assets.Scripts.Structures;
 
 namespace Assets.Scripts.Game.Units
@@ -38,6 +37,11 @@ namespace Assets.Scripts.Game.Units
         {
             Party party = GameManager.Singleton.party;
             couldBeenUsed.Value = party.teams[teamColor].king is not null;
+            if (couldBeenUsed.Value)
+                return;
+
+            couldBeenUsed.onValueChanged.RemoveAllListeners();
+            enabled = couldBeenUsed.Value;
         }
 
         protected virtual void OnDestroy()

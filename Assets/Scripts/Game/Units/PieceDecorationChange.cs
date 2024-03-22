@@ -15,6 +15,6 @@ namespace Assets.Scripts.Game.Units
         }
 
         public void OnUsedStateChanged(bool state)
-            =>_pieceDisplay.material.color = state ? Color.white : Color.black;
+            =>_pieceDisplay.material.color = state ? Color.white : Color.grey;
     }
 }

@@ -51,15 +51,21 @@ namespace Assets.Scripts.GameLobby
         {
             if (!playersInfo.ContainsKey(steamId))
                 return;
-            TryToRemoveTeam(steamId);
+
+            if(!GameManager.Singleton.inGame)
+                TryToRemoveTeam(steamId);
+
             playersInfo.Remove(steamId);
+            Team team = GetTeamByPlayerId(steamId);
+            if (team is not null)
+                team.king = null;
         }
 
         private void TryToRemoveTeam(ulong steamId)
         {
             Team team = GetTeamByPlayerId(steamId);
             team?.playersSteamIds.Remove(steamId);
-            if (team.playersSteamIds.Count == 0)
+            if (team.playersSteamIds.Count != 0)
                 teams.Remove(team.teamColor);
         }
 
