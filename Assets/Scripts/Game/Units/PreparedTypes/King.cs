@@ -29,7 +29,7 @@ namespace Assets.Scripts.Game.Units.PreparedTypes
             Party party = GameManager.Singleton.party;
             party.teams[teamColor].king = null;
             foreach(var piece in party.teams[teamColor].pieces)
-                piece.Value.CouldBeenUsed = false;
+                piece.Value.couldBeenUsed.Value = false;
             party.teams[teamColor].pieces.Clear();
         }
     }

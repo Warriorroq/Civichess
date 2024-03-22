@@ -1,5 +1,5 @@
-using Assets.Scripts.Game.Units;
-using Assets.Scripts.Game.Units.PieceCommand;
+using Assets.Scripts.Game;
+using Assets.Scripts.Game.Commands;
 using Assets.Scripts.GameLobby;
 using Assets.Scripts.Structures;
 using UnityEngine;

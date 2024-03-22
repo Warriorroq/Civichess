@@ -46,7 +46,7 @@ namespace Assets.Scripts.MapGenerating
 
         private IEnumerator SpawnKings(MapGenerator builder)
         {
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(0.1f);
             builder.GenerateKingsOnScene();
         }
 

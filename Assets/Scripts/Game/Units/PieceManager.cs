@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Game.Units.PreparedTypes;
+﻿using Assets.Scripts.Extensions;
+using Assets.Scripts.Game.Units.PreparedTypes;
 using Assets.Scripts.GameLobby;
 using Assets.Scripts.Structures;
 using Unity.Netcode;
@@ -21,13 +22,25 @@ namespace Assets.Scripts.Game.Units
         public void AskForKingsSpawnServerRpc(Vector2Int position, Color color)
         {
             SpawnKingOnMapClientRpc(position, color, LastID);
-            SpawnPawnOnMapClientRpc(position + Vector2Int.right, color, LastID);
-            SpawnPawnOnMapClientRpc(position + Vector2Int.left + Vector2Int.up, color, LastID);
-            SpawnPawnOnMapClientRpc(position + Vector2Int.left + Vector2Int.down, color, LastID);
-            SpawnRookOnMapClientRpc(position + Vector2Int.up, color, LastID);
-            SpawnBishopOnMapClientRpc(position - Vector2Int.up, color, LastID);
-            SpawnKnightOnMapClientRpc(position + Vector2Int.right + Vector2Int.up, color, LastID);
-            SpawnQueenOnMapClientRpc(position - Vector2Int.right, color, LastID);
+            SpawnQueenOnMapClientRpc(position + Vector2Int.right, color, LastID);
+            SpawnBishopOnMapClientRpc(position + Vector2Int.left + Vector2Int.up, color, LastID);
+            SpawnBishopOnMapClientRpc(position + Vector2Int.left, color, LastID);
+            SpawnKnightOnMapClientRpc(position + Vector2Int.down, color, LastID);
+            SpawnKnightOnMapClientRpc(position + Vector2Int.right - Vector2Int.up, color, LastID);
+            SpawnRookOnMapClientRpc(position + Vector2Int.one, color, LastID);
+            SpawnRookOnMapClientRpc(position - Vector2Int.one, color, LastID);
+            Vector2Int pawnSpawn = new Vector2Int(2, 1);
+            for (int i = 0; i < 4; i++)
+            {
+                SpawnPawnOnMapClientRpc(pawnSpawn + position, color, LastID);
+                pawnSpawn = pawnSpawn.Rotate90();
+            }
+            pawnSpawn = new Vector2Int(-2, 1);
+            for (int i = 0; i < 4; i++)
+            {
+                SpawnPawnOnMapClientRpc(pawnSpawn + position, color, LastID);
+                pawnSpawn = pawnSpawn.Rotate90();
+            }
         }
 
         [ClientRpc]

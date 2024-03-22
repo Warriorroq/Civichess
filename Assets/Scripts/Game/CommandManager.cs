@@ -1,9 +1,8 @@
-﻿using Assets.Scripts.Game.Units.PieceCommand;
-using Assets.Scripts.Structures;
+﻿using Assets.Scripts.Structures;
 using System.Collections.Generic;
 using Unity.Netcode;
-
-namespace Assets.Scripts.Game.Units
+using Assets.Scripts.Game.Commands;
+namespace Assets.Scripts.Game
 {
     public class CommandManager : MonoNetworkSingleton<CommandManager>
     {

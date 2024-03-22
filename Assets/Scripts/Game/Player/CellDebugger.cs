@@ -14,10 +14,9 @@ namespace Assets.Scripts.Game.Player
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, 100, _mask))
             {
+                _cellText.text = string.Empty;
                 if (hit.collider.gameObject.TryGetComponent(out Cell cell))
                     _cellText.text = cell.ToString();
-                else
-                    _cellText.text = string.Empty;
             }
         }
     }

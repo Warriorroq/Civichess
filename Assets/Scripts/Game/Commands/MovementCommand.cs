@@ -1,9 +1,10 @@
-﻿using Assets.Scripts.GameLobby;
+﻿using Assets.Scripts.Game.Units;
+using Assets.Scripts.GameLobby;
 using Assets.Scripts.MapGenerating;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Assets.Scripts.Game.Units.PieceCommand
+namespace Assets.Scripts.Game.Commands
 {
     public struct MovementCommand : ICommand
     {
@@ -25,7 +26,7 @@ namespace Assets.Scripts.Game.Units.PieceCommand
             MapManager.Singleton.map[piece.currentPositionOnMap].DeOccupy();
             piece.currentPositionOnMap = targetPosition;
             MapManager.Singleton.map[targetPosition].Occupy(piece);
-            piece.CouldBeenUsed = false;
+            piece.couldBeenUsed.Value = false;
         }
 
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
@@ -39,7 +40,7 @@ namespace Assets.Scripts.Game.Units.PieceCommand
         {
             Team team = GameManager.Singleton.party.teams[pieceTeam];
             Piece piece = team.pieces[pieceID];
-            if (!piece.CouldBeenUsed && team.king is not null)
+            if (!piece.couldBeenUsed.Value && team.king is not null)
                 return false;
 
             return piece.movementMap.IsPossibleMoveToSquare(targetPosition);

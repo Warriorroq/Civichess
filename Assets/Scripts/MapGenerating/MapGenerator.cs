@@ -27,6 +27,7 @@ namespace Assets.Scripts.MapGenerating
 
         public Material GetMaterialByIndex(int index)
             => _mapSceneConstructor.GetMaterialByIndex(index);
+
         public void GenerateMap(IMapPatternGeneration pattern)
         {
             int teamsCount = GameManager.Singleton.party.teams.Count;

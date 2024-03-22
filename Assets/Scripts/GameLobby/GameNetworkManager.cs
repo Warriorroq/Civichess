@@ -44,7 +44,7 @@ namespace Assets.Scripts.GameLobby
             RemoveCallbacksOnNetworkManager();
         }
 
-        public async void StartHost(int maxMembers = 1)
+        public async void StartHost(int maxMembers = 10)
         {
             NetworkManager.Singleton.OnServerStarted += OnServerStarted;
             NetworkManager.Singleton.StartHost();

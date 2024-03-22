@@ -1,5 +1,5 @@
-﻿using Assets.Scripts.Game.Units;
-using Assets.Scripts.Game.Units.PieceCommand;
+﻿using Assets.Scripts.Game.Commands;
+using Assets.Scripts.Game.Units;
 using Assets.Scripts.GameLobby;
 using Assets.Scripts.MapGenerating;
 using System.Collections.Generic;

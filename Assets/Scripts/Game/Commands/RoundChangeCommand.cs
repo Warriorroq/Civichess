@@ -1,7 +1,7 @@
 ﻿using Assets.Scripts.GameLobby;
 using Unity.Netcode;
 
-namespace Assets.Scripts.Game.Units.PieceCommand
+namespace Assets.Scripts.Game.Commands
 {
     public struct RoundChangeCommand : ICommand
     {
