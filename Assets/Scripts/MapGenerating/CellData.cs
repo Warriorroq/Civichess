@@ -35,6 +35,7 @@ namespace Assets.Scripts.MapGenerating
             isWalkable = true;
             currentPiece = null;
             cellRepresentation = null;
+            amountOfViewers = new EventValue<int>();
         }
 
         public bool CouldBeOccupiedByPiece(Piece piece)

@@ -4204,6 +4204,8 @@ MonoBehaviour:
     _mapMaterials:
     - {fileID: 2100000, guid: 620100c05f1ec9f43ba688df6af1350b, type: 2}
     - {fileID: 2100000, guid: bfbb852a4a4a8134b9c5ad54030a8b1c, type: 2}
+    - {fileID: 2100000, guid: e369949c5d64a4f4288d421aaf99fb87, type: 2}
+    - {fileID: 2100000, guid: d9f6eeb7ad513e34d87a3f44cd75289e, type: 2}
     _cellSize: {x: 1, y: 0.5, z: 1}
     _cellPrefab: {fileID: 2178808022860471738, guid: b23c5b6f6c72b0a4da9ff0426ea1a979, type: 3}
 --- !u!1 &1511484358

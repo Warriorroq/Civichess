@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Assets.Scripts.Game;
+using System;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UIElements;
 
 namespace Assets.Scripts.MapGenerating
 {
@@ -7,9 +10,12 @@ namespace Assets.Scripts.MapGenerating
     public class Cell : MonoBehaviour
     {
         public MeshRenderer cellRenderer;
+        public MeshRenderer hiddenMeshRenderer;
         public CellData cellData = null;
         public Vector2Int cellPositionOnMap;
         public Transform topTransform;
+        public UnityEvent onCellDisplay;
+        public UnityEvent onCellHide;
         private void Start()
         {
             cellData = MapManager.Singleton.map[cellPositionOnMap.x, cellPositionOnMap.y];
@@ -30,6 +36,19 @@ namespace Assets.Scripts.MapGenerating
 
             foreach (var structure in cellData.structures)
                 structure.CenerateStructureOnCell(this);
+
+            cellData.amountOfViewers.onValueChanged.AddListener(IsCellViewed);
+            hiddenMeshRenderer.material = MapManager.GetMaterialByIndex((cellPositionOnMap.x + cellPositionOnMap.y) % 2 + 2);
+            if((cellPositionOnMap.x + cellPositionOnMap.y)%10 < 5)
+                IsCellViewed(0);
+        }
+
+        private void IsCellViewed(int arg0)
+        {
+            if (arg0 == 0)
+                onCellHide.Invoke();
+            else
+                onCellDisplay.Invoke();
         }
 
         public override string ToString()

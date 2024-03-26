@@ -98,5 +98,8 @@ namespace Assets.Scripts.MapGenerating
 
             this.pattern = pattern;
         }
+
+        public static Material GetMaterialByIndex(int index)
+            => Singleton._mapSceneConstructor.GetMaterialByIndex(index);
     }
 }
