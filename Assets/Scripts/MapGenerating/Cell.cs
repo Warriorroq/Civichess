@@ -39,8 +39,7 @@ namespace Assets.Scripts.MapGenerating
 
             cellData.amountOfViewers.onValueChanged.AddListener(IsCellViewed);
             hiddenMeshRenderer.material = MapManager.GetMaterialByIndex((cellPositionOnMap.x + cellPositionOnMap.y) % 2 + 2);
-            if((cellPositionOnMap.x + cellPositionOnMap.y)%10 < 5)
-                IsCellViewed(0);
+            IsCellViewed(0);
         }
 
         private void IsCellViewed(int arg0)
@@ -53,5 +52,29 @@ namespace Assets.Scripts.MapGenerating
 
         public override string ToString()
             => $"{cellData}";
+
+        public void HidePiece()
+        {
+            if (cellData.currentPiece is null)
+                return;
+
+            if (cellData.amountOfViewers.Value > 0)
+                return;
+
+            foreach (var renderer in cellData.currentPiece.GetComponentsInChildren<MeshRenderer>())
+                renderer.enabled = false;
+        }
+
+        public void DisplayPiece()
+        {
+            if(cellData.currentPiece is null) 
+                return;
+
+            if (cellData.amountOfViewers.Value == 0)
+                return;
+
+            foreach (var renderer in cellData.currentPiece.GetComponentsInChildren<MeshRenderer>())
+                renderer.enabled = true;
+        }
     }
 }

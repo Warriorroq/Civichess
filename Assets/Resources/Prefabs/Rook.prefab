@@ -131,8 +131,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Id: 0
+  fowRaduis: 5
   couldBeenUsed:
-    beforeValueChanged:
+    onValueGet:
       m_PersistentCalls:
         m_Calls: []
     onValueChanged:

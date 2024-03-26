@@ -48,7 +48,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Id: 0
+  fowRaduis: 5
   couldBeenUsed:
+    onValueGet:
+      m_PersistentCalls:
+        m_Calls: []
     onValueChanged:
       m_PersistentCalls:
         m_Calls:

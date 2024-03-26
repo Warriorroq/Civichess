@@ -1,7 +1,6 @@
 ﻿using Assets.Scripts.Extensions;
 using Assets.Scripts.MapGenerating;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Assets.Scripts.Game.Units.PieceMovement

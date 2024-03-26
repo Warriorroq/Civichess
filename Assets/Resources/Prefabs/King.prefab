@@ -48,7 +48,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Id: 0
+  fowRaduis: 5
   couldBeenUsed:
+    onValueGet:
+      m_PersistentCalls:
+        m_Calls: []
     onValueChanged:
       m_PersistentCalls:
         m_Calls:
@@ -67,6 +71,7 @@ MonoBehaviour:
           m_CallState: 2
   teamColor: {r: 0, g: 0, b: 0, a: 0}
   currentPositionOnMap: {x: 0, y: 0}
+  radius: 0
 --- !u!114 &4859212096609884282
 MonoBehaviour:
   m_ObjectHideFlags: 0

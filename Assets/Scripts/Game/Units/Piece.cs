@@ -9,6 +9,7 @@ namespace Assets.Scripts.Game.Units
     public class Piece : MonoBehaviour
     {
         public ulong Id;
+        public int fowRaduis;
         public EventValue<bool> couldBeenUsed;
         public Color teamColor;
         public Vector2Int currentPositionOnMap;
@@ -50,6 +51,8 @@ namespace Assets.Scripts.Game.Units
             Team team = GameManager.Singleton.party.teams[teamColor];
             team.pieces.Remove(Id);
             couldBeenUsed.onValueChanged.RemoveAllListeners();
+            if(teamColor == GameManager.CurrentTeam.teamColor)
+                CellData.FOWAffectCellsFromPiece(currentPositionOnMap, -1, fowRaduis);
         }
 
         protected virtual void SetUpMovementMap() { }

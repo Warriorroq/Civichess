@@ -1,11 +1,14 @@
 ﻿using Assets.Scripts.Game.Units.PieceMovement;
 using Assets.Scripts.GameLobby;
+using Assets.Scripts.MapGenerating;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Assets.Scripts.Game.Units.PreparedTypes
 {
     public class King : Piece
     {
+        [SerializeField] float radius;
         protected override void Start()
         {
             base.Start();
