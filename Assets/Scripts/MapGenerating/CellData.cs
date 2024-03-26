@@ -3,6 +3,7 @@ using Assets.Scripts.Game.Units;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.Structures;
 
 namespace Assets.Scripts.MapGenerating
 {
@@ -15,6 +16,7 @@ namespace Assets.Scripts.MapGenerating
         public List<IStructure> structures;
         public bool isWalkable;
         public Piece currentPiece;
+        public EventValue<int> amountOfViewers;
         public bool IsWalkable
         {
             get

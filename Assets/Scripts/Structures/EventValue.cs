@@ -24,7 +24,11 @@ namespace Assets.Scripts.Structures
         private T _value;
 
         public EventValue(T value = default(T))
-            =>_value = value;
+        {
+            _value = value;
+            onValueChanged = new UnityEvent<T>();
+            onValueGet = new UnityEvent<RefValue<T>>();
+        }
 
         public void RemoveAllListeners()
         {

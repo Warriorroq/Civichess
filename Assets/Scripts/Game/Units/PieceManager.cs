@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Extensions;
 using Assets.Scripts.GameLobby;
+using Assets.Scripts.MapGenerating;
 using Assets.Scripts.Structures;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -47,6 +48,9 @@ namespace Assets.Scripts.Game.Units
         [ClientRpc]
         public void SpawnPieceOnMapClientRpc(string key, Vector2Int position, Color color, ulong pieceID)
         {
+            if (!MapManager.Singleton.map.IsPositionIsInBox(position))
+                return;
+
             SpawnPiece<Piece>(key, position, color, pieceID);
         }
 
