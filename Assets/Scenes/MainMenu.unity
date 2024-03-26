@@ -4198,13 +4198,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
-  size: {fileID: 1321475581}
   map:
     size: {x: 24, y: 24}
   _mapSceneConstructor:
     _mapMaterials:
-    - {fileID: 2100000, guid: 3ac50557aba068b4990d8af970b28f93, type: 2}
-    - {fileID: 2100000, guid: 005641b20af2d8d499d1c8faf0898989, type: 2}
+    - {fileID: 2100000, guid: 620100c05f1ec9f43ba688df6af1350b, type: 2}
+    - {fileID: 2100000, guid: bfbb852a4a4a8134b9c5ad54030a8b1c, type: 2}
     _cellSize: {x: 1, y: 0.5, z: 1}
     _cellPrefab: {fileID: 2178808022860471738, guid: b23c5b6f6c72b0a4da9ff0426ea1a979, type: 3}
 --- !u!1 &1511484358
