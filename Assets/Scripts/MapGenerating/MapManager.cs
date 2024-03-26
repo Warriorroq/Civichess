@@ -1,40 +1,24 @@
 ﻿using Assets.Scripts.GameLobby;
 using Assets.Scripts.MapGenerating.PatternScripts;
 using Assets.Scripts.Structures;
-using Assets.Scripts.Structures.MinMax;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Assets.Scripts.MapGenerating.Structures.Generators;
 using System.Collections;
-using TMPro;
 namespace Assets.Scripts.MapGenerating
 {
     public class MapManager : MonoNetworkSingleton<MapManager>
     {
-        public TMP_InputField size;
         public CellMap map;
-
-        public IMapPatternGeneration pattern = new PatternScripts.Terrain(
-            new List<PatternScripts.Terrain.TerrainLayer>()
-            {
-                new PatternScripts.Terrain.TerrainLayer(10_000f, .1f, new IntMinMax(1, 7), new IntMinMax()),
-                new PatternScripts.Terrain.TerrainLayer(10_001f, .1f, new IntMinMax(4, 9), new IntMinMax(4, 7))
-            }, 
-            new List<(IStructureGenerator.Type, IStructureGenerator)>()
-            {
-                (IStructureGenerator.Type.Forest, new ForestGeneration(.4f, .6f, 10_000f, .1f, new IntMinMax(1, 4))),
-            });
-
-        [SerializeField] private MapSceneConstructor _mapSceneConstructor;
+        public IMapPatternGeneration pattern = new DefaultTerrain();
+        [SerializeField] private MapBuilder.MapSceneConstructor _mapSceneConstructor;
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             if (scene.name != "Game")
                 return;
 
-            var mapBuilder = new MapGenerator(map.size, _mapSceneConstructor);
+            var mapBuilder = new MapBuilder(map.size, _mapSceneConstructor);
             mapBuilder.GenerateMap(pattern);
             mapBuilder.GenerateCellsOnScene();
             map = mapBuilder.GetMap();
@@ -44,7 +28,7 @@ namespace Assets.Scripts.MapGenerating
             StartCoroutine(SpawnKings(mapBuilder));
         }
 
-        private IEnumerator SpawnKings(MapGenerator builder)
+        private IEnumerator SpawnKings(MapBuilder builder)
         {
             yield return new WaitForSeconds(0.1f);
             builder.GenerateKingsOnScene();
@@ -69,14 +53,6 @@ namespace Assets.Scripts.MapGenerating
         [ServerRpc(RequireOwnership = false)]
         public void SyncMapServerRpc()
         {
-            try
-            {
-                var text = size.text.Split('x');
-                int x = int.Parse(text[0]);
-                int y = int.Parse(text[1]);
-                map.size = new Vector2Int(x, y);
-            }
-            catch{}
             SyncMapSizeWithPlayersClientRpc(map.size);
             SyncPattern();
         }

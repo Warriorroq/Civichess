@@ -48,7 +48,7 @@ namespace Assets.Scripts.MapGenerating.PatternScripts
         private void SyncTerrainLayers<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
             var newList = serializer.SerializeList(_terrainLayers);
-            if (newList is not null)
+            if (serializer.IsReader)
                 _terrainLayers = newList;
         }
 

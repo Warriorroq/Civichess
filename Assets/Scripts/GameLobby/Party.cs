@@ -12,16 +12,15 @@ namespace Assets.Scripts.GameLobby
     {
         [SerializedDictionary("steam Id", "Player Data")]
         public SerializedDictionary<ulong, Player> playersInfo;
-
         [SerializedDictionary("Team Color", "Team Data")]
         public SerializedDictionary<Color, Team> teams;
-        public Player LocalPlayerData => this[SteamClient.SteamId.Value];
 
+        public Player LocalPlayerData => this[SteamClient.SteamId.Value];
         private IGameRegime _gameRegime = new FreeForAll();
-        public Player this[ulong index]
+        public Player this[ulong steamId]
         {
-            get => playersInfo[index];
-            set => playersInfo[index] = value;
+            get => playersInfo[steamId];
+            set => playersInfo[steamId] = value;
         }
 
         public Team GetTeamByPlayerId(ulong id)

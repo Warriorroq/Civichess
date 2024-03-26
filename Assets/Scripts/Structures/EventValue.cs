@@ -7,16 +7,19 @@ namespace Assets.Scripts.Structures
     {
         public T Value
         {
-            get => _value;
+            get
+            {
+                RefValue<T> refValue = new RefValue<T>(_value);
+                onValueGet.Invoke(refValue);
+                return refValue.value;
+            }
             set
             {
-                beforeValueChanged.Invoke(value);
                 _value = value;
                 onValueChanged.Invoke(_value);
             }
         }
-
-        public UnityEvent<T> beforeValueChanged;
+        public UnityEvent<RefValue<T>> onValueGet;
         public UnityEvent<T> onValueChanged;
         private T _value;
 
@@ -25,7 +28,7 @@ namespace Assets.Scripts.Structures
 
         public void RemoveAllListeners()
         {
-            beforeValueChanged.RemoveAllListeners();
+            onValueChanged.RemoveAllListeners();
             onValueChanged.RemoveAllListeners();
         }
     }

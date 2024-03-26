@@ -3,7 +3,6 @@ using Assets.Scripts.Game.Units;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.UI.GridLayoutGroup;
 
 namespace Assets.Scripts.MapGenerating
 {

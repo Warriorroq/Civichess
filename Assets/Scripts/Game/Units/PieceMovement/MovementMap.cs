@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.MapGenerating;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Game.Units.PieceMovement
@@ -30,6 +31,38 @@ namespace Assets.Scripts.Game.Units.PieceMovement
             }
 
             return false;
+        }
+
+        public UnityEngine.Mesh GenerateMesh(Vector2Int positionOnMap, Vector3 cellSize)
+             => new Mesh(positionOnMap, GetPossibleSquares(), cellSize).mesh;
+
+        private class Mesh
+        {
+            public UnityEngine.Mesh mesh;
+            public Mesh(Vector2Int positionOnMap, List<Vector2Int> cells, Vector3 cellSize)
+            {
+                UnityEngine.Mesh mesh = new UnityEngine.Mesh();
+                Vector3[] vertices = new Vector3[4 * cells.Count];
+                List<int> tris = new List<int>();
+                CellMap map = MapManager.Singleton.map;
+                Vector3 currentPosition = map[positionOnMap].cellRepresentation.topTransform.position + cellSize / 2f;
+                int i = 0;
+                foreach (var cell in cells)
+                {
+                    var delta = map[cell].cellRepresentation.topTransform.position - currentPosition;
+                    vertices[i + i * 3] = delta + Vector3.up * .1f;
+                    vertices[i + 1 + i * 3] = delta + Vector3.right * cellSize.x + Vector3.up * .1f;
+                    vertices[i + 2 + i * 3] = delta + Vector3.forward * cellSize.z + Vector3.up * .1f;
+                    vertices[i + 3 + i * 3] = delta + Vector3.right * cellSize.x + Vector3.forward * cellSize.z + Vector3.up * .1f;
+
+                    tris.AddRange(new int[] { i + i * 3, i + 2 + i * 3, i + 1 + i * 3 });
+                    tris.AddRange(new int[] { i + 2 + i * 3, i + 3 + i * 3, i + 1 + i * 3 });
+                    i += 1;
+                }
+                mesh.vertices = vertices;
+                mesh.triangles = tris.ToArray();
+                this.mesh = mesh;
+            }
         }
     }
 }
