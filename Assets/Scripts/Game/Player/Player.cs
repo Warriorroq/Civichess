@@ -32,7 +32,7 @@ namespace Assets.Scripts.Game.Player
             if (cell is null)
                 return;
 
-            Piece piece = cell.cellData.currentPiece;
+            Piece piece = cell.data.currentPiece;
             if (piece is null)
                 return;
             
@@ -56,14 +56,14 @@ namespace Assets.Scripts.Game.Player
             if (_currentCell.Value is null)
                 return;
 
-            Piece piece = _currentCell.Value.cellData.currentPiece;
+            Piece piece = _currentCell.Value.data.currentPiece;
             if (piece is null)
                 return;
 
             if (!FindCellByRayCastFromCamera(out Cell cell))
                 return;
 
-            Vector2Int targetPosition = cell.cellPositionOnMap;
+            Vector2Int targetPosition = cell.data.positionOnMap;
             if (!piece.movementMap.IsPossibleMoveToSquare(targetPosition))
                 return;
 

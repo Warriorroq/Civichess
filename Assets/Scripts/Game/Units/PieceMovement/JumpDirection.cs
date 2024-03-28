@@ -38,15 +38,15 @@ namespace Assets.Scripts.Game.Units.PieceMovement
                 if (!Map.IsPositionIsInBox(newSquare))
                     continue;
 
-                CellData cell = Map[newSquare];
+                CellData data = Map[newSquare].data;
 
-                if (!cell.CouldBeOccupiedByPiece(_owner))
+                if (!data.CouldBeOccupiedByPiece(_owner))
                     continue;
 
-                if (cell.HeightDifferenceWithCell(Map[currentSquare]) > _maxHeigthDifference)
+                if (data.HeightDifferenceWithCell(Map[currentSquare].data) > _maxHeigthDifference)
                     continue;
 
-                if (!_isAttackable && cell.currentPiece is not null)
+                if (!_isAttackable && data.currentPiece is not null)
                     continue;
 
                 possibleSquares.Add(newSquare);

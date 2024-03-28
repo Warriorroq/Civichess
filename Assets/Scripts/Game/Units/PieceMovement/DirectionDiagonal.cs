@@ -35,24 +35,24 @@ namespace Assets.Scripts.Game.Units.PieceMovement
                 if (!Map.IsPositionIsInBox(newSquare))
                     break;
 
-                CellData cell = Map[newSquare];
+                CellData data = Map[newSquare].data;
 
-                if (!cell.CouldBeOccupiedByPiece(_owner))
+                if (!data.CouldBeOccupiedByPiece(_owner))
                     break;
 
-                if (cell.HeightDifferenceWithCell(Map[lastSquare]) > _maxHeigthDifference)
+                if (data.HeightDifferenceWithCell(Map[lastSquare].data) > _maxHeigthDifference)
                     break;
 
-                if (_isAttackable && cell.currentPiece is not null)
+                if (_isAttackable && data.currentPiece is not null)
                 {
                     possibleSquares.Add(newSquare);
                     break;
                 }
 
-                if (!_isAttackable && cell.currentPiece is not null)
+                if (!_isAttackable && data.currentPiece is not null)
                     break;
 
-                possibleSteps -= cell.GetMovementPenalty();
+                possibleSteps -= data.GetMovementPenalty();
                 lastSquare = newSquare;
                 possibleSquares.Add(lastSquare);
             }

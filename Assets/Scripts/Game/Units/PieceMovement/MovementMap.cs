@@ -45,11 +45,11 @@ namespace Assets.Scripts.Game.Units.PieceMovement
                 Vector3[] vertices = new Vector3[4 * cells.Count];
                 List<int> tris = new List<int>();
                 CellMap map = MapManager.Singleton.map;
-                Vector3 currentPosition = map[positionOnMap].cellRepresentation.topTransform.position + cellSize / 2f;
+                Vector3 currentPosition = map[positionOnMap].topTransform.position + cellSize / 2f;
                 int i = 0;
                 foreach (var cell in cells)
                 {
-                    var delta = map[cell].cellRepresentation.topTransform.position - currentPosition;
+                    var delta = map[cell].topTransform.position - currentPosition;
                     vertices[i + i * 3] = delta + Vector3.up * .1f;
                     vertices[i + 1 + i * 3] = delta + Vector3.right * cellSize.x + Vector3.up * .1f;
                     vertices[i + 2 + i * 3] = delta + Vector3.forward * cellSize.z + Vector3.up * .1f;

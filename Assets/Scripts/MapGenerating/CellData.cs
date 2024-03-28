@@ -4,14 +4,12 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Structures;
-using Assets.Scripts.GameLobby;
 
 namespace Assets.Scripts.MapGenerating
 {
     [Serializable]
     public class CellData
     {
-        public Cell cellRepresentation;
         public Vector2Int positionOnMap;
         public int height;
         public List<IStructure> structures;
@@ -35,7 +33,6 @@ namespace Assets.Scripts.MapGenerating
             height = 0;
             isWalkable = true;
             currentPiece = null;
-            cellRepresentation = null;
             amountOfViewers = new EventValue<int>();
         }
 
@@ -63,41 +60,5 @@ namespace Assets.Scripts.MapGenerating
 
         public int HeightDifferenceWithCell(CellData cellData)
             => Mathf.Abs(height - cellData.height);
-
-        public void Occupy(Piece piece)
-        {
-            if (currentPiece is not null)
-                GameObject.Destroy(currentPiece.gameObject);
-
-            currentPiece = piece;
-            piece.transform.position = cellRepresentation.topTransform.position;
-            amountOfViewers.Value = amountOfViewers.Value;
-
-            if (piece.teamColor == GameManager.CurrentTeam.teamColor)
-                FOWAffectCellsFromPiece(positionOnMap, 1, currentPiece.fowRaduis);           
-        }
-
-        public void DeOccupy()
-        {
-            if (currentPiece.teamColor == GameManager.CurrentTeam.teamColor)
-                FOWAffectCellsFromPiece(positionOnMap, -1, currentPiece.fowRaduis);
-
-            amountOfViewers.Value = amountOfViewers.Value;
-            currentPiece = null;
-        }
-
-        public static void FOWAffectCellsFromPiece(Vector2Int center, int differece, int fow)
-        {
-            var map = MapManager.Singleton.map;
-            map[center].amountOfViewers.Value += differece;
-            foreach (var target in map.GetPointsOfCircle(center, fow))
-            {
-                foreach (var point in map.GetPointsInLine(center, target))
-                {
-                    if(map.IsPositionIsInBox(point))
-                        map[point].amountOfViewers.Value += differece;
-                }
-            }
-        }
     }
 }

@@ -5,27 +5,23 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+
 namespace Assets.Scripts.MapGenerating
 {
     public class MapManager : MonoNetworkSingleton<MapManager>
     {
         public CellMap map;
         public IMapPatternGeneration pattern = new DefaultTerrain();
-        [SerializeField] private MapBuilder.MapSceneConstructor _mapSceneConstructor;
+        [SerializeField] private MapBuilder _builder;
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             if (scene.name != "Game")
                 return;
 
-            var mapBuilder = new MapBuilder(map.size, _mapSceneConstructor);
-            mapBuilder.GenerateMap(pattern);
-            mapBuilder.GenerateCellsOnScene();
-            map = mapBuilder.GetMap();
-            if (!GameManager.Singleton.isHost)
-                return;
-
-            StartCoroutine(SpawnKings(mapBuilder));
+            _builder.GenerateMap(pattern, map.size);
+            map = _builder.GetMap();
+            StartCoroutine(SpawnKings(_builder));
         }
 
         private IEnumerator SpawnKings(MapBuilder builder)
@@ -100,6 +96,6 @@ namespace Assets.Scripts.MapGenerating
         }
 
         public static Material GetMaterialByIndex(int index)
-            => Singleton._mapSceneConstructor.GetMaterialByIndex(index);
+            => Singleton._builder.GetMaterialByIndex(index);
     }
 }

@@ -1,8 +1,8 @@
-﻿using Assets.Scripts.Game;
+﻿using Assets.Scripts.Game.Units;
+using Assets.Scripts.GameLobby;
 using System;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UIElements;
 
 namespace Assets.Scripts.MapGenerating
 {
@@ -11,34 +11,30 @@ namespace Assets.Scripts.MapGenerating
     {
         public MeshRenderer cellRenderer;
         public MeshRenderer hiddenMeshRenderer;
-        public CellData cellData = null;
-        public Vector2Int cellPositionOnMap;
+
+        public CellData data = null;
         public Transform topTransform;
+
         public UnityEvent onCellDisplay;
         public UnityEvent onCellHide;
         private void Start()
         {
-            cellData = MapManager.Singleton.map[cellPositionOnMap.x, cellPositionOnMap.y];
-            cellData.cellRepresentation = this;
-
-            if (cellData is not null)
+            if (data is not null)
                 ApplyCellDataOnCell();
         }
 
-        public void SetCellPosition(Vector2Int cellPosition)
-            => cellPositionOnMap = cellPosition;
-
         private void ApplyCellDataOnCell()
         {
-            Vector3 additionalScale = transform.localScale.y * Vector3.up * cellData.height;
+            Vector3 additionalScale = transform.localScale.y * Vector3.up * data.height;
             transform.localScale = transform.localScale + additionalScale;
             transform.localPosition += additionalScale / 2;
 
-            foreach (var structure in cellData.structures)
+            foreach (var structure in data.structures)
                 structure.CenerateStructureOnCell(this);
 
-            cellData.amountOfViewers.onValueChanged.AddListener(IsCellViewed);
-            hiddenMeshRenderer.material = MapManager.GetMaterialByIndex((cellPositionOnMap.x + cellPositionOnMap.y) % 2 + 2);
+            data.amountOfViewers.onValueChanged.AddListener(IsCellViewed);
+            cellRenderer.material = MapManager.GetMaterialByIndex((data.positionOnMap.x + data.positionOnMap.y) % 2);
+            hiddenMeshRenderer.material = MapManager.GetMaterialByIndex((data.positionOnMap.x + data.positionOnMap.y) % 2 + 2);
             IsCellViewed(0);
         }
 
@@ -51,30 +47,66 @@ namespace Assets.Scripts.MapGenerating
         }
 
         public override string ToString()
-            => $"{cellData}";
+            => $"{data}";
 
         public void HidePiece()
         {
-            if (cellData.currentPiece is null)
+            if (data.currentPiece is null)
                 return;
 
-            if (cellData.amountOfViewers.Value > 0)
+            if (data.amountOfViewers.Value > 0)
                 return;
 
-            foreach (var renderer in cellData.currentPiece.GetComponentsInChildren<MeshRenderer>())
+            foreach (var renderer in data.currentPiece.GetComponentsInChildren<MeshRenderer>())
                 renderer.enabled = false;
         }
 
         public void DisplayPiece()
         {
-            if(cellData.currentPiece is null) 
+            if(data.currentPiece is null) 
                 return;
 
-            if (cellData.amountOfViewers.Value == 0)
+            if (data.amountOfViewers.Value == 0)
                 return;
 
-            foreach (var renderer in cellData.currentPiece.GetComponentsInChildren<MeshRenderer>())
+            foreach (var renderer in data.currentPiece.GetComponentsInChildren<MeshRenderer>())
                 renderer.enabled = true;
+        }
+
+        public void Occupy(Piece piece)
+        {
+            if (data.currentPiece is not null)
+                GameObject.Destroy(data.currentPiece.gameObject);
+
+            data.currentPiece = piece;
+            piece.transform.position = topTransform.position;
+            data.amountOfViewers.Value = data.amountOfViewers.Value;
+
+            if (piece.teamColor == GameManager.CurrentTeam.teamColor)
+                FOWAffectCellsFromPiece(data.positionOnMap, 1, data.currentPiece.fowRaduis);
+        }
+
+        public void DeOccupy()
+        {
+            if (data.currentPiece.teamColor == GameManager.CurrentTeam.teamColor)
+                FOWAffectCellsFromPiece(data.positionOnMap, -1, data.currentPiece.fowRaduis);
+
+            data.amountOfViewers.Value = data.amountOfViewers.Value;
+            data.currentPiece = null;
+        }
+
+        public static void FOWAffectCellsFromPiece(Vector2Int center, int differece, int fow)
+        {
+            var map = MapManager.Singleton.map;
+            map[center].data.amountOfViewers.Value += differece;
+            foreach (var target in map.GetPointsOfCircle(center, fow))
+            {
+                foreach (var point in map.GetPointsInLine(center, target))
+                {
+                    if (map.IsPositionIsInBox(point))
+                        map[point].data.amountOfViewers.Value += differece;
+                }
+            }
         }
     }
 }

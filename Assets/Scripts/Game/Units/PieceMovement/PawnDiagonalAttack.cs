@@ -47,18 +47,18 @@ namespace Assets.Scripts.Game.Units.PieceMovement
                 if (!Map.IsPositionIsInBox(newSquare))
                     return false;
 
-                CellData cell = Map[newSquare];
+                CellData data = Map[newSquare].data;
 
-                if (cell.HeightDifferenceWithCell(Map[lastSquare]) > _maxHeigthDifference)
+                if (data.HeightDifferenceWithCell(Map[lastSquare].data) > _maxHeigthDifference)
                     return false;
 
-                if (!cell.CouldBeOccupiedByPiece(_owner))
+                if (!data.CouldBeOccupiedByPiece(_owner))
                     return false;
 
-                if(cell.currentPiece is null)
+                if(data.currentPiece is null)
                     return false;
 
-                possibleSteps -= cell.GetMovementPenalty();
+                possibleSteps -= data.GetMovementPenalty();
                 lastSquare = newSquare;
 
                 if (lastSquare == targetCellPosition)
