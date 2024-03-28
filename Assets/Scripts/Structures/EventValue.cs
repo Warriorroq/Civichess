@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 using UnityEngine.Events;
 namespace Assets.Scripts.Structures
 {
@@ -21,7 +22,7 @@ namespace Assets.Scripts.Structures
         }
         public UnityEvent<RefValue<T>> onValueGet;
         public UnityEvent<T> onValueChanged;
-        private T _value;
+        [SerializeField] private T _value;
 
         public EventValue(T value = default(T))
         {

@@ -22,16 +22,19 @@ namespace Assets.Scripts.MapGenerating.Structures
                 tree.transform.localPosition = new Vector3(-0.46f + Random.value * .92f, 0, -0.46f + Random.value * .92f);
             }
         }
+
+        public override string ToString()
+            => $"Forest: {forestDencity}";
+
+        public virtual int GetMovementPenalty()
+            => forestDencity == ForestDencity.low ? 1 : 7;
+
+        public float GetVisibilityPenalty()
+            => forestDencity == ForestDencity.low ? .5f : 7;
         public enum ForestDencity
         {
             low = 0,
             high = 2,
         }
-
-        public override string ToString()
-            => $"Forest: {forestDencity}";
-
-        public virtual int GetPenalty()
-            => forestDencity == ForestDencity.low ? 1 : 7;
     }
 }

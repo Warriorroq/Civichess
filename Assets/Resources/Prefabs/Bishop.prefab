@@ -131,7 +131,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Id: 0
-  fowRaduis: 5
   couldBeenUsed:
     onValueGet:
       m_PersistentCalls:
@@ -152,8 +151,27 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+    _value: 0
   teamColor: {r: 0, g: 0, b: 0, a: 0}
   currentPositionOnMap: {x: 0, y: 0}
+  fowUtility:
+    piece: {fileID: 1467107475989418078}
+    visibilityRadius:
+      onValueGet:
+        m_PersistentCalls:
+          m_Calls: []
+      onValueChanged:
+        m_PersistentCalls:
+          m_Calls: []
+      _value: 5
+    maxSubstractiveHeightDifference:
+      onValueGet:
+        m_PersistentCalls:
+          m_Calls: []
+      onValueChanged:
+        m_PersistentCalls:
+          m_Calls: []
+      _value: 1
 --- !u!114 &7449872091063588535
 MonoBehaviour:
   m_ObjectHideFlags: 0

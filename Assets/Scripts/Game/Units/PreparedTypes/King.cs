@@ -2,13 +2,11 @@
 using Assets.Scripts.GameLobby;
 using Assets.Scripts.MapGenerating;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Assets.Scripts.Game.Units.PreparedTypes
 {
     public class King : Piece
     {
-        [SerializeField] float radius;
         protected override void Start()
         {
             base.Start();
@@ -34,6 +32,7 @@ namespace Assets.Scripts.Game.Units.PreparedTypes
             foreach(var piece in party.teams[teamColor].pieces)
                 piece.Value.couldBeenUsed.Value = false;
             party.teams[teamColor].pieces.Clear();
+            MapManager.Singleton.map.DisplayAllCellsOnMap();
         }
     }
 }

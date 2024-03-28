@@ -97,5 +97,21 @@ namespace Assets.Scripts.MapGenerating
 
             return points;
         }
+
+        public List<Vector2Int> GetDiagonalPoints(Vector2Int center, int distance)
+        {
+            List<Vector2Int> points = new List<Vector2Int>();
+            points.AddRange(GetPointsInLine(center, center + Vector2Int.one * distance));
+            points.AddRange(GetPointsInLine(center, center - Vector2Int.one * distance));
+            points.AddRange(GetPointsInLine(center, center + new Vector2Int(1, -1) * distance));
+            points.AddRange(GetPointsInLine(center, center + new Vector2Int(-1, 1) * distance));
+            return points;
+        }
+
+        public void DisplayAllCellsOnMap()
+        {
+            foreach (var cell in map)
+                cell.data.amountOfViewers.Value += 1;
+        }
     }
 }

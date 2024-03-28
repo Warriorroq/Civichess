@@ -51,7 +51,15 @@ namespace Assets.Scripts.MapGenerating
         {
             int penalty = 1;
             foreach (IStructure structure in structures)
-                penalty += structure.GetPenalty();
+                penalty += structure.GetMovementPenalty();
+            return penalty;
+        }
+
+        public float GetVisibilityPenalty()
+        {
+            float penalty = 1;
+            foreach (IStructure structure in structures)
+                penalty += structure.GetVisibilityPenalty();
             return penalty;
         }
 

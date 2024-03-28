@@ -83,30 +83,16 @@ namespace Assets.Scripts.MapGenerating
             data.amountOfViewers.Value = data.amountOfViewers.Value;
 
             if (piece.teamColor == GameManager.CurrentTeam.teamColor)
-                FOWAffectCellsFromPiece(data.positionOnMap, 1, data.currentPiece.fowRaduis);
+                piece.fowUtility.FOWAffectCellsFromPiece();
         }
 
         public void DeOccupy()
         {
             if (data.currentPiece.teamColor == GameManager.CurrentTeam.teamColor)
-                FOWAffectCellsFromPiece(data.positionOnMap, -1, data.currentPiece.fowRaduis);
+                data.currentPiece.fowUtility.FOWAffectCellsFromPiece(-1);
 
             data.amountOfViewers.Value = data.amountOfViewers.Value;
             data.currentPiece = null;
-        }
-
-        public static void FOWAffectCellsFromPiece(Vector2Int center, int differece, int fow)
-        {
-            var map = MapManager.Singleton.map;
-            map[center].data.amountOfViewers.Value += differece;
-            foreach (var target in map.GetPointsOfCircle(center, fow))
-            {
-                foreach (var point in map.GetPointsInLine(center, target))
-                {
-                    if (map.IsPositionIsInBox(point))
-                        map[point].data.amountOfViewers.Value += differece;
-                }
-            }
         }
     }
 }
