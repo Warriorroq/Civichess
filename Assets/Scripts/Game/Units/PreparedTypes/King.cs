@@ -32,7 +32,8 @@ namespace Assets.Scripts.Game.Units.PreparedTypes
             foreach(var piece in party.teams[teamColor].pieces)
                 piece.Value.couldBeenUsed.Value = false;
             party.teams[teamColor].pieces.Clear();
-            MapManager.Singleton.map.DisplayAllCellsOnMap();
+            if(teamColor == GameManager.CurrentTeam.teamColor)
+                MapManager.Singleton.map.DisplayAllCellsOnMap();
         }
     }
 }

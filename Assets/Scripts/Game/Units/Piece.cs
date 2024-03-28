@@ -52,7 +52,7 @@ namespace Assets.Scripts.Game.Units
             team.pieces.Remove(Id);
             couldBeenUsed.onValueChanged.RemoveAllListeners();
             if (teamColor == GameManager.CurrentTeam.teamColor)
-                fowUtility.FOWAffectCellsFromPiece();
+                fowUtility.FOWAffectCellsFromPiece(-1);
         }
 
         protected virtual void SetUpMovementMap() { }
