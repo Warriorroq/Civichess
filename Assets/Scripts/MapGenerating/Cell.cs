@@ -78,18 +78,20 @@ namespace Assets.Scripts.MapGenerating
             if (data.currentPiece is not null)
                 GameObject.Destroy(data.currentPiece.gameObject);
 
+            data.OnOccupyByPiece(piece);
             data.currentPiece = piece;
             piece.transform.position = topTransform.position;
             data.amountOfViewers.Value = data.amountOfViewers.Value;
 
             if (piece.teamColor == GameManager.CurrentTeam.teamColor)
-                piece.fowUtility.FOWAffectCellsFromPiece();
+                piece.fowUtility.FOWAffectCellsFromPiece(piece.positionOnMap);
         }
 
         public void DeOccupy()
         {
-            if (data.currentPiece.teamColor == GameManager.CurrentTeam.teamColor)
-                data.currentPiece.fowUtility.FOWAffectCellsFromPiece(-1);
+            Piece currentPiece = data.currentPiece;
+            if (currentPiece.teamColor == GameManager.CurrentTeam.teamColor)
+                currentPiece.fowUtility.FOWAffectCellsFromPiece(currentPiece.positionOnMap, -1);
 
             data.amountOfViewers.Value = data.amountOfViewers.Value;
             data.currentPiece = null;

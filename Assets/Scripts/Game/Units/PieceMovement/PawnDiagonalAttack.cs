@@ -21,14 +21,14 @@ namespace Assets.Scripts.Game.Units.PieceMovement
         {
             List<Vector2Int> possibleSquares = new List<Vector2Int>();
 
-            if (IsPossibleToMove(_owner.currentPositionOnMap + Vector2Int.one))
-                possibleSquares.Add(_owner.currentPositionOnMap + Vector2Int.one);
-            if (IsPossibleToMove(_owner.currentPositionOnMap - Vector2Int.one))
-                possibleSquares.Add(_owner.currentPositionOnMap - Vector2Int.one);
-            if (IsPossibleToMove(_owner.currentPositionOnMap + new Vector2Int(1, -1)))
-                possibleSquares.Add(_owner.currentPositionOnMap + new Vector2Int(1, -1));
-            if (IsPossibleToMove(_owner.currentPositionOnMap + new Vector2Int(-1, 1)))
-                possibleSquares.Add(_owner.currentPositionOnMap + new Vector2Int(-1, 1));
+            if (IsPossibleToMove(_owner.positionOnMap + Vector2Int.one))
+                possibleSquares.Add(_owner.positionOnMap + Vector2Int.one);
+            if (IsPossibleToMove(_owner.positionOnMap - Vector2Int.one))
+                possibleSquares.Add(_owner.positionOnMap - Vector2Int.one);
+            if (IsPossibleToMove(_owner.positionOnMap + new Vector2Int(1, -1)))
+                possibleSquares.Add(_owner.positionOnMap + new Vector2Int(1, -1));
+            if (IsPossibleToMove(_owner.positionOnMap + new Vector2Int(-1, 1)))
+                possibleSquares.Add(_owner.positionOnMap + new Vector2Int(-1, 1));
 
             return possibleSquares;
         }
@@ -36,7 +36,7 @@ namespace Assets.Scripts.Game.Units.PieceMovement
         public override bool IsPossibleToMove(Vector2Int targetCellPosition)
         {
             int possibleSteps = 1;
-            Vector2Int lastSquare = _owner.currentPositionOnMap;
+            Vector2Int lastSquare = _owner.positionOnMap;
             Vector2Int direction = (targetCellPosition - lastSquare).ToOneVector();
             if(!_attackDirections.Contains(direction))
                 return false;

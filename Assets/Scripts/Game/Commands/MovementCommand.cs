@@ -23,8 +23,8 @@ namespace Assets.Scripts.Game.Commands
         {
             Team team = GameManager.Singleton.party.teams[pieceTeam];
             Piece piece = team.pieces[pieceID];
-            MapManager.Singleton.map[piece.currentPositionOnMap].DeOccupy();
-            piece.currentPositionOnMap = targetPosition;
+            MapManager.Singleton.map[piece.positionOnMap].DeOccupy();
+            piece.positionOnMap = targetPosition;
             MapManager.Singleton.map[targetPosition].Occupy(piece);
             piece.couldBeenUsed.Value = false;
         }
@@ -41,6 +41,9 @@ namespace Assets.Scripts.Game.Commands
             Team team = GameManager.Singleton.party.teams[pieceTeam];
             Piece piece = team.pieces[pieceID];
             if (!piece.couldBeenUsed.Value && team.king is not null)
+                return false;
+
+            if (piece.positionOnMap == targetPosition)
                 return false;
 
             return piece.movementMap.IsPossibleMoveToSquare(targetPosition);

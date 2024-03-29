@@ -3434,6 +3434,7 @@ GameObject:
   - component: {fileID: 1321475583}
   - component: {fileID: 1321475582}
   - component: {fileID: 1321475581}
+  - component: {fileID: 1321475584}
   m_Layer: 5
   m_Name: Size
   m_TagString: Untagged
@@ -3597,6 +3598,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1321475579}
   m_CullTransparentMesh: 1
+--- !u!114 &1321475584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1321475579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 824c938c587de5648a8f6d56254e641a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1327803639
 GameObject:
   m_ObjectHideFlags: 0
@@ -4199,7 +4212,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
   map:
-    size: {x: 30, y: 30}
+    size: {x: 24, y: 24}
   _builder:
     size: {x: 0, y: 0}
     startingKingsPositions: []
@@ -5311,6 +5324,18 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 1358c98f-cd82-49ff-a3eb-6fc9ff9342d1
     m_ActionName: Gameplay/[Mouse] Keyboard block[/Mouse/leftButton,/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4865f1e4-ca85-40d2-ad4f-fb53f1ca0fb8
+    m_ActionName: Gameplay/Select[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6ad6d120-42ca-4e2d-8613-1d8a8b7eff60
+    m_ActionName: Gameplay/Move[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c1c231c2-699d-4307-a04d-54855cad0271
+    m_ActionName: Gameplay/CenterOnKing[/Keyboard/k]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: UI
@@ -6081,11 +6106,11 @@ GameObject:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1860473403}
   - {fileID: 963194228}
   - {fileID: 705507995}
   - {fileID: 1970071177}
   - {fileID: 73813200}
   - {fileID: 1216623891}
   - {fileID: 940551883}
-  - {fileID: 1860473403}
   - {fileID: 1459899605}

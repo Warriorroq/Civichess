@@ -1,9 +1,14 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Game.Units;
+using Assets.Scripts.Structures.MinMax;
+using UnityEngine;
 
 namespace Assets.Scripts.MapGenerating.Structures
 {
     public class Forest : IStructure
     {
+        public static FloatMinMax visibilityPenalty = new FloatMinMax(.5f, 7f);
+        public static IntMinMax movementPenalty = new IntMinMax(1, 7);
+
         public static GameObject objPrefab = Resources.Load("Prefabs/TreePrefab") as GameObject;
         public ForestDencity forestDencity;
         public void CenerateStructureOnCell(Cell cell)
@@ -27,10 +32,13 @@ namespace Assets.Scripts.MapGenerating.Structures
             => $"Forest: {forestDencity}";
 
         public virtual int GetMovementPenalty()
-            => forestDencity == ForestDencity.low ? 1 : 7;
+            => forestDencity == ForestDencity.low ? movementPenalty.min : movementPenalty.max;
 
         public float GetVisibilityPenalty()
-            => forestDencity == ForestDencity.low ? .5f : 7;
+            => forestDencity == ForestDencity.low ? visibilityPenalty.min : visibilityPenalty.max;
+
+        public void OnOccupy(Piece piece){}
+
         public enum ForestDencity
         {
             low = 0,

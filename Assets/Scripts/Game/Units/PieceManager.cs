@@ -25,22 +25,22 @@ namespace Assets.Scripts.Game.Units
         {
             SpawnPieceOnMapClientRpc("Prefabs/King", position, color, LastID);
             SpawnPieceOnMapClientRpc("Prefabs/Queen", position + Vector2Int.right, color, LastID);
-            SpawnPieceOnMapClientRpc("Prefabs/Bishop", position + Vector2Int.left + Vector2Int.up, color, LastID);
-            SpawnPieceOnMapClientRpc("Prefabs/Bishop", position + Vector2Int.left, color, LastID);
+            //SpawnPieceOnMapClientRpc("Prefabs/Bishop", position + Vector2Int.left + Vector2Int.up, color, LastID);
+            //SpawnPieceOnMapClientRpc("Prefabs/Bishop", position + Vector2Int.left, color, LastID);
             SpawnPieceOnMapClientRpc("Prefabs/Knight", position + Vector2Int.down, color, LastID);
-            SpawnPieceOnMapClientRpc("Prefabs/Knight", position + Vector2Int.right - Vector2Int.up, color, LastID);
-            SpawnPieceOnMapClientRpc("Prefabs/Rook", position + Vector2Int.one, color, LastID);
-            SpawnPieceOnMapClientRpc("Prefabs/Rook", position - Vector2Int.one, color, LastID);
+            //SpawnPieceOnMapClientRpc("Prefabs/Knight", position + Vector2Int.right - Vector2Int.up, color, LastID);
+            //SpawnPieceOnMapClientRpc("Prefabs/Rook", position + Vector2Int.one, color, LastID);
+            //SpawnPieceOnMapClientRpc("Prefabs/Rook", position - Vector2Int.one, color, LastID);
             Vector2Int pawnSpawn = new Vector2Int(2, 1);
             for (int i = 0; i < 4; i++)
             {
-                SpawnPieceOnMapClientRpc("Prefabs/Pawn", pawnSpawn + position, color, LastID);
+                //SpawnPieceOnMapClientRpc("Prefabs/Pawn", pawnSpawn + position, color, LastID);
                 pawnSpawn = pawnSpawn.Rotate90();
             }
             pawnSpawn = new Vector2Int(-2, 1);
             for (int i = 0; i < 4; i++)
             {
-                SpawnPieceOnMapClientRpc("Prefabs/Pawn", pawnSpawn + position, color, LastID);
+                //SpawnPieceOnMapClientRpc("Prefabs/Pawn", pawnSpawn + position, color, LastID);
                 pawnSpawn = pawnSpawn.Rotate90();
             }
         }

@@ -11,7 +11,7 @@ namespace Assets.Scripts.Game.Units
         public ulong Id;
         public EventValue<bool> couldBeenUsed;
         public Color teamColor;
-        public Vector2Int currentPositionOnMap;
+        public Vector2Int positionOnMap;
         public MovementMap movementMap;
         public FOWUtility fowUtility;
         public virtual bool IsTakeable => true;
@@ -27,32 +27,30 @@ namespace Assets.Scripts.Game.Units
         public void Init(Vector2Int position, Color color, ulong pieceID)
         {
             Id = pieceID;
-            currentPositionOnMap = position;
+            positionOnMap = position;
             teamColor = color;
         }
 
         private void PlacePieceOnTheMap()
-            =>MapManager.Singleton.map[currentPositionOnMap].Occupy(this);
+            =>MapManager.Singleton.map[positionOnMap].Occupy(this);
 
         private void ResetPiece()
         {
             Party party = GameManager.Singleton.party;
             couldBeenUsed.Value = party.teams[teamColor].king is not null;
-            if (couldBeenUsed.Value)
-                return;
-
-            couldBeenUsed.onValueChanged.RemoveAllListeners();
-            enabled = couldBeenUsed.Value;
         }
 
         protected virtual void OnDestroy()
         {
             RoundManager.Singleton.onRoundChange.RemoveListener(ResetPiece);
+            couldBeenUsed.RemoveAllListeners();
+
             Team team = GameManager.Singleton.party.teams[teamColor];
             team.pieces.Remove(Id);
-            couldBeenUsed.onValueChanged.RemoveAllListeners();
             if (teamColor == GameManager.CurrentTeam.teamColor)
-                fowUtility.FOWAffectCellsFromPiece(-1);
+                fowUtility.FOWAffectCellsFromPiece(positionOnMap, -1);
+
+            fowUtility.Dispose();
         }
 
         protected virtual void SetUpMovementMap() { }

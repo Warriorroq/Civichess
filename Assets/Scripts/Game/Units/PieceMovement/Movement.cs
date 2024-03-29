@@ -22,6 +22,6 @@ namespace Assets.Scripts.Game.Units.PieceMovement
             => new List<Vector2Int>();
 
         public virtual bool IsPossibleToMove(Vector2Int targetCellPosition)
-            => Map[targetCellPosition].data.isWalkable && Mathf.Abs(Map[_owner.currentPositionOnMap].data.height - Map[targetCellPosition].data.height) <= _maxHeigthDifference;
+            => Map[targetCellPosition].data.isWalkable && Mathf.Abs(Map[_owner.positionOnMap].data.height - Map[targetCellPosition].data.height) <= _maxHeigthDifference;
     }
 }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Structures;
+using System.Linq;
 
 namespace Assets.Scripts.MapGenerating
 {
@@ -36,6 +37,16 @@ namespace Assets.Scripts.MapGenerating
             amountOfViewers = new EventValue<int>();
         }
 
+        public bool ContainsStructureOfType<T>() where T : IStructure
+        {
+            foreach(var structure in structures)
+            {
+                if (structure.GetType() == typeof(T))
+                    return true;
+            }
+            return false;
+        }
+
         public bool CouldBeOccupiedByPiece(Piece piece)
         {
             if (currentPiece is not null && currentPiece.teamColor == piece.teamColor)
@@ -45,6 +56,12 @@ namespace Assets.Scripts.MapGenerating
                 return false;
 
             return true;
+        }
+
+        public void OnOccupyByPiece(Piece piece)
+        {
+            foreach (IStructure structure in structures.ToList())
+                structure.OnOccupy(piece);
         }
 
         public int GetMovementPenalty()

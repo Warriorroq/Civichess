@@ -60,6 +60,9 @@ namespace Assets.Scripts.GameLobby
             if (!party.IsReadyForGame())
                 return;
 
+            if (!isHost)
+                return;
+
             party.PrepareTeams();
             GameNetworkManager.Singleton.currentLobby?.SetJoinable(false);
             GameNetworkManager.Singleton.currentLobby?.SendChatString($"[Server] Starting game...");

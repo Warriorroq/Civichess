@@ -45,5 +45,21 @@ namespace Assets.Scripts.Game
             _historyOFCommands.Add(roundChange);
             roundChange.Execute();
         }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void AskForApprovingCommandServerRpc(CityPlacementCommand cityPlace)
+        {
+            if (!cityPlace.IsApproved())
+                return;
+
+            DoCommandClientRpc(cityPlace);
+        }
+
+        [ClientRpc]
+        public void DoCommandClientRpc(CityPlacementCommand cityPlace)
+        {
+            _historyOFCommands.Add(cityPlace);
+            cityPlace.Execute();
+        }
     }
 }

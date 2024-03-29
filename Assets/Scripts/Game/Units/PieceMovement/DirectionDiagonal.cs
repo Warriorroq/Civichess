@@ -28,7 +28,7 @@ namespace Assets.Scripts.Game.Units.PieceMovement
         {
             List<Vector2Int> possibleSquares = new List<Vector2Int>();
             int possibleSteps = _distance;
-            Vector2Int lastSquare = _owner.currentPositionOnMap;
+            Vector2Int lastSquare = _owner.positionOnMap;
             while (possibleSteps > 0)
             {
                 Vector2Int newSquare = direction + lastSquare;
@@ -62,7 +62,7 @@ namespace Assets.Scripts.Game.Units.PieceMovement
 
         public override bool IsPossibleToMove(Vector2Int targetCellPosition)
         {
-            Vector2Int direction = (targetCellPosition - _owner.currentPositionOnMap).ToOneVector();
+            Vector2Int direction = (targetCellPosition - _owner.positionOnMap).ToOneVector();
             if(!_directions.Contains(direction))
                 return false;
 

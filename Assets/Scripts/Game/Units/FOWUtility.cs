@@ -6,26 +6,23 @@ using UnityEngine;
 namespace Assets.Scripts.Game.Units
 {
     [Serializable]
-    public class FOWUtility
+    public class FOWUtility : IDisposable
     {
-        public Piece piece;
         public EventValue<float> visibilityRadius;
         public EventValue<int> maxSubstractiveHeightDifference;
         public const int errorOffset = 0;
-        public void FOWAffectCellsFromPiece(int difference = 1)
+        public void FOWAffectCellsFromPiece(Vector2Int position, int difference = 1)
         {
-            var map = MapManager.Singleton.map;
-            Vector2Int position = piece.currentPositionOnMap;
+            var map = MapManager.Singleton.map;          
             map[position].data.amountOfViewers.Value += difference;
             foreach (var target in map.GetPointsOfCircle(position, visibilityRadius.Value + errorOffset))
                 AffectPointsInLine(position, target, difference);
 
-            AffectDiagonalPoints(difference);
+            AffectDiagonalPoints(position, difference);
         }
 
-        private void AffectDiagonalPoints(int difference)
+        private void AffectDiagonalPoints(Vector2Int position, int difference)
         {
-            Vector2Int position = piece.currentPositionOnMap;
             int distance = (int)(visibilityRadius.Value/2);
             AffectPointsInLine(position, position + Vector2Int.one * distance, difference);
             AffectPointsInLine(position, position - Vector2Int.one * distance, difference);
@@ -37,7 +34,7 @@ namespace Assets.Scripts.Game.Units
         {
             var map = MapManager.Singleton.map;
             float currentVisibility = visibilityRadius.Value;
-            CellData cellData = map[piece.currentPositionOnMap].data;
+            CellData cellData = map[position].data;
             int lastHeight = cellData.height;
             int startHeight = cellData.height;
             foreach (var point in map.GetPointsInLine(position, target))
@@ -60,6 +57,14 @@ namespace Assets.Scripts.Game.Units
                 pointData.amountOfViewers.Value += difference;
                 lastHeight = pointData.height;
             }
+        }
+
+        public void Dispose()
+        {
+            visibilityRadius.RemoveAllListeners();
+            visibilityRadius = null;
+            maxSubstractiveHeightDifference.RemoveAllListeners();
+            maxSubstractiveHeightDifference = null;
         }
     }
 }

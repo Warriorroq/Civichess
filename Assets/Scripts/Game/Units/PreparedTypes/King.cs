@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Game.Units.PieceMovement;
+﻿using Assets.Scripts.Game.Commands;
+using Assets.Scripts.Game.Units.PieceMovement;
 using Assets.Scripts.GameLobby;
 using Assets.Scripts.MapGenerating;
 using System.Collections.Generic;
@@ -26,14 +27,16 @@ namespace Assets.Scripts.Game.Units.PreparedTypes
 
         protected override void OnDestroy()
         {
-            base.OnDestroy();
             Party party = GameManager.Singleton.party;
             party.teams[teamColor].king = null;
-            foreach(var piece in party.teams[teamColor].pieces)
+            foreach (var piece in party.teams[teamColor].pieces)
                 piece.Value.couldBeenUsed.Value = false;
+
             party.teams[teamColor].pieces.Clear();
-            if(teamColor == GameManager.CurrentTeam.teamColor)
+            if (teamColor == GameManager.CurrentTeam.teamColor)
                 MapManager.Singleton.map.DisplayAllCellsOnMap();
+
+            base.OnDestroy();
         }
     }
 }

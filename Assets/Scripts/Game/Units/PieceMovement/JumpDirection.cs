@@ -26,7 +26,7 @@ namespace Assets.Scripts.Game.Units.PieceMovement
         {
             List<Vector2Int> possibleSquares = new List<Vector2Int>();
             int possibleSteps = 4;
-            Vector2Int currentSquare = _owner.currentPositionOnMap;
+            Vector2Int currentSquare = _owner.positionOnMap;
             for(; possibleSteps > 0; possibleSteps--)
             {
                 Vector2Int patternTemp = pattern;
@@ -57,7 +57,7 @@ namespace Assets.Scripts.Game.Units.PieceMovement
 
         public override bool IsPossibleToMove(Vector2Int targetCellPosition)
         {
-            Vector2Int vector = targetCellPosition - _owner.currentPositionOnMap;
+            Vector2Int vector = targetCellPosition - _owner.positionOnMap;
             if (Mathf.Abs(vector.y * vector.x) != Mathf.Abs(_pattern.y * _pattern.x))
                 return false;
 

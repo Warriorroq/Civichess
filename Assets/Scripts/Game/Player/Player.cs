@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Game.Commands;
 using Assets.Scripts.Game.Units;
+using Assets.Scripts.Game.Units.PreparedTypes;
 using Assets.Scripts.GameLobby;
 using Assets.Scripts.MapGenerating;
 using Assets.Scripts.Structures;
@@ -39,7 +40,7 @@ namespace Assets.Scripts.Game.Player
             if (piece.teamColor != GameManager.CurrentTeam.teamColor) 
                 return;
 
-            _meshFilter.mesh = piece.movementMap.GenerateMesh(piece.currentPositionOnMap, new Vector3(.8f, 0, .8f));
+            _meshFilter.mesh = piece.movementMap.GenerateMesh(piece.positionOnMap, new Vector3(.8f, 0, .8f));
             _meshFilter.transform.position = cell.topTransform.position;
         }
 
@@ -49,6 +50,21 @@ namespace Assets.Scripts.Game.Player
                 return;
 
             _currentCell.Value = cell;
+        }
+
+        public void PlaceCity(InputAction.CallbackContext context)
+        {
+            if (_currentCell.Value is null)
+                return;
+
+            if (_currentCell.Value.data.currentPiece is not King king)
+                return;
+
+            if (!City.IsPossibleToPlaceCityOnCell(_currentCell.Value))
+                return;
+
+            CommandManager.Singleton.AskForApprovingCommandServerRpc(new CityPlacementCommand(king.teamColor, king.positionOnMap));
+            _currentCell.Value = null;
         }
 
         public void MovePiece(InputAction.CallbackContext context)

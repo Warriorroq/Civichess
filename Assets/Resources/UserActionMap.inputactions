@@ -113,6 +113,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "CityPlace",
+                    "type": "Button",
+                    "id": "7aa3593b-f27b-475f-ae18-d2b5fad6929a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -267,6 +276,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "CenterOnKing",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c4d606e6-262f-4f30-8d12-6e962ee4a1a2",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CityPlace",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
