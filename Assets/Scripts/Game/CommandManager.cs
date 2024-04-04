@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Unity.Netcode;
 using Assets.Scripts.Game.Commands;
+using System.Diagnostics;
 namespace Assets.Scripts.Game
 {
     public class CommandManager : MonoNetworkSingleton<CommandManager>

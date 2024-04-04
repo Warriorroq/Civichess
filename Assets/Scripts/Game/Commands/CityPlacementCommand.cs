@@ -21,7 +21,6 @@ namespace Assets.Scripts.Game.Commands
             Cell cell = MapManager.Singleton.map[position];
             City city = GameObject.Instantiate(City.objPrefab);
             city.Init(teamColor, cell);
-            cell.data.structures.Add(city);
             cell.data.currentPiece.couldBeenUsed.Value = false;
         }
 
